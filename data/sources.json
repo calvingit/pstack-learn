@@ -1,0 +1,652 @@
+[
+ {
+  "id": "art-cursor",
+  "title": "How I Use Cursor",
+  "author": "@poteto",
+  "date": "2026-05-26 02:15",
+  "url": "https://x.com/poteto/status/2058975157503570132",
+  "type": "@poteto 长文（X Article）",
+  "note": "开源宣言：信任先于并行，验证是瓶颈，Benny 自动化机器人。",
+  "verified": true
+ },
+ {
+  "id": "art-loops",
+  "title": "Loops You Can Trust",
+  "author": "@poteto",
+  "date": "2026-06-25 00:46",
+  "url": "https://x.com/poteto/status/2069824386283319343",
+  "type": "@poteto 长文（X Article）",
+  "note": "只拿到标题和开头“三分钟煮蛋”比喻，全文没读到。",
+  "verified": false
+ },
+ {
+  "id": "art-pt1",
+  "title": "The Complete Guide to pstack Pt. 1：Verification is all you need",
+  "author": "@poteto",
+  "date": "2026-09-01 00:09",
+  "url": "https://x.com/poteto/status/2094457600259842065",
+  "type": "@poteto 长文（X Article）",
+  "note": "验证技能、小 CLI、Feature Map、云端 agent。",
+  "verified": true
+ },
+ {
+  "id": "art-pt2",
+  "title": "The Complete Guide to pstack Pt. 2：The art of supervising someone smarter than you",
+  "author": "@poteto",
+  "date": "2026-09-10 01:02",
+  "url": "https://x.com/poteto/status/2097732320606507506",
+  "type": "@poteto 长文（X Article）",
+  "note": "间接提问、/teach、README 先行、原型、/architect 五阶段。",
+  "verified": true
+ },
+ {
+  "id": "art-coding-dead",
+  "title": "Coding is dead, long live Coding",
+  "author": "@poteto",
+  "date": "2026-09-26 03:44",
+  "url": "https://x.com/poteto/status/2103571281014861957",
+  "type": "@poteto 长文（X Article）",
+  "note": "态度文：手艺会变，新一代用意图编程。",
+  "verified": true
+ },
+ {
+  "id": "p-distill",
+  "title": "pstack is now 10% smaller with no loss in behavior",
+  "author": "@poteto",
+  "date": "2026-10-11 10:57",
+  "url": "https://x.com/poteto/status/2109116030761230571",
+  "type": "@poteto 帖子",
+  "note": "0.15.16 压缩提示词。",
+  "verified": true
+ },
+ {
+  "id": "p-slop",
+  "title": "codebases have always contained slop（长帖）",
+  "author": "@poteto",
+  "date": "2026-10-11 10:35",
+  "url": "https://x.com/poteto/status/2109110547824378140",
+  "type": "@poteto 帖子",
+  "note": "Good Code = 正确、无 bug、跑得快又省；agent 写的代码“平均更好”，这是新手艺。",
+  "verified": true
+ },
+ {
+  "id": "p-bro",
+  "title": "16 个 Projects 并行时最常用的 prompt",
+  "author": "@poteto",
+  "date": "2026-10-11 04:52",
+  "url": "https://x.com/poteto/status/2109024196760305861",
+  "type": "@poteto 帖子",
+  "note": "“/bro catch me up…”，/ketchup 的前身。",
+  "verified": true
+ },
+ {
+  "id": "p-skillcomp",
+  "title": "skill compression（长帖）",
+  "author": "@poteto",
+  "date": "2026-10-10 07:15",
+  "url": "https://x.com/poteto/status/2108697834581340358",
+  "type": "@poteto 帖子",
+  "note": "工程原则会不会被直觉取代。",
+  "verified": true
+ },
+ {
+  "id": "p-volume",
+  "title": "volume does matter（长帖）",
+  "author": "@poteto",
+  "date": "2026-10-09 04:17",
+  "url": "https://x.com/poteto/status/2108290818746528017",
+  "type": "@poteto 帖子",
+  "note": "每个人都能成为 coding machine，前提是信任；按“每单位智能成本”看 token。",
+  "verified": true
+ },
+ {
+  "id": "p-ttr",
+  "title": "time to rewrite（TTR）思想实验",
+  "author": "@poteto",
+  "date": "2026-10-08 03:18",
+  "url": "https://x.com/poteto/status/2107913381751730352",
+  "type": "@poteto 帖子",
+  "note": "用“全自动重写要多久”衡量代码库对 agent 是否友好。",
+  "verified": true
+ },
+ {
+  "id": "p-loop",
+  "title": "把 X 上的用户反馈接进工单和云端 agent",
+  "author": "@poteto",
+  "date": "2026-10-08 06:37",
+  "url": "https://x.com/poteto/status/2107963437154435182",
+  "type": "@poteto 帖子",
+  "note": "“the loop is complete”。",
+  "verified": true
+ },
+ {
+  "id": "p-correct",
+  "title": "/correct 发布（0.15.9）",
+  "author": "@poteto",
+  "date": "2026-10-04 08:31",
+  "url": "https://x.com/poteto/status/2106542593656111276",
+  "type": "@poteto 帖子",
+  "note": "纠正环境而不是纠正 agent。",
+  "verified": true
+ },
+ {
+  "id": "p-intervene",
+  "title": "every time you intervene and correct your agent…",
+  "author": "@poteto",
+  "date": "2026-08-17 03:12",
+  "url": "https://x.com/poteto/status/2089067865098113024",
+  "type": "@poteto 帖子",
+  "note": "纠正手段的价值排序：架构 > lint/CI > skill > 人工 review。",
+  "verified": true
+ },
+ {
+  "id": "p-help",
+  "title": "/poteto-help 发布",
+  "author": "@poteto",
+  "date": "2026-10-06 01:17",
+  "url": "https://x.com/poteto/status/2107158163145576902",
+  "type": "@poteto 帖子",
+  "note": "新手导航，只手动调用。",
+  "verified": true
+ },
+ {
+  "id": "p-releaseqa",
+  "title": "发版与 QA 自动化",
+  "author": "@poteto",
+  "date": "2026-10-07 01:43",
+  "url": "https://x.com/poteto/status/2107527180263829827",
+  "type": "@poteto 帖子",
+  "note": "Slack 反馈→Linear→云端 agent 复现修复→fuzz→1 小时无异议自动合并。",
+  "verified": true
+ },
+ {
+  "id": "p-firstlast",
+  "title": "first mile / last mile",
+  "author": "@poteto",
+  "date": "2026-10-07 00:37",
+  "url": "https://x.com/poteto/status/2107510472601985336",
+  "type": "@poteto 帖子",
+  "note": "人负责意图和最后的判断，中间交给 agent。",
+  "verified": false
+ },
+ {
+  "id": "p-budget",
+  "title": "预算回复：用 /setup-pstack 设预算",
+  "author": "@poteto",
+  "date": "2026-10-08 05:42",
+  "url": "https://x.com/poteto/status/2107949669695582437",
+  "type": "@poteto 帖子",
+  "note": "回应成本抱怨。",
+  "verified": true
+ },
+ {
+  "id": "p-015",
+  "title": "0.15.0：省 3~11% token",
+  "author": "@poteto",
+  "date": "2026-09-09 01:42",
+  "url": "https://x.com/poteto/status/2097380152703615396",
+  "type": "@poteto 帖子",
+  "note": "新增 attack-the-premise 等原则。",
+  "verified": true
+ },
+ {
+  "id": "p-emil",
+  "title": "回复 @emilkowalski：一天几百 PR 的意义",
+  "author": "@poteto",
+  "date": "2026-10-09 03:33",
+  "url": "https://x.com/poteto/status/2108279582088671583",
+  "type": "@poteto 帖子",
+  "note": "同时推进多条工作线。",
+  "verified": true
+ },
+ {
+  "id": "p-lever",
+  "title": "build-the-lever 原则",
+  "author": "@poteto",
+  "date": "2026-05-28 13:31",
+  "url": "https://x.com/poteto/status/2059870196559700428",
+  "type": "@poteto 帖子",
+  "note": "agent 自己写 codemod 后固化成原则。",
+  "verified": true
+ },
+ {
+  "id": "p-lowtrust",
+  "title": "a low trust loop is just a waste of tokens",
+  "author": "@poteto",
+  "date": "2026-06-08 10:49",
+  "url": "https://x.com/poteto/status/2063815573361111470",
+  "type": "@poteto 帖子",
+  "note": "低信任循环只是烧 token。",
+  "verified": true
+ },
+ {
+  "id": "p-vskill",
+  "title": "验证技能发布",
+  "author": "@poteto",
+  "date": "2026-07-31 01:00",
+  "url": "https://x.com/poteto/status/2082874054483255805",
+  "type": "@poteto 帖子",
+  "note": "create/maintain-verification-skill。",
+  "verified": true
+ },
+ {
+  "id": "t-dotta",
+  "title": "pstack is a goldmine of prompt engineering",
+  "author": "@dotta",
+  "date": "2026-10-10 05:04",
+  "url": "https://x.com/dotta/status/2108665034226225425",
+  "type": "第三方帖子与教程",
+  "note": "提炼四要素 prompt 模板：目标、可检查的完成条件、证据、约束。1000+ 赞。",
+  "verified": true
+ },
+ {
+  "id": "t-raydong",
+  "title": "四要素 prompt 的中文转述",
+  "author": "@Raydong001",
+  "date": "2026-10-10 21:59",
+  "url": "https://x.com/Raydong001/status/2108920330270167077",
+  "type": "第三方帖子与教程",
+  "note": "“缺完成条件和证据时，agent 最容易糊弄交差。”",
+  "verified": true
+ },
+ {
+  "id": "t-viticci",
+  "title": "hybrid Grok Bot + Cursor workflow for MacStories apps",
+  "author": "@viticci",
+  "date": "2026-10-07 08:30",
+  "url": "https://x.com/viticci/status/2107629523814498673",
+  "type": "第三方帖子与教程",
+  "note": "外层 bot 协调、内层 Cursor Project；“I use pstack and verification skills religiously”。",
+  "verified": true
+ },
+ {
+  "id": "t-viticci-ms",
+  "title": "MacStories 会员文章：基于 pstack 的开发配置",
+  "author": "@viticci",
+  "date": "2026-10-10 02:10",
+  "url": "https://x.com/viticci/status/2108621017539317981",
+  "type": "第三方帖子与教程",
+  "note": "会员付费文章，正文没读到。",
+  "verified": false
+ },
+ {
+  "id": "t-lockyer-160x",
+  "title": "pstack 自主修复 O(n^3) 事件循环卡顿，160 倍提速",
+  "author": "@DanielLockyer",
+  "date": "2026-10-06 19:08",
+  "url": "https://x.com/DanielLockyer/status/2107427811640188985",
+  "type": "第三方帖子与教程",
+  "note": "实战结果，作者自述，未独立复现。",
+  "verified": false
+ },
+ {
+  "id": "t-lockyer-19",
+  "title": "一天用 pstack 提交 19 个性能 PR",
+  "author": "@DanielLockyer",
+  "date": "2026-10-05 20:47",
+  "url": "https://x.com/DanielLockyer/status/2107090228712456662",
+  "type": "第三方帖子与教程",
+  "note": "作者自述。",
+  "verified": false
+ },
+ {
+  "id": "t-lockyer-deploy",
+  "title": "部署时间缩短约 30%",
+  "author": "@DanielLockyer",
+  "date": "2026-10-05 18:12",
+  "url": "https://x.com/DanielLockyer/status/2107051316992254308",
+  "type": "第三方帖子与教程",
+  "note": "“给 agent 完整的部署日志和源码”。作者自述。",
+  "verified": false
+ },
+ {
+  "id": "t-theo-cn",
+  "title": "Theo 试用 Matt 与 pstack 两套 skills 的 38 分钟视频（中文摘要）",
+  "author": "@chenchengpro",
+  "date": "2026-08-19 19:43",
+  "url": "https://x.com/chenchengpro/status/2090042073583927318",
+  "type": "第三方帖子与教程",
+  "note": "别照抄；description 其实是 trigger；unslop 的“可移植句子”自查。视频本身我没看，以摘要为准。",
+  "verified": false
+ },
+ {
+  "id": "t-matt-abs",
+  "title": "用更多抽象约束 agent 的设计空间",
+  "author": "@mattpocockuk",
+  "date": "2026-10-04 00:46",
+  "url": "https://x.com/mattpocockuk/status/2106425743479546343",
+  "type": "第三方帖子与教程",
+  "note": "和 poteto 聊完后的观点：抽象 + 严格 lint。",
+  "verified": true
+ },
+ {
+  "id": "t-matt-cli",
+  "title": "/retro 考虑推荐把重复任务做成 CLI + skill",
+  "author": "@mattpocockuk",
+  "date": "2026-10-10 19:28",
+  "url": "https://x.com/mattpocockuk/status/2108882450617074039",
+  "type": "第三方帖子与教程",
+  "note": "受 poteto 影响：agent 委托给自己掌控的脚本。",
+  "verified": true
+ },
+ {
+  "id": "t-matt-interview",
+  "title": "Matt Pocock 直播采访 poteto 预告",
+  "author": "@mattpocockuk",
+  "date": "2026-09-30 18:12",
+  "url": "https://x.com/mattpocockuk/status/2105239236178018636",
+  "type": "第三方帖子与教程",
+  "note": "采访本身（YouTube）我没看，课程不引用其中内容。",
+  "verified": false
+ },
+ {
+  "id": "t-zhuang",
+  "title": "/ketchup：agent 自己能做的不算用户待办",
+  "author": "@Zhuangxg",
+  "date": "2026-10-11 07:13",
+  "url": "https://x.com/Zhuangxg/status/2109059792019083409",
+  "type": "第三方帖子与教程",
+  "note": "中文解读 /ketchup 的待办定义。",
+  "verified": true
+ },
+ {
+  "id": "t-lilith",
+  "title": "“AI 的进步，也可以是把一段指令写短”",
+  "author": "@LilithBailfhny",
+  "date": "2026-10-11 13:14",
+  "url": "https://x.com/LilithBailfhny/status/2109150665679519841",
+  "type": "第三方帖子与教程",
+  "note": "指出“行为不变”是作者声明，未公布完整对比。",
+  "verified": true
+ },
+ {
+  "id": "t-hacken",
+  "title": "AI 时代的容灾：只有 AI 能维护的代码",
+  "author": "@Hacken2077",
+  "date": "2026-10-11 09:03",
+  "url": "https://x.com/Hacken2077/status/2109087342938251584",
+  "type": "第三方帖子与教程",
+  "note": "模型供应商不可用时流程还能不能跑。",
+  "verified": true
+ },
+ {
+  "id": "t-jz",
+  "title": "用 create-verification-skill 先把前后端功能 map 出来",
+  "author": "@jz299",
+  "date": "2026-10-11 09:22",
+  "url": "https://x.com/jz299/status/2109092165951606910",
+  "type": "第三方帖子与教程",
+  "note": "前端截图证明，后端调 API 看存储和日志。",
+  "verified": true
+ },
+ {
+  "id": "t-ohmyclaw",
+  "title": "“verifier 自己才是瓶颈”",
+  "author": "@ohmyclaw1121",
+  "date": "2026-10-11 06:55",
+  "url": "https://x.com/ohmyclaw1121/status/2109055137071415320",
+  "type": "第三方帖子与教程",
+  "note": "对验证落地难度的质疑。",
+  "verified": true
+ },
+ {
+  "id": "t-songyitian",
+  "title": "2500 PR、codebase 即记忆、Feature Map 的中文笔记",
+  "author": "@songyitian004",
+  "date": "2026-10-10 18:50",
+  "url": "https://x.com/songyitian004/status/2108872705319608337",
+  "type": "第三方帖子与教程",
+  "note": "采访内容的二手笔记。",
+  "verified": false
+ },
+ {
+  "id": "t-heyitsalok",
+  "title": "“对我来说是验证”：自建贴合工作的验证技能",
+  "author": "@heyitsalok",
+  "date": "2026-09-23 16:45",
+  "url": "https://x.com/heyitsalok/status/2102680815838827005",
+  "type": "第三方帖子与教程",
+  "note": "从 pstack 学到的是验证。",
+  "verified": true
+ },
+ {
+  "id": "t-vincent",
+  "title": "验证和 review 技能应贴合项目",
+  "author": "@vincent_dalmaso",
+  "date": "2026-09-18 15:17",
+  "url": "https://x.com/vincent_dalmaso/status/2100846661379543484",
+  "type": "第三方帖子与教程",
+  "note": "“the skill grew its own tooling around the check”。",
+  "verified": true
+ },
+ {
+  "id": "t-matheus",
+  "title": "Matt 的 skills 和 pstack 混用会冲突",
+  "author": "@matheusdmlopes",
+  "date": "2026-09-12 01:49",
+  "url": "https://x.com/matheusdmlopes/status/2098468988586254616",
+  "type": "第三方帖子与教程",
+  "note": "只有 pstack 的验证技能能和 Matt 的一起用。",
+  "verified": true
+ },
+ {
+  "id": "t-lezend",
+  "title": "Project 协调者有 poteto-mode，派出的 worker 没有",
+  "author": "@the_lezend",
+  "date": "2026-09-14 04:10",
+  "url": "https://x.com/the_lezend/status/2099229180928167987",
+  "type": "第三方帖子与教程",
+  "note": "模式不会自动传给子 agent 的坑。",
+  "verified": true
+ },
+ {
+  "id": "t-florent",
+  "title": "把 /poteto-mode 的思路用到销售部门",
+  "author": "@florentmsl",
+  "date": "2026-09-19 15:58",
+  "url": "https://x.com/florentmsl/status/2101219378343588173",
+  "type": "第三方帖子与教程",
+  "note": "“为所有 agent 建立共同基础，把细节外包给 playbook”。",
+  "verified": true
+ },
+ {
+  "id": "t-ports",
+  "title": "pstack 移植：opencode / Hermes / Codex",
+  "author": "@bukanajay 等",
+  "date": "2026-09-18 20:19",
+  "url": "https://x.com/bukanajay/status/2100922740593287209",
+  "type": "第三方帖子与教程",
+  "note": "社区移植到 opencode、Hermes（@Cloeille）、Codex（pstack-codex）、Claude Code（@uehaj）。",
+  "verified": true
+ },
+ {
+  "id": "t-uehaj",
+  "title": "在 Claude Code 里用 pstack-claude",
+  "author": "@uehaj",
+  "date": "2026-10-03 06:50",
+  "url": "https://x.com/uehaj/status/2106154972496973908",
+  "type": "第三方帖子与教程",
+  "note": "日语帖，280+ 赞。",
+  "verified": true
+ },
+ {
+  "id": "t-aki",
+  "title": "“验证循环升了好几级”",
+  "author": "@Aki_LIG",
+  "date": "2026-09-28 11:46",
+  "url": "https://x.com/Aki_LIG/status/2104417439983542676",
+  "type": "第三方帖子与教程",
+  "note": "日语读后感。",
+  "verified": true
+ },
+ {
+  "id": "t-gyuan",
+  "title": "最近在 X 上很火的 poteto，她是怎么写代码的？（中文 X Article）",
+  "author": "@gyuannn0150",
+  "date": "2026-10-11 03:01",
+  "url": "https://x.com/gyuannn0150/status/2108996272460025919",
+  "type": "第三方帖子与教程",
+  "note": "只看到标题，正文没读到。",
+  "verified": false
+ },
+ {
+  "id": "w-pvstack",
+  "title": "The pvstack Playbook（pstack 新手指南，Droid 版）",
+  "author": "ndilanka",
+  "date": "2026",
+  "url": "https://ndilanka.github.io/pvstack/playbook.md",
+  "type": "第三方帖子与教程",
+  "note": "第三方入门指南，解释 skill、playbook 与角色表。只读了搜索摘要。",
+  "verified": false
+ },
+ {
+  "id": "w-threadnav",
+  "title": "Thread Navigator 上的 Pt.1 全文镜像",
+  "author": "threadnavigator.com",
+  "date": "2026",
+  "url": "https://threadnavigator.com/thread/2094457600259842065/",
+  "type": "第三方帖子与教程",
+  "note": "可在不登录 X 时读 Pt.1。",
+  "verified": true
+ },
+ {
+  "id": "r-readme",
+  "title": "pstack README",
+  "author": "cursor/plugins",
+  "date": "0.15.17",
+  "url": "https://github.com/cursor/plugins/blob/main/pstack/README.md",
+  "type": "仓库与官方文档",
+  "note": "定位与安装。",
+  "verified": true
+ },
+ {
+  "id": "r-guide",
+  "title": "pstack 官方指南（10 页）",
+  "author": "cursor/plugins",
+  "date": "2026-10-06 更新",
+  "url": "https://github.com/cursor/plugins/tree/main/pstack/docs/guide",
+  "type": "仓库与官方文档",
+  "note": "课程的主干参考。",
+  "verified": true
+ },
+ {
+  "id": "r-poteto-mode",
+  "title": "poteto-mode/SKILL.md",
+  "author": "cursor/plugins",
+  "date": "0.15.17",
+  "url": "https://github.com/cursor/plugins/blob/main/pstack/skills/poteto-mode/SKILL.md",
+  "type": "仓库与官方文档",
+  "note": "Non-negotiables、原则索引、Autonomy、Subagents、回复写法、playbook 路由。",
+  "verified": true
+ },
+ {
+  "id": "r-playbooks",
+  "title": "poteto-mode/playbooks/",
+  "author": "cursor/plugins",
+  "date": "0.15.17",
+  "url": "https://github.com/cursor/plugins/tree/main/pstack/skills/poteto-mode/playbooks",
+  "type": "仓库与官方文档",
+  "note": "23 个 playbook 原文。",
+  "verified": true
+ },
+ {
+  "id": "r-cvs",
+  "title": "create-verification-skill/SKILL.md",
+  "author": "cursor/plugins",
+  "date": "0.15.17",
+  "url": "https://github.com/cursor/plugins/blob/main/pstack/skills/create-verification-skill/SKILL.md",
+  "type": "仓库与官方文档",
+  "note": "生成项目内验证技能的五步。",
+  "verified": true
+ },
+ {
+  "id": "r-correct",
+  "title": "correct/SKILL.md",
+  "author": "cursor/plugins",
+  "date": "0.15.17",
+  "url": "https://github.com/cursor/plugins/blob/main/pstack/skills/correct/SKILL.md",
+  "type": "仓库与官方文档",
+  "note": "错误类别与修复层级。",
+  "verified": true
+ },
+ {
+  "id": "r-bench",
+  "title": "benchmark-checklist/SKILL.md",
+  "author": "cursor/plugins",
+  "date": "0.15.17",
+  "url": "https://github.com/cursor/plugins/blob/main/pstack/skills/benchmark-checklist/SKILL.md",
+  "type": "仓库与官方文档",
+  "note": "7 个问题。",
+  "verified": true
+ },
+ {
+  "id": "r-pr538",
+  "title": "PR #538 refactor(pstack): distill skill prompts",
+  "author": "cursor/plugins",
+  "date": "2026-10-11",
+  "url": "https://github.com/cursor/plugins/pull/538",
+  "type": "仓库与官方文档",
+  "note": "−9.7% bytes，规则不变。",
+  "verified": true
+ },
+ {
+  "id": "r-vexample",
+  "title": "poteto/verification-skill-example",
+  "author": "poteto",
+  "date": "2026",
+  "url": "https://github.com/poteto/verification-skill-example",
+  "type": "仓库与官方文档",
+  "note": "Feature Map 示例仓库。",
+  "verified": true
+ },
+ {
+  "id": "r-matt",
+  "title": "mattpocock/skills",
+  "author": "Matt Pocock",
+  "date": "2026",
+  "url": "https://github.com/mattpocock/skills",
+  "type": "仓库与官方文档",
+  "note": "需求对齐类技能（grilling、wayfinder 等）。",
+  "verified": true
+ },
+ {
+  "id": "r-calvin",
+  "title": "calvingit/skills",
+  "author": "文哥",
+  "date": "2026-10",
+  "url": "https://github.com/calvingit/skills",
+  "type": "仓库与官方文档",
+  "note": "本课程对照的仓库。",
+  "verified": true
+ },
+ {
+  "id": "t-cloeille",
+  "title": "pstack 的 Hermes Agent 插件",
+  "author": "@Cloeille",
+  "date": "2026-09-20 04:12",
+  "url": "https://x.com/Cloeille/status/2101403977988382994",
+  "type": "第三方帖子与教程",
+  "note": "社区移植。",
+  "verified": true
+ },
+ {
+  "id": "t-kolin",
+  "title": "pstack-codex：移植到 Codex",
+  "author": "@CodeWithKolin",
+  "date": "2026-09-19 17:56",
+  "url": "https://x.com/CodeWithKolin/status/2101249128428896354",
+  "type": "第三方帖子与教程",
+  "note": "社区移植列表。",
+  "verified": true
+ },
+ {
+  "id": "t-yupi",
+  "title": "/ketchup 单文件复制到 Claude Code、Codex",
+  "author": "@yupi996",
+  "date": "2026-10-11 11:23",
+  "url": "https://x.com/yupi996/status/2109122567286251791",
+  "type": "第三方帖子与教程",
+  "note": "Codex 里用 $ketchup 调用。",
+  "verified": true
+ }
+]

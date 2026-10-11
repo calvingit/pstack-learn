@@ -1,0 +1,170 @@
+[
+ {
+  "group": "入口",
+  "name": "poteto-mode",
+  "zh": "主入口",
+  "desc": "匹配 playbook，把步骤原样抄进 todo，按步骤调用其他技能。可设为 Custom Mode。"
+ },
+ {
+  "group": "入口",
+  "name": "poteto-help",
+  "zh": "新手导航",
+  "desc": "只手动调用：问清你要做什么，给一段能直接发的 prompt 和出处。不开工。"
+ },
+ {
+  "group": "入口",
+  "name": "setup-pstack",
+  "zh": "配置模型",
+  "desc": "检测可用模型、问预算，写 ~/.cursor/rules/pstack-models.mdc，最后提议生成验证技能。"
+ },
+ {
+  "group": "理解",
+  "name": "how",
+  "zh": "运行机制",
+  "desc": "复杂时并行派 2~4 个只读 explorer，再由一个 explainer 综合成架构说明。"
+ },
+ {
+  "group": "理解",
+  "name": "why",
+  "zh": "历史原因",
+  "desc": "按证据类别（版本控制、工单、文档、聊天、可观测性、错误追踪、数仓）并行取证，区分已知与推断。"
+ },
+ {
+  "group": "理解",
+  "name": "teach",
+  "zh": "讲给你听",
+  "desc": "how + why，配图讲解。"
+ },
+ {
+  "group": "理解",
+  "name": "recall",
+  "zh": "找回上下文",
+  "desc": "从你过去的对话记录重建上下文。"
+ },
+ {
+  "group": "理解",
+  "name": "blast-radius",
+  "zh": "爆炸半径",
+  "desc": "一个小改动可能弄坏哪里，并用实际运行证明它为什么安全。"
+ },
+ {
+  "group": "设计",
+  "name": "architect",
+  "zh": "架构草图",
+  "desc": "Ground → Sketch → Agree（可选）→ Implement → Scrap，至少两个结构不同的候选。"
+ },
+ {
+  "group": "设计",
+  "name": "arena",
+  "zh": "擂台",
+  "desc": "同一个设计或代码任务派 N 个并行尝试，评审后选底座、嫁接优点。"
+ },
+ {
+  "group": "设计",
+  "name": "swarm",
+  "zh": "蜂群",
+  "desc": "N 个 worker 分片或赛跑，汇成一份报告。"
+ },
+ {
+  "group": "设计",
+  "name": "interrogate",
+  "zh": "审讯",
+  "desc": "不同模型家族做对抗式评审，把发现分成“要处理”和“驳回（附理由）”。"
+ },
+ {
+  "group": "设计",
+  "name": "figure-it-out",
+  "zh": "现场设计 playbook",
+  "desc": "没有现成 playbook，或任务大到要事后审阅时，为这次任务设计一套严谨流程。"
+ },
+ {
+  "group": "构建",
+  "name": "tdd",
+  "zh": "测试驱动",
+  "desc": "失败测试先行的节奏。"
+ },
+ {
+  "group": "构建",
+  "name": "typescript-best-practices",
+  "zh": "TS 实践",
+  "desc": "TypeScript 写法规范。"
+ },
+ {
+  "group": "构建",
+  "name": "unslop",
+  "zh": "去 AI 腔",
+  "desc": "清理文字里的 AI 腔。"
+ },
+ {
+  "group": "构建",
+  "name": "no-comments",
+  "zh": "删注释",
+  "desc": "派 Comment Sicko 删掉不解释“为什么”的注释。"
+ },
+ {
+  "group": "构建",
+  "name": "technical-writing",
+  "zh": "技术写作",
+  "desc": "基于 Diátaxis：教程、操作指南、参考、解释。"
+ },
+ {
+  "group": "沟通",
+  "name": "bro",
+  "zh": "说人话",
+  "desc": "把上一条回复用大白话再说一遍。"
+ },
+ {
+  "group": "沟通",
+  "name": "ketchup",
+  "zh": "补课",
+  "desc": "0.15.17 新增：只读，告诉你上条消息以来发生了什么、哪些事只有你能拍板。"
+ },
+ {
+  "group": "验证",
+  "name": "create-verification-skill",
+  "zh": "生成验证技能",
+  "desc": "在项目里生成 verify-<app> 技能和 Feature Map，交付前自己端到端跑一遍。"
+ },
+ {
+  "group": "验证",
+  "name": "maintain-verification-skill",
+  "zh": "维护验证技能",
+  "desc": "审计和修正 Feature Map，结果只有 clean / changed / blocked，从不改产品代码。"
+ },
+ {
+  "group": "验证",
+  "name": "benchmark-checklist",
+  "zh": "基准清单",
+  "desc": "报告性能数字前过 7 个问题，基于 Brendan Gregg 的清单。"
+ },
+ {
+  "group": "自我改进",
+  "name": "correct",
+  "zh": "纠正",
+  "desc": "从历史挖出重复两次以上的错误类别，按架构 → 类型/lint → 测试 → 文档的顺序让它无法再发生。"
+ },
+ {
+  "group": "自我改进",
+  "name": "reflect",
+  "zh": "反思",
+  "desc": "会话结束后三个评审各提改进，汇总后等你批准再改技能。"
+ },
+ {
+  "group": "自我改进",
+  "name": "automate-me",
+  "zh": "生成你的 mode",
+  "desc": "从你的对话记录生成 <名字>-mode。"
+ },
+ {
+  "group": "自我改进",
+  "name": "show-me-your-work",
+  "zh": "决策日志",
+  "desc": "长任务、自主任务写 TSV 决策日志供事后审阅。"
+ },
+ {
+  "group": "其他",
+  "name": "make-bot-ui",
+  "zh": "Bot 控制页",
+  "desc": "做一个按钮能通过 webhook 唤醒 Grok Bot 的页面。"
+ }
+]

@@ -1,109 +1,25 @@
-<!DOCTYPE html>
-<html lang="zh-CN"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
-<title>pstack 学习站（0.15.17）</title>
-<style>
-:root{--bg:#fbfbfa;--fg:#1f2328;--mut:#656d76;--card:#fff;--bd:#d8dee4;--ac:#b8860b;--ac2:#fff6d6;--side:#f3f4f6;--ok:#1a7f37;--warn:#bf3989}
-@media (prefers-color-scheme:dark){:root{--bg:#0f1115;--fg:#e6e6e6;--mut:#9aa4af;--card:#171a21;--bd:#2d333b;--ac:#e3b341;--ac2:#2a2410;--side:#13161c}}
-:root[data-theme=light]{--bg:#fbfbfa;--fg:#1f2328;--mut:#656d76;--card:#fff;--bd:#d8dee4;--ac:#b8860b;--ac2:#fff6d6;--side:#f3f4f6}
-:root[data-theme=dark]{--bg:#0f1115;--fg:#e6e6e6;--mut:#9aa4af;--card:#171a21;--bd:#2d333b;--ac:#e3b341;--ac2:#2a2410;--side:#13161c}
-*{box-sizing:border-box}body{margin:0;font:16px/1.75 -apple-system,"PingFang SC","Microsoft YaHei","Noto Sans CJK SC",sans-serif;background:var(--bg);color:var(--fg)}
-a{color:var(--ac)}code{background:var(--ac2);padding:1px 5px;border-radius:4px;font-size:.9em}
-nav{position:fixed;top:0;left:0;bottom:0;width:240px;background:var(--side);border-right:1px solid var(--bd);padding:18px 14px;overflow:auto}
-nav h1{font-size:18px;margin:0 0 4px}nav .v{color:var(--mut);font-size:13px;margin-bottom:14px}
-nav a{display:block;padding:6px 10px;border-radius:6px;color:var(--fg);text-decoration:none;font-size:15px}nav a:hover,nav a.on{background:var(--ac2)}
-nav .sub{padding-left:22px;font-size:14px}nav button{margin-top:14px;width:100%;padding:6px;border:1px solid var(--bd);background:var(--card);color:var(--fg);border-radius:6px;cursor:pointer}
-main{margin-left:240px;padding:28px 40px 80px;max-width:1000px}
-section{scroll-margin-top:16px;margin-bottom:56px}h2{border-bottom:2px solid var(--ac);padding-bottom:6px}
-.card{background:var(--card);border:1px solid var(--bd);border-radius:10px;padding:16px 20px;margin:14px 0}
-.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:12px}.stat{text-align:center}.stat b{display:block;font-size:30px;color:var(--ac)}
-.tag-ok{color:var(--ok);font-weight:600}.tag-no{color:var(--warn);font-weight:600}
-table{border-collapse:collapse;width:100%;font-size:15px}td,th{border:1px solid var(--bd);padding:7px 10px;vertical-align:top;text-align:left}th{background:var(--side)}
-.prog{height:8px;background:var(--bd);border-radius:4px;overflow:hidden;margin:6px 0}.prog i{display:block;height:100%;background:var(--ok);width:0}
-label.ck{display:block;cursor:pointer;padding:3px 0}label.ck input{margin-right:8px}
-#q{width:100%;padding:9px 12px;font-size:15px;border:1px solid var(--bd);border-radius:8px;background:var(--card);color:var(--fg)}
-.flt button{margin:8px 6px 0 0;padding:4px 12px;border:1px solid var(--bd);border-radius:14px;background:var(--card);color:var(--fg);cursor:pointer}.flt button.on{background:var(--ac);color:#000}
-.item{padding:9px 12px;border-bottom:1px solid var(--bd)}.item .k{font-size:12px;color:var(--mut);border:1px solid var(--bd);border-radius:10px;padding:0 7px;margin-left:6px}
-#menu{display:none}
-@media (max-width:800px){nav{transform:translateX(-100%);transition:.2s;z-index:9}nav.open{transform:none}main{margin-left:0;padding:60px 16px}#menu{display:block;position:fixed;top:10px;left:10px;z-index:10;padding:6px 12px;border:1px solid var(--bd);background:var(--card);color:var(--fg);border-radius:6px}}
-</style></head><body>
-<button id="menu">☰ 目录</button>
-<nav id="nav"><h1>pstack 学习站</h1><div class="v">pstack 0.15.17 · 资料截至 2026-10-11</div>
-<a href="#home">首页</a><a href="#stages">五个学习阶段</a>
-<a class="sub" href="#s0">第 0 步 总览</a><a class="sub" href="#s1">一 入门</a><a class="sub" href="#s2">二 核心回路</a><a class="sub" href="#s3">三 验证</a><a class="sub" href="#s4">四 并行与自治</a><a class="sub" href="#s5">五 进阶</a>
-<a href="#principles">原则速查</a><a href="#catalog">Playbook 与技能速查</a><a href="#updates">最近更新</a><a href="#compare">对照 calvingit/skills</a>
-<button id="theme">切换深色/浅色</button><button id="reset">清空学习进度</button></nav>
-<main>
-<section id="home"><h2>首页</h2>
-<div class="card"><b>一句话：</b>pstack 是 Lauren Tan（@poteto）开源的一套 Agent 技能 + playbook + 工程原则插件，入口只有 <code>/poteto-mode</code>。核心主张是“想快，先要深”：先让单个 agent 做到严谨、能自己验证，再放心并行。</div>
-<div class="grid"><div class="card stat"><b>0.15.17</b>当前版本</div><div class="card stat"><b>23</b>playbook</div><div class="card stat"><b>24</b>条原则</div><div class="card stat"><b>28</b>个功能技能</div><div class="card stat"><b>2</b>个 subagent</div></div>
-<p>版本和数量 <span class="tag-ok">【已核实】</span>：按 2026-10-11 源码目录计数，最新提交 978ca6e（2026-10-11 06:47 北京时间）。skills 目录共 52 个（含 <code>/ketchup</code>），subagent 是 <code>poteto-agent</code> 和 <code>Comment Sicko</code>。</p>
-<div class="card"><b>总体学习进度</b><div class="prog"><i id="pall"></i></div><span id="tall"></span></div>
-<p>源码：<a href="https://github.com/cursor/plugins/tree/main/pstack">cursor/plugins/pstack</a>（MIT）。安装：Cursor 聊天里输入 <code>/add-plugin pstack</code>。</p>
-<p>几个先记住的点：playbook 不是技能，是 <code>/poteto-mode</code> 按需加载的参考文件；prompt 写“目标 + 能判定的完成条件 + 想要的证据”，不要罗列技能；她认为整套东西里回报最高的是验证技能。</p>
-</section>
-<section id="stages"><h2>五个学习阶段</h2><p>每个阶段按“读什么 → 带走什么 → 动手练一下”排，建议一个阶段一两天。勾选框会保存在本机浏览器里。</p><div id="stagebox"></div></section>
-<section id="principles"><h2>原则速查（24 条）</h2><p>原则不用主动调用，而是“用名字来纠偏”，比如说一句 “apply prove it works”。中文说明按 <code>poteto-mode</code> 的原则索引转述。</p><div id="pbox"></div></section>
-<section id="catalog"><h2>Playbook 与技能速查</h2><input id="q" placeholder="搜索名称或说明，例如 verify、并行、PR"><div class="flt" id="flt"></div><div class="card" id="list" style="padding:0"></div><p id="cnt" style="color:var(--mut)"></p></section>
-<section id="updates"><h2>最近更新</h2><p>10 月 6 日之后 pstack 目录只有两个提交 <span class="tag-ok">【已核实，git log】</span>。</p>
-<div class="card"><h3>0.15.16 · PR #538 压缩提示词</h3><p><a href="https://github.com/cursor/plugins/pull/538">PR #538</a>（00b14f1）<code>refactor(pstack): distill skill prompts to cut tokens</code>；帖子：<a href="https://x.com/poteto/status/2109116030761230571">pstack 小了 10%、行为不变</a>。</p><ul>
-<li>PR 给的数字：169,348 → 153,004 bytes（-9.7%），词数 26,177 → 23,829（-9.0%）<span class="tag-no">【PR 描述里的数字，未自己重新量】</span></li>
-<li>diff：36 个文件，+406 / -736 <span class="tag-ok">【已核实，git show --stat】</span></li>
-<li>一批 <code>principle-*</code> 缩短了 description 和正文；<code>poteto-mode</code> 原则索引里命名规则只写一次。</li>
-<li><code>how</code>、<code>why</code>、<code>interrogate</code>、<code>arena</code>、<code>reflect</code>、<code>figure-it-out</code>、<code>benchmark-checklist</code>、<code>technical-writing</code>、<code>unslop</code> 的步骤和 reference prompt 压短。</li>
-<li><code>architect</code> Phase A 修正：原来要求 how 的 “traced model”，改成 how 实际产出的 “architectural explanation”；Phase B 删掉一句重复说明 <span class="tag-ok">【已核实，读过 diff】</span></li>
-<li>默认模型、评审团、<code>/poteto-help</code>、<code>/setup-pstack</code> 没动。</li></ul></div>
-<div class="card"><h3>0.15.17 · PR #539 新增 /ketchup</h3><p><a href="https://github.com/cursor/plugins/commit/978ca6e9c0e012047cd5058b8e829240336e704e">978ca6e</a>。只能手动调用（<code>disable-model-invocation: true</code>），把你上一条消息之后聊天里发生的事用大白话补一遍。规则 <span class="tag-ok">【已核实，读过 SKILL.md】</span>：</p><ul>
-<li>这一轮只读，不做新动作；通知和子 agent 的回报不算你的消息。</li>
-<li>用 <code>/bro</code> 的口吻但跳过复述；PR、分支、agent 用你认得的名字。</li>
-<li>现查每个 PR、CI、agent 的当前状态，说清哪些还在跑、哪些查不到。</li>
-<li>“待办”只算只有你能做的事：产品决定、审批、不可逆操作、它缺的权限。</li>
-<li>第一句说有几个待办；每个待办写清要做什么决定、为什么现在定、选项和代价、建议、你不回会怎样。</li></ul></div>
-<p style="color:var(--mut)">注：帖子里的版本号是发帖时仓库的版本，会比功能实际加入时略高。</p></section>
-<section id="compare"><h2>对照 calvingit/skills</h2>
-<p>分工：需求对齐参考 Matt 的 skills（grilling、wayfinding、to-spec 这条线）；执行和验证参考 pstack。我们的 skill 保持独立、原子，不合并，也不打包成大 skill；交叉只留在流程路由上。</p>
-<table><tr><th>pstack 的做法</th><th>我们对应的东西</th><th>怎么借鉴</th></tr>
-<tr><td><code>/create-verification-skill</code> 生成项目内 verify 技能</td><td>setup 时生成仓库级 verify skill；全局 <code>verify</code> 只按那份配方跑</td><td>对照它的 Feature Map 和“交付前先证明一次”，看我们 setup 生成的配方缺不缺这两样</td></tr>
-<tr><td><code>/maintain-verification-skill</code> 只出 clean / changed / blocked</td><td>暂无对应的定期维护步骤</td><td>可考虑给仓库级 verify skill 加一条定期自检，结果也限定成几种</td></tr>
-<tr><td>Prove It Works、Sequence Verifiable Units</td><td>独立 verify、PASS/FAIL/NOT VERIFIED、to-tickets / loop</td><td>意思接近，不需要搬原则进 Kernel</td></tr>
-<tr><td><code>/correct</code> 按“结构优先”修反复出现的错</td><td>Kernel、closeout-roles 偏契约</td><td>反复出错时先想能不能变成检查脚本，而不是加一段文字</td></tr>
-<tr><td>PR #538 的压缩方法</td><td>我们 Phase A/B 的去复述</td><td>只用在从 pstack 搬来、还偏长的 skill 上</td></tr>
-<tr><td><code>/ketchup</code> 汇报格式</td><td>无</td><td>可作为一个独立小 skill 参考，不塞进现有 skill</td></tr>
-<tr><td>原则索引（偏手艺）</td><td>Kernel / task-contract（偏契约）</td><td>不是一一对应，各管各的</td></tr></table>
-<p><b>不学的：</b>一个入口带 23 个 playbook 的大 mode 形态。和我们“skill 原子、各自独立”的做法相反，看懂思路就行，不照搬结构。</p></section>
-</main>
-<script>
-const G='https://github.com/cursor/plugins/blob/main/pstack/',S=n=>G+'skills/'+n+'/SKILL.md',P=n=>G+'skills/poteto-mode/playbooks/'+n+'.md',D=n=>G+'docs/guide/'+n+'.md';
-const stages=[
-{id:'s0',t:'第 0 步：先读总览',read:[['README',G+'README.md'],['指南目录',D('README')]],take:['入口为什么只有 /poteto-mode','playbook 和 skill 的区别：playbook 是 poteto-mode 按需加载的参考文件，不是技能','“想快，先要深”具体指什么'],ex:'读完能回答上面三个问题。'},
-{id:'s1',t:'阶段一：入门（装好、跑通一个任务）',read:[['指南 01 Setup',D('01-setup')],['指南 02 poteto-mode',D('02-poteto-mode')],['/setup-pstack',S('setup-pstack')],['/poteto-help',S('poteto-help')],['/poteto-mode',S('poteto-mode')]],take:['预算档位（unlimited / large / medium / small）怎么映射到模型，规则写在 ~/.cursor/rules/pstack-models.mdc','poteto-mode 的做法：选一个 playbook，把步骤原样抄进 todo，跳过的步骤写 skip: 原因','prompt 写“目标 + 能判定的完成条件 + 想要的证据”，不要罗列技能'],ex:'找一个小 bug，用 /poteto-help 问该怎么下手，再用它给的 prompt 跑一次 /poteto-mode。跑完对照 todo，看哪些步骤被 skip 了、理由站不站得住。'},
-{id:'s2',t:'阶段二：核心回路（理解 → 设计 → 构建）',read:[['指南 03 Understand',D('03-understand')],['指南 04 Design',D('04-design')],['指南 05 Build & clean',D('05-build-and-clean')],['/how',S('how')],['/why',S('why')],['/blast-radius',S('blast-radius')],['/architect',S('architect')],['/arena',S('arena')],['/interrogate',S('interrogate')],['/tdd',S('tdd')],['/unslop',S('unslop')],['playbook: investigation',P('investigation')],['playbook: bug-fix',P('bug-fix')],['playbook: feature',P('feature')],['playbook: refactoring',P('refactoring')]],take:['先建模型再动手：architect 的 Phase A 跑 /how，产出“架构解释”（0.15.16 刚改对）；动到所有权或分层时再跑 /why，把历史原因当约束','设计阶段用代码草图（类型、签名、not implemented）代替长篇计划，多个模型各出一版再比','比较设计时优先“接口小、藏得多”的那个'],ex:'选仓库里一个不熟的模块，用 /how 出一份解释，再对一个小改动跑 /blast-radius。和你自己的理解对一下，记下它说错或漏掉的地方。'},
-{id:'s3',t:'阶段三：验证（最值得花时间）',read:[['指南 06 Verify & ship',D('06-verify-and-ship')],['/create-verification-skill',S('create-verification-skill')],['/maintain-verification-skill',S('maintain-verification-skill')],['/benchmark-checklist',S('benchmark-checklist')],['principle: prove-it-works',S('principle-prove-it-works')],['principle: test-behavior-not-implementation',S('principle-test-behavior-not-implementation')],['principle: explain-the-number',S('principle-explain-the-number')],['playbook: opening-a-pr',P('opening-a-pr')],['playbook: babysit',P('babysit')],['playbook: shipping',P('shipping')]],take:['验证技能按项目生成（verify-<app> + Feature Map），交付前先端到端证明一次能用','维护只有三种结果：clean / changed / blocked，而且从不改产品代码','性能数字要过 7 个问题再信','babysit 推到可合并为止，不自己合并；shipping 逐个独立验证，从底部开始合连续通过的 PR'],ex:'在一个项目里跑 /create-verification-skill，看 Feature Map 覆盖了哪些功能、漏了哪些。再故意改坏一处，确认验证技能能抓到。'},
-{id:'s4',t:'阶段四：并行与自治',read:[['指南 07 Overnight',D('07-overnight')],['/swarm',S('swarm')],['/ketchup',S('ketchup')],['principle: never-block-on-the-human',S('principle-never-block-on-the-human')],['principle: sequence-verifiable-units',S('principle-sequence-verifiable-units')],['principle: make-operations-idempotent',S('principle-make-operations-idempotent')],['playbook: multi-phase-plan',P('multi-phase-plan')],['playbook: orchestrate',P('orchestrate')],['playbook: autonomous-run',P('autonomous-run')],['playbook: autopilot-full',P('autopilot-full')],['playbook: autopilot-stack',P('autopilot-stack')],['playbook: session-pickup',P('session-pickup')],['playbook: pause-safely',P('pause-safely')]],take:['没有验证技能就别并行，否则只是更快地产出没人检查的东西','大活拆成能单独验证的小单元，计划里每一项都要求实际跑过，光有测试不够','人回来时要能马上接上：/ketchup 只读，先说有几个待你拍板的事，每件给出选项、代价、建议和“你不回会怎样”'],ex:'用 multi-phase-plan 把一个中等需求拆成 3~5 个单元，让 agent 跑完两个后停下，再用 /ketchup 让它汇报。检查待办里有没有混进它自己能做的事。'},
-{id:'s5',t:'阶段五：进阶（原则、改进自己的工具）',read:[['指南 08 Principles',D('08-principles')],['指南 09 Make it yours',D('09-make-it-yours')],['指南 10 Recipes & pitfalls',D('10-recipes-and-pitfalls')],['/correct',S('correct')],['/reflect',S('reflect')],['/automate-me',S('automate-me')],['/figure-it-out',S('figure-it-out')],['principle: encode-lessons-in-structure',S('principle-encode-lessons-in-structure')],['principle: build-the-lever',S('principle-build-the-lever')],['principle: guard-the-context-window',S('principle-guard-the-context-window')],['playbook: authoring-a-skill',P('authoring-a-skill')],['playbook: eval',P('eval')]],take:['同一类错反复出现，优先改结构：架构 → 类型/lint/CI → 测试 → 文档，最后才是写进提示词','改技能要盲测（eval playbook），防止“知道在测所以表现好”','写提示词的标准看 PR #538：规则一条不少，只把承载规则的文字写短；同一条命名规则只在索引里写一次'],ex:'挑我们仓库里一个偏长的 skill，按 #538 的方法压一遍：先列出每条规则，压完逐条核对还在不在。'}];
-const LS='pstack-learn-progress',st=JSON.parse(localStorage.getItem(LS)||'{}');let total=0;
-const esc=s=>s.replace(/&/g,'&').replace(/</g,'<');
-document.getElementById('stagebox').innerHTML=stages.map(s=>{let i=0;const ck=(txt)=>{const k=s.id+'-'+(i++);total++;return `<label class="ck"><input type="checkbox" data-k="${k}" ${st[k]?'checked':''}>${txt}</label>`};
-return `<section id="${s.id}" class="card"><h3>${s.t}</h3><div class="prog"><i data-p="${s.id}"></i></div><h4>读什么</h4>${s.read.map(r=>ck(`<a href="${r[1]}" target="_blank" rel="noopener">${esc(r[0])}</a>`)).join('')}<h4>带走什么</h4><ul>${s.take.map(t=>`<li>${esc(t)}</li>`).join('')}</ul><h4>动手练一下</h4><p>${esc(s.ex)}</p>${ck('<b>练习已完成</b>')}</section>`}).join('');
-function upd(){const all=[...document.querySelectorAll('input[data-k]')];stages.forEach(s=>{const a=all.filter(x=>x.dataset.k.startsWith(s.id+'-'));document.querySelector(`[data-p=${s.id}]`).style.width=(100*a.filter(x=>x.checked).length/a.length)+'%'});const d=all.filter(x=>x.checked).length;document.getElementById('pall').style.width=(100*d/all.length)+'%';document.getElementById('tall').textContent=`已完成 ${d} / ${all.length} 项`}
-document.addEventListener('change',e=>{if(e.target.dataset.k){st[e.target.dataset.k]=e.target.checked;localStorage.setItem(LS,JSON.stringify(st));upd()}});upd();
-document.getElementById('reset').onclick=()=>{if(confirm('确定清空学习进度？')){localStorage.removeItem(LS);location.reload()}};
-const pr={Core:[['laziness-protocol','重构、估 diff 或想加抽象层时，偏向删除，用最小改动解决问题'],['foundational-thinking','写逻辑前先定核心类型和数据结构、脚手架与功能的先后、并发方共享什么'],['redesign-from-first-principles','把新需求并进现有设计时，按“它从第一天就在”重新设计'],['attack-the-premise','两个以上基于同一前提的修复都失败了，就先盘点再质疑前提，别再写同前提的修复'],['subtract-before-you-add','加功能、重构、重写前，先删掉没用的东西，再在更简单的基础上建'],['minimize-reader-load','代码难追时，数层数和隐藏状态，合并只有一个调用方的包装，缩小可变范围'],['outcome-oriented-execution','有明确阶段的重写和迁移，直奔目标架构，不保留一次性的兼容状态'],['experience-first','产品、UX、功能范围取舍时，选用户体验而不是实现方便'],['exhaust-the-design-space','没有先例的交互或架构决定，先做 2~3 个竞争原型比较再定'],['build-the-lever','非小事都先造工具（codemod、脚本、生成器）来做或证明，工具就是评审能重跑的产物']],
-Architecture:[['model-the-domain','有状态或分支多的逻辑，用结构（状态机、类型模型、表、reducer）表达领域，别散落条件判断'],['boundary-discipline','校验、错误处理、框架适配放在系统边界，内部信任类型，业务逻辑保持纯'],['type-system-discipline','设计类型时让非法状态无法表示，给原始类型加品牌，在边界解析外部数据'],['make-operations-idempotent','会遇到崩溃和重试的命令、生命周期步骤、循环，要收敛到同一终态'],['migrate-callers-then-delete-legacy-apis','引入新内部 API 时，一波内迁完调用方并删掉旧的'],['separate-before-serializing-shared-state','多个并发方可能写同一文件、分支、key 时，先消除共享']],
-Verification:[['prove-it-works','宣布完成前，对真实产物验证，不拿代理指标或“能编译”充数'],['fix-root-causes','调试时先复现，把每个症状追到根因'],['sequence-verifiable-units','多步工作拆成每个都以检查结束的小单元，验完一个再做下一个'],['test-behavior-not-implementation','像使用方那样调用代码，用字面期望值断言；所有导入都返回 undefined 还能过的测试要重写或删掉'],['explain-the-number','相信、汇报或依据一个测出来的数字之前，先找出限制它的因素，排除测错了对象']],
-Delegation:[['guard-the-context-window','上下文快满时，把大块输出交给子 agent，主线程只留摘要'],['never-block-on-the-human','可逆的事别问“要不要做”，直接做、给结果，让人来纠偏']],
-Meta:[['encode-lessons-in-structure','发现自己第二次写同一条指令，就把它变成 lint、元数据标记、运行时检查或脚本']]};
-document.getElementById('pbox').innerHTML=Object.entries(pr).map(([g,a])=>`<div class="card"><h3>${g}（${a.length}）</h3><table>${a.map(([n,d])=>`<tr><td style="width:38%"><a href="${S('principle-'+n)}" target="_blank" rel="noopener"><code>${n}</code></a></td><td>${d}</td></tr>`).join('')}</table></div>`).join('');
-const pb=[['investigation','只读问题：X 怎么工作、Y 为什么这样建、该选 X 还是 Y'],['bug-fix','复现、找根因、修复已报告的缺陷，带运行时证据'],['perf-issue','对比基线，追踪并改进测得的慢'],['hillclimb','对着目标持续科学地提升一个指标：前后测量、决策日志、每个有效改进一个 commit'],['runtime-forensics','用现场埋点诊断运行时症状（泄漏、空转、闪烁），交付诊断而不是修复'],['trace-forensics','诊断事后拿到的 profile 产物（cpuprofile、trace、heap snapshot），交付诊断'],['feature','新增或改变行为，从一个命名的数据形状开始'],['refactoring','不改行为的结构调整（重命名、抽取、内联、去重、移动）'],['prototype','用一次性草图低成本做决定，用观察代替问人'],['visual-parity','像素级 UI 一致：对齐两套实现或迁移样式系统'],['authoring-a-skill','编写或修改 SKILL.md'],['eval','在推广前测试 skill、结构或提示词改动对 agent 行为的影响'],['babysit','把 PR 或 stack 推到可合并：冲突、评审、CI'],['shipping','babysit 的后半段：独立验证绿的 stack，从底部合并连续通过验证的部分'],['autonomous-run','把一个长任务跑到完成，不中途停'],['orchestrate','交给一个协调者聊天的长期项目：多天、大量 stacked PR、大量子 agent'],['autopilot-full','一队独立 PR 全自治跑到合并，每个 PR 一个负责人'],['autopilot-stack','一队改动全自治构建和验证，交付成一条线性 stack 由人来合'],['session-pickup','从记录、云端 agent 链接或分支接手之前 agent 的进行中工作'],['pause-safely','干净地暂停进行中的工作以便恢复，是 session pickup 的反面'],['multi-phase-plan','跨阶段或多个 stacked PR 的工作'],['worktree-cleanup','清理已合并或废弃的 git worktree 和旧 iOS 模拟器，回收磁盘'],['opening-a-pr','每个其他 playbook 结束时调用']];
-const sk=[['poteto-mode','主入口','任何非小事都从这里开始：读原则索引、匹配 playbook、按步骤调用其他技能'],['poteto-help','主入口','新手导航，只手动调用：问清要做什么，给可以直接发的 prompt 和出处'],['setup-pstack','主入口','检测可用模型、选推理预算，按角色写入模型规则，并提议生成验证技能'],['how','理解','运行机制，改动前的代码讲解，以及放在哪、归谁的问题'],['why','理解','历史原因、设计理由、回归、复盘，跨数据源并行取证'],['teach','理解','跑 how 和 why，合成一份让人真正看懂的讲解'],['recall','理解','从自己的历史对话和共享记录里重建工作上下文'],['blast-radius','理解','找出改动在 diff 之外可能弄坏的地方，并用实际运行证明安全'],['architect','设计','先画类型、签名、模块结构，再在实现过程中持续跟进'],['arena','设计','N 个并行候选做同一件事，选一个底，把其他的优点嫁接进来'],['swarm','设计','派出 N 个并行 worker，汇成一份报告：覆盖矩阵、赛跑、探索'],['interrogate','设计','不同模型家族的对抗式评审'],['figure-it-out','设计','没有合适 playbook 时，现场设计一个可审计的 playbook'],['tdd','构建','只在明确要求 TDD 或有便宜的本地测试目标时使用'],['typescript-best-practices','构建','读写 .ts/.tsx 时的 TypeScript 实践'],['unslop','构建','去掉文字里的 AI 腔'],['no-comments','构建','派 Comment Sicko 删注释，修采纳的发现'],['technical-writing','构建','分层技术写作标准（Diátaxis 等）'],['bro','构建','把上一条回复用大白话再说一遍'],['ketchup','构建','0.15.17 新增：讲清你上条消息之后发生的事和待你拍板的事'],['create-verification-skill','验证','生成项目内 verify-<app> 技能和 Feature Map，交付前先端到端证明一次'],['maintain-verification-skill','验证','定期审计修正 Feature Map，结果只有 clean / changed / blocked，从不改产品代码'],['benchmark-checklist','验证','用 7 个问题审核性能数字后再汇报或行动'],['correct','自我改进','挖出反复出现的错误，按架构 → 类型/lint/CI → 测试 → 文档的顺序让它不可能再发生'],['reflect','自我改进','三个评审并行看会话，汇总改进，等你批准再改技能'],['automate-me','自我改进','从你的对话记录生成 <你的名字>-mode'],['show-me-your-work','自我改进','长时间或无人值守工作的决策日志 TSV'],['make-bot-ui','Grok Bot','做一个按钮可通过 webhook 唤醒 Grok Bot 的页面']];
-const items=[...pb.map(([n,d])=>({n,k:'Playbook',d,u:P(n)})),...sk.map(([n,k,d])=>({n:'/'+n,k,d,u:S(n)}))];
-const kinds=['全部','Playbook',...new Set(sk.map(x=>x[1]))];let cur='全部';
-const flt=document.getElementById('flt');flt.innerHTML=kinds.map(k=>`<button data-f="${k}" class="${k==cur?'on':''}">${k}</button>`).join('');
-flt.onclick=e=>{if(e.target.dataset.f){cur=e.target.dataset.f;flt.querySelectorAll('button').forEach(b=>b.classList.toggle('on',b.dataset.f==cur));render()}};
-function render(){const q=document.getElementById('q').value.trim().toLowerCase();const r=items.filter(x=>(cur=='全部'||x.k==cur)&&(!q||(x.n+x.d+x.k).toLowerCase().includes(q)));
-document.getElementById('list').innerHTML=r.map(x=>`<div class="item"><a href="${x.u}" target="_blank" rel="noopener"><code>${esc(x.n)}</code></a><span class="k">${x.k}</span><div>${esc(x.d)}</div></div>`).join('')||'<div class="item">没有匹配项</div>';
-document.getElementById('cnt').textContent=`显示 ${r.length} / ${items.length} 项（23 个 playbook + 28 个功能技能；技能分组按调研笔记）`}
-document.getElementById('q').oninput=render;render();
-const root=document.documentElement,TK='pstack-learn-theme';if(localStorage.getItem(TK))root.dataset.theme=localStorage.getItem(TK);
-document.getElementById('theme').onclick=()=>{const d=root.dataset.theme?root.dataset.theme=='dark':matchMedia('(prefers-color-scheme:dark)').matches;root.dataset.theme=d?'light':'dark';localStorage.setItem(TK,root.dataset.theme)};
-const nav=document.getElementById('nav');document.getElementById('menu').onclick=()=>nav.classList.toggle('open');nav.onclick=e=>{if(e.target.tagName=='A')nav.classList.remove('open')};
-</script></body></html>
+<!doctype html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>pstack 中文课程</title>
+<link rel="stylesheet" href="assets/css/base.css">
+<link rel="stylesheet" href="assets/css/layout.css">
+<link rel="stylesheet" href="assets/css/components.css">
+</head>
+<body>
+<header class="topbar">
+  <button class="nav-toggle" id="navToggle" aria-label="目录">☰</button>
+  <a class="brand" href="#/">pstack 中文课程</a>
+  <input id="search" type="search" placeholder="搜索章节、原则、技能…" autocomplete="off">
+  <button id="themeToggle" class="theme-toggle" aria-label="切换主题">◐</button>
+</header>
+<div class="shell">
+  <nav id="sidebar" class="sidebar" aria-label="章节"></nav>
+  <main id="app" class="content" tabindex="-1"><p class="loading">加载中…</p></main>
+</div>
+<div id="searchResults" class="search-results" hidden></div>
+<script type="module" src="assets/js/main.js"></script>
+</body>
+</html>

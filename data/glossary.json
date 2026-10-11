@@ -1,0 +1,92 @@
+[
+ {
+  "name": "Playbook",
+  "zh": "剧本",
+  "desc": "poteto-mode 按需加载的一页步骤清单，不是独立技能。被选中后步骤要原样抄进 todo。"
+ },
+ {
+  "name": "Principle",
+  "zh": "原则",
+  "desc": "principle-* 叶子技能，平时不主动调用，用名字纠偏（“apply prove it works”）。"
+ },
+ {
+  "name": "Custom Mode",
+  "zh": "常驻模式",
+  "desc": "Cursor 里用 Option/Alt+Enter 选中技能后，每一轮都会提醒 agent 用它。"
+ },
+ {
+  "name": "Verification skill",
+  "zh": "验证技能",
+  "desc": "项目内的 verify-<app> 技能，教 agent 像用户那样启动、操作、取证、清理。"
+ },
+ {
+  "name": "Feature Map",
+  "zh": "功能地图",
+  "desc": "按用户视角写的功能清单，README 索引，每个功能一个文件。她称之为“物化的记忆”。"
+ },
+ {
+  "name": "Control skill",
+  "zh": "控制技能",
+  "desc": "驱动某个界面的技能，比如 control-ui、control-cli，或你自己生成的 /control-app。"
+ },
+ {
+  "name": "Done condition",
+  "zh": "完成条件",
+  "desc": "能判定通过或失败的检查。“做得更好”不是完成条件。"
+ },
+ {
+  "name": "Throughput checkpoint",
+  "zh": "吞吐检查点",
+  "desc": "Feature 第 3 步的四项：阻塞步骤、独立工作流、共享可变状态、最小安全拆分。"
+ },
+ {
+  "name": "Overnight contract",
+  "zh": "过夜合约",
+  "desc": "目标、完成条件、权限、逃生口四样写清楚，才把任务留给夜里的循环。"
+ },
+ {
+  "name": "Decision log",
+  "zh": "决策日志",
+  "desc": "show-me-your-work 产出的 TSV，记录每个决定和理由。"
+ },
+ {
+  "name": "Session override",
+  "zh": "会话覆盖",
+  "desc": "“going to bed”“run until done”这类话，让 agent 不再停下来问。"
+ },
+ {
+  "name": "Always pause",
+  "zh": "必须暂停",
+  "desc": "不可逆写操作：强推共享分支、部署、删数据、发给客户的消息。"
+ },
+ {
+  "name": "Verdict",
+  "zh": "判定",
+  "desc": "Shipping 里每个 PR 的独立验证结论，PASS / PASS+NOTES 才算通过，并绑定 head SHA 与 patch-id。"
+ },
+ {
+  "name": "Lever",
+  "zh": "杠杆",
+  "desc": "codemod、脚本、生成器、小 CLI 这类能重复执行、能重跑验证的工具。"
+ },
+ {
+  "name": "TTR",
+  "zh": "重写所需时间",
+  "desc": "poteto 的思想实验：全自动重写代码库要多久，用来反推验证和可读性的短板。"
+ },
+ {
+  "name": "Slop",
+  "zh": "垃圾产出",
+  "desc": "看起来像完成了、实际没人能验证或维护的代码和文字。"
+ },
+ {
+  "name": "Distill",
+  "zh": "提炼压缩",
+  "desc": "#538 的做法：规则全部保留，只缩短承载规则的文字。"
+ },
+ {
+  "name": "Kernel",
+  "zh": "内核（calvingit/skills）",
+  "desc": "calvingit/skills 里跨技能共享的 K01–K17 契约，不是 pstack 的概念。"
+ }
+]

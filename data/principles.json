@@ -1,0 +1,170 @@
+[
+ {
+  "group": "core",
+  "name": "Laziness Protocol",
+  "zh": "懒惰协议",
+  "desc": "重构、估 diff 大小、想加抽象时用。偏向删除，用最小改动解决问题。",
+  "ch": "08-principles"
+ },
+ {
+  "group": "core",
+  "name": "Foundational Thinking",
+  "zh": "地基思维",
+  "desc": "写逻辑前先定核心类型、数据结构、脚手架与功能的先后、并发方共享什么。",
+  "ch": "08-principles"
+ },
+ {
+  "group": "core",
+  "name": "Redesign from First Principles",
+  "zh": "从第一性原理重设计",
+  "desc": "新需求进来时，按“它从第一天就存在”的样子重设计，而不是打补丁。",
+  "ch": "08-principles"
+ },
+ {
+  "group": "core",
+  "name": "Attack the Premise",
+  "zh": "攻击前提",
+  "desc": "两个修复都基于同一前提且都失败了，就先盘点谁持有这个失衡，再质疑前提。",
+  "ch": "08-principles"
+ },
+ {
+  "group": "core",
+  "name": "Subtract Before You Add",
+  "zh": "先减后加",
+  "desc": "加功能、重构、重写前，先删掉死重量，再在更简单的底座上建。",
+  "ch": "08-principles"
+ },
+ {
+  "group": "core",
+  "name": "Minimize Reader Load",
+  "zh": "降低读者负担",
+  "desc": "数一数层级和隐藏状态，合并只有一个调用方的包装，缩小可变范围。",
+  "ch": "08-principles"
+ },
+ {
+  "group": "core",
+  "name": "Outcome-Oriented Execution",
+  "zh": "面向结果执行",
+  "desc": "有明确阶段的迁移，直接收敛到目标架构，不保留一次性的兼容中间态。",
+  "ch": "08-principles"
+ },
+ {
+  "group": "core",
+  "name": "Experience First",
+  "zh": "体验优先",
+  "desc": "产品和范围取舍时，选用户的愉悦，不选实现上的方便。",
+  "ch": "08-principles"
+ },
+ {
+  "group": "core",
+  "name": "Exhaust the Design Space",
+  "zh": "穷尽设计空间",
+  "desc": "没有先例的交互或架构决定，先做 2~3 个竞争原型再定。",
+  "ch": "08-principles"
+ },
+ {
+  "group": "core",
+  "name": "Build the Lever",
+  "zh": "造杠杆",
+  "desc": "非小事都先造工具（codemod、脚本、生成器）去做或去证明，工具本身就是 reviewer 能重跑的产物。",
+  "ch": "08-principles"
+ },
+ {
+  "group": "architecture",
+  "name": "Model the Domain",
+  "zh": "给领域建模",
+  "desc": "状态多、分支多、形状假设到处重复时，用状态机、类型模型、表或注册表、reducer 来表达领域。",
+  "ch": "08-principles"
+ },
+ {
+  "group": "architecture",
+  "name": "Boundary Discipline",
+  "zh": "边界纪律",
+  "desc": "校验和错误处理放在系统边界，内部信任类型，业务逻辑保持纯。",
+  "ch": "08-principles"
+ },
+ {
+  "group": "architecture",
+  "name": "Type System Discipline",
+  "zh": "类型纪律",
+  "desc": "让非法状态无法表示，给原始类型打品牌，在边界解析外部数据。",
+  "ch": "08-principles"
+ },
+ {
+  "group": "architecture",
+  "name": "Make Operations Idempotent",
+  "zh": "操作幂等",
+  "desc": "会遇到崩溃和重试的命令、生命周期、循环，要收敛到同一终态。",
+  "ch": "08-principles"
+ },
+ {
+  "group": "architecture",
+  "name": "Migrate Callers Then Delete Legacy APIs",
+  "zh": "迁完调用方就删旧 API",
+  "desc": "新内部 API 与旧调用方并存时，一波迁完并删除。",
+  "ch": "08-principles"
+ },
+ {
+  "group": "architecture",
+  "name": "Separate Before Serializing Shared State",
+  "zh": "先拆开再串行化共享状态",
+  "desc": "并发方可能写同一个文件、分支、key，先消除共享，而不是加锁排队。",
+  "ch": "08-principles"
+ },
+ {
+  "group": "verification",
+  "name": "Prove It Works",
+  "zh": "证明它能用",
+  "desc": "宣布完成前，对真实产物做验证，不接受代理指标或“能编译”。",
+  "ch": "06-verification"
+ },
+ {
+  "group": "verification",
+  "name": "Fix Root Causes",
+  "zh": "修根因",
+  "desc": "先复现，追到根因，一直问为什么。",
+  "ch": "06-verification"
+ },
+ {
+  "group": "verification",
+  "name": "Sequence Work into Verifiable Units",
+  "zh": "切成可验证的单元",
+  "desc": "多步工作切成每步都以检查结束的小单元，验证一个再做下一个，提交顺序本身能证明自己。",
+  "ch": "06-verification"
+ },
+ {
+  "group": "verification",
+  "name": "Test Behavior, Not Implementation",
+  "zh": "测行为不测实现",
+  "desc": "像用户那样调用代码，对字面期望值断言。所有导入函数都返回 undefined 时仍能通过的测试，要重写或删除。",
+  "ch": "06-verification"
+ },
+ {
+  "group": "verification",
+  "name": "Explain the Number",
+  "zh": "解释数字",
+  "desc": "相信、报告或依据一个测量值行动前，找出它的限制因素，排除测错了对象。",
+  "ch": "06-verification"
+ },
+ {
+  "group": "delegation",
+  "name": "Guard the Context Window",
+  "zh": "守住上下文窗口",
+  "desc": "大输出、长文件、反复读取交给子 agent，主线程只留摘要。",
+  "ch": "07-parallel"
+ },
+ {
+  "group": "delegation",
+  "name": "Never Block on the Human",
+  "zh": "不要卡在人身上",
+  "desc": "可逆的事不要问“要不要做”，先做，给结果，让人纠偏。",
+  "ch": "07-parallel"
+ },
+ {
+  "group": "meta",
+  "name": "Encode Lessons in Structure",
+  "zh": "把教训编码进结构",
+  "desc": "发现自己第二次写同一条指令时，改成 lint、元数据、运行时检查或脚本。",
+  "ch": "09-self-improve"
+ }
+]

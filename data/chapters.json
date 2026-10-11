@@ -1,0 +1,198 @@
+[
+ {
+  "id": "00-intro",
+  "num": "0",
+  "group": "入门",
+  "file": "00-intro.md",
+  "title": "导读",
+  "summary": "pstack 是什么，这门课怎么读，哪些结论可以信。",
+  "sources": [
+   "r-readme",
+   "r-guide"
+  ]
+ },
+ {
+  "id": "01-philosophy",
+  "num": "1",
+  "group": "入门",
+  "file": "01-philosophy.md",
+  "title": "设计哲学：想快，先深",
+  "summary": "信任先于并行，验证是瓶颈，代码库是记忆。",
+  "sources": [
+   "art-cursor",
+   "art-pt1",
+   "p-lowtrust",
+   "p-volume",
+   "p-slop",
+   "t-matt-abs",
+   "t-matt-cli"
+  ]
+ },
+ {
+  "id": "02-poteto-mode",
+  "num": "2",
+  "group": "入门",
+  "file": "02-poteto-mode.md",
+  "title": "poteto-mode 与 playbook 机制",
+  "summary": "一个入口怎样把短 prompt 变成严谨流程。",
+  "sources": [
+   "r-poteto-mode",
+   "r-playbooks",
+   "t-dotta",
+   "t-raydong",
+   "t-lezend"
+  ]
+ },
+ {
+  "id": "03-understand",
+  "num": "3",
+  "group": "核心回路",
+  "file": "03-understand.md",
+  "title": "理解代码：how / why / interrogate",
+  "summary": "动手前先建心智模型，区分已知和推断。",
+  "sources": [
+   "art-pt2",
+   "t-theo-cn"
+  ]
+ },
+ {
+  "id": "04-design",
+  "num": "4",
+  "group": "核心回路",
+  "file": "04-design.md",
+  "title": "设计：architect / arena / 原型",
+  "summary": "用代码做规划，至少两个候选，用证据挑。",
+  "sources": [
+   "art-pt2",
+   "t-matt-abs"
+  ]
+ },
+ {
+  "id": "05-build",
+  "num": "5",
+  "group": "核心回路",
+  "file": "05-build.md",
+  "title": "构建与清理：tdd / unslop / no-comments",
+  "summary": "写少一点，删多一点，测试要测行为。",
+  "sources": [
+   "t-theo-cn"
+  ]
+ },
+ {
+  "id": "06-verification",
+  "num": "6",
+  "group": "验证",
+  "file": "06-verification.md",
+  "title": "验证体系",
+  "summary": "验证技能、Feature Map、Prove It Works、基准清单。",
+  "sources": [
+   "art-pt1",
+   "r-cvs",
+   "r-bench",
+   "r-vexample",
+   "t-lockyer-160x",
+   "t-ohmyclaw"
+  ]
+ },
+ {
+  "id": "07-parallel",
+  "num": "7",
+  "group": "并行与自治",
+  "file": "07-parallel.md",
+  "title": "并行与自治：swarm / autopilot / babysit / 循环",
+  "summary": "有了信任之后，怎样放手让它整夜跑。",
+  "sources": [
+   "r-guide",
+   "t-viticci",
+   "p-releaseqa",
+   "p-loop",
+   "p-bro"
+  ]
+ },
+ {
+  "id": "08-principles",
+  "num": "8",
+  "group": "进阶",
+  "file": "08-principles.md",
+  "title": "原则体系深读",
+  "summary": "24 条原则怎么分组、怎么用名字纠偏。",
+  "sources": [
+   "r-poteto-mode"
+  ]
+ },
+ {
+  "id": "09-self-improve",
+  "num": "9",
+  "group": "进阶",
+  "file": "09-self-improve.md",
+  "title": "自我改进：/correct、/reflect、写技能、#538 瘦身",
+  "summary": "纠正环境，而不是纠正 agent。",
+  "sources": [
+   "r-correct",
+   "r-pr538",
+   "p-intervene",
+   "p-distill",
+   "t-lilith",
+   "t-theo-cn"
+  ]
+ },
+ {
+  "id": "10-community",
+  "num": "10",
+  "group": "实践",
+  "file": "10-community.md",
+  "title": "社区实践与教程合集",
+  "summary": "X 上的教程、实战数据、移植和质疑。",
+  "sources": [
+   "art-cursor",
+   "art-pt1",
+   "art-pt2",
+   "art-coding-dead",
+   "art-loops",
+   "w-threadnav",
+   "p-ttr",
+   "t-dotta",
+   "t-raydong",
+   "t-theo-cn",
+   "w-pvstack",
+   "t-songyitian",
+   "t-zhuang",
+   "t-jz",
+   "t-gyuan",
+   "t-lockyer-160x",
+   "t-lockyer-19",
+   "t-lockyer-deploy",
+   "t-viticci",
+   "t-heyitsalok",
+   "t-vincent",
+   "t-florent",
+   "t-ports",
+   "t-uehaj",
+   "t-cloeille",
+   "t-kolin",
+   "t-yupi",
+   "t-ohmyclaw",
+   "t-lilith",
+   "t-hacken",
+   "t-matheus",
+   "t-lezend",
+   "p-budget",
+   "t-matt-interview",
+   "t-matt-abs",
+   "t-matt-cli"
+  ]
+ },
+ {
+  "id": "11-calvingit",
+  "num": "11",
+  "group": "实践",
+  "file": "11-calvingit.md",
+  "title": "对照 calvingit/skills",
+  "summary": "哪些该学，哪些不照搬。",
+  "sources": [
+   "r-calvin",
+   "r-matt",
+   "t-matheus"
+  ]
+ }
+]

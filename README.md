@@ -2,85 +2,51 @@
 
 线上地址：https://calvingit.github.io/pstack-learn/
 
-一门讲 [pstack](https://github.com/cursor/plugins/tree/main/pstack)（@poteto）的中文课程，带原创分析、源码解读、社区资料和练习。纯静态站点，没有构建步骤，没有外部 CDN。
+一门讲 [pstack](https://github.com/cursor/plugins/tree/main/pstack)（@poteto）的中文课程，带原创分析、源码解读、社区资料和练习。用 [VitePress](https://vitepress.dev) 构建：侧栏目录、本页大纲、上一章/下一章、本地中文搜索、深色模式、移动端适配。
 
-## 本地预览
-
-浏览器不允许 `file://` 页面用 fetch 读本地文件，所以要起一个本地服务：
+## 本地开发
 
 ```bash
-python3 -m http.server 8000   # 然后打开 http://localhost:8000
+npm install
+npm run dev      # http://localhost:5173/pstack-learn/
+npm run build    # 输出到 site/.vitepress/dist
+npm run preview
 ```
 
 ## 目录结构
 
 ```
-index.html              外壳：顶栏、侧栏、内容区，只引用 CSS 和 main.js
-.nojekyll               让 GitHub Pages 原样发布，不跑 Jekyll
-content/                每章一个 Markdown 文件，home.md 是首页正文
-data/
-  chapters.json         章节目录：id、编号、分组、文件名、标题、摘要、来源 id
-  sources.json          全部来源：作者、北京时间、URL、类型、要点、是否核实
-  principles.json       24 条原则速查
-  playbooks.json        23 个 playbook 速查
-  skills.json           技能清单
-  glossary.json         术语表
-assets/css/
-  base.css              颜色变量、排版、暗色主题
-  layout.css            顶栏、侧栏、内容区布局与移动端
-  components.css        卡片、callout、练习清单、搜索结果等组件样式
-assets/js/
-  main.js               入口：加载目录，挂路由、侧栏、搜索、主题
-  router.js             哈希路由：#/  #/ch/<id>  #/ref/<kind>
-  markdown.js           自写的小型 Markdown 渲染器
-  pages.js              首页、章节页、速查页
-  nav.js                侧栏与阅读进度
-  search.js             全文搜索（章节 + 速查数据）
-  store.js              localStorage：已读、练习勾选、主题
-  theme.js              明暗主题切换
-  data.js               读取 JSON / Markdown，带缓存
-  components/           Markdown 自定义块：callout、quote、exercise、sources、compare
+content/                 课程正文（唯一内容源）：home.md + 每章一个 Markdown
+data/                    chapters / sources / principles / playbooks / skills / glossary 的 JSON
+scripts/gen.mjs          构建前把 content/ 和 data/ 生成为 site/ch/*.md、site/ref/*.md（不进 git）
+site/index.md            首页：引入 content/home.md + 章节卡片
+site/.vitepress/
+  config.mjs             站点配置：base、侧栏（来自 chapters.json）、搜索、中文界面
+  blocks.mjs             markdown-it 插件：渲染 callout / quote / exercise / compare 代码块
+  theme/
+    index.js             扩展默认主题，注册组件，挂章节头尾
+    style.css            排版与组件样式
+    store.js             localStorage 进度（沿用 v2 的键，旧进度不丢）
+    data.js              JSON 数据入口
+    components/          Checklist、ChecklistItem、Compare、SourceCard、
+                         ChapterGrid、ChapterMeta、ChapterFooter
+.github/workflows/deploy.yml   构建并发布到 GitHub Pages
 ```
 
-## 新增或修改一章
+## 写作约定
 
-1. 在 `content/` 下新建 `12-xxx.md`，用 `# 第 12 章 标题` 开头。
-2. 在 `data/chapters.json` 里加一项：`id`、`num`、`group`（侧栏分组）、`file`、`title`、`summary`、`sources`（来源 id 数组）。
-3. 用到的新来源加进 `data/sources.json`，`verified` 只有读过原文才写 `true`。
+正文是普通 Markdown，另有四种自定义代码块：
 
-阅读时间、练习数、来源数都是自动算的。
+- ```` ```callout tip|warn|ok|bad 标题 ````：提示框
+- ```` ```quote ````：引文卡片，每行 `en:` / `zh:` / `by:` / `url:`
+- ```` ```exercise 标题 ````：练习清单，每行 `- 项目`，勾选状态存在浏览器
+- ```` ```compare 标题 ````：对照表，内容是 Markdown 表格
 
-## Markdown 里能用的自定义块
+`【已核实】`、`【未核实】` 会渲染成徽标。新增一章：在 `content/` 加文件，在 `data/chapters.json` 加一项。
 
-````
-```callout tip 标题          # 类型：tip / warn / ok / bad
-正文，支持 Markdown
-```
+## 部署
 
-```quote
-en: 英文原文
-zh: 中文
-by: 作者与出处
-url: https://...
-```
+`base` 由环境变量决定：`VITEPRESS_BASE` 优先；Cloudflare Pages（自动带 `CF_PAGES=1`）用 `/`；其他情况用 `/pstack-learn/`。
 
-```exercise 练习标题
-- 每行一个可勾选项（勾选状态存在浏览器里）
-```
-
-```sources t-dotta, art-pt1
-```
-
-```compare 表格标题
-| A | B |
-|---|---|
-```
-````
-
-行内写 `【已核实】` 或 `【未核实】` 会渲染成标签。
-
-## 内容约定
-
-- 版本基准 pstack 0.15.17（2026-10-11），时间一律北京时间。
-- 不编造来源。没读到原文的，来源标 `verified: false`，正文标 【未核实】。
-- 中文写作避免 AI 腔，参考 calvingit/skills 的 `humanizer-zh`。
+- **GitHub Pages**：push 到 main 后 `.github/workflows/deploy.yml` 构建并用 `actions/deploy-pages` 发布。Settings → Pages → Source 需选 “GitHub Actions”。
+- **Cloudflare Pages**：Framework preset 选 VitePress（或 None），Build command `npm run build`，Build output directory `site/.vitepress/dist`，环境变量 `NODE_VERSION=20`。

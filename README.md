@@ -49,4 +49,4 @@ site/.vitepress/
 `base` 由环境变量决定：`VITEPRESS_BASE` 优先；Cloudflare Pages（自动带 `CF_PAGES=1`）用 `/`；其他情况用 `/pstack-learn/`。
 
 - **GitHub Pages**：push 到 main 后 `.github/workflows/deploy.yml` 构建并用 `actions/deploy-pages` 发布。Settings → Pages → Source 需选 “GitHub Actions”。
-- **Cloudflare Pages**：Framework preset 选 VitePress（或 None），Build command `npm run build`，Build output directory `site/.vitepress/dist`，环境变量 `NODE_VERSION=20`。
+- **Cloudflare Pages**：Framework preset 选 VitePress（或 None），Build command `npm run build`，Build output directory `site/.vitepress/dist`，环境变量 `NODE_VERSION=22`。

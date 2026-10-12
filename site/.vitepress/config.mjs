@@ -13,7 +13,14 @@ function cjkTokenize(text) {
   return out
 }
 
-const groups = [...new Set(chapters.map(c => c.group))]
+// 侧栏用的短章名（章节页标题仍用 chapters.json 的完整标题）
+const SHORT = {
+  '02-poteto-mode': '入口与剧本机制',
+  '08-principles': '原则体系',
+  '09-self-improve': '自我改进',
+  '10-community': '社区实践',
+  '11-calvingit': '对照我们的仓库'
+}
 
 export default defineConfig({
   lang: 'zh-CN',
@@ -36,14 +43,12 @@ export default defineConfig({
       ] },
       { text: 'pstack 源码', link: 'https://github.com/cursor/plugins/tree/main/pstack' }
     ],
+    // 侧栏只放简短章名，不出现技能 / playbook / 原则名；速查页各一项，默认折叠
     sidebar: [
-      ...groups.map(g => ({
-        text: g, collapsed: false,
-        items: chapters.filter(c => c.group === g).map(c => ({ text: `${c.num}. ${c.title}`, link: `/ch/${c.id}` }))
-      })),
-      { text: '速查', collapsed: false, items: [
-        { text: '24 条原则', link: '/ref/principles' },
-        { text: '23 个 playbook', link: '/ref/playbooks' },
+      { text: '课程', items: chapters.map(c => ({ text: `${c.num}. ${SHORT[c.id] || c.title.split('：')[0]}`, link: `/ch/${c.id}` })) },
+      { text: '速查', collapsed: true, items: [
+        { text: '原则', link: '/ref/principles' },
+        { text: 'Playbook', link: '/ref/playbooks' },
         { text: '技能清单', link: '/ref/skills' },
         { text: '术语表', link: '/ref/glossary' },
         { text: '来源列表', link: '/ref/sources' }

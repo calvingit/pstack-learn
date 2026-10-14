@@ -194,5 +194,16 @@
    "r-matt",
    "t-matheus"
   ]
+ },
+ {
+  "id": "12-changelog",
+  "num": "12",
+  "group": "实践",
+  "file": "12-changelog.md",
+  "title": "更新记录",
+  "summary": "pstack 从 0.1.0 到 0.15.23 每个版本改了什么。",
+  "sources": [
+   "r-readme"
+  ]
  }
 ]

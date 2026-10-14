@@ -107,14 +107,7 @@ calvingit/skills 的 Phase A/B 瘦身（PR #3、#4）也是“去复述、保规
 
 ## 0.15.17 到 0.15.23
 
-#538 之后几天，她接着往下删、往清楚改：
-
-| 版本 | 改动 |
-|---|---|
-| 0.15.20 | [#571](https://github.com/cursor/plugins/pull/571) 再删七个技能里用不上的段落，11 个 Markdown 文件从 32,508 字节降到 18,711 字节（−42%）【未核实】；[#576](https://github.com/cursor/plugins/pull/576) 在根目录加 `plugin.json`，按 Agent Plugins 1.0.0 格式写，别的客户端也能找到 pstack 的技能 |
-| 0.15.21 | [#577](https://github.com/cursor/plugins/pull/577) 告诉 agent 打包的叶子技能放在哪里（见第 2 章） |
-| 0.15.22 | 新增 `/in-your-own-words`；`/ketchup` 变短（见第 7 章）；Fix Root Causes 加一条（见第 8 章） |
-| 0.15.23 | [#606](https://github.com/cursor/plugins/pull/606) 改写 `/in-your-own-words` |
+#538 之后几天，她接着往下删、往清楚改：[#571](https://github.com/cursor/plugins/pull/571) 再删七个技能里用不上的段落，`/ketchup` 三天改了三版，又加了一个只有一句话的技能。每个版本的改动见[第 12 章 更新记录](/ch/12-changelog)。
 
 ### /in-your-own-words：先复述，再动手
 

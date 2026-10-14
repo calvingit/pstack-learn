@@ -19,7 +19,8 @@ const SHORT = {
   '08-principles': '原则体系',
   '09-self-improve': '自我改进',
   '10-community': '社区实践',
-  '11-calvingit': '对照我们的仓库'
+  '11-calvingit': '对照我们的仓库',
+  '12-changelog': '更新记录'
 }
 
 export default defineConfig({

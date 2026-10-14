@@ -70,7 +70,7 @@ url: https://github.com/cursor/plugins/blob/main/pstack/skills/poteto-mode/SKILL
 
 ## /unslop：清理文字
 
-`unslop` 的 description 只有一句：“Cut AI tells from any writing. Must always apply.” poteto-mode 要求所有文字表面都过它，包括给你的回复。
+`unslop` 的 description 原来是“Cut AI tells from any writing. Must always apply.”。它设了 `disable-model-invocation: true`，不会自己触发，后半句反而被 agent 当成命令，[#572](https://github.com/cursor/plugins/pull/572) 把它删了。poteto-mode 仍然要求所有文字表面都过它，包括给你的回复。
 
 规则有编号，而且编号是“稳定 id”，删掉的规则留空号，因为别的技能会按编号引用（比如回复规则里引用了 “unslop rule 14”）。这个细节说明她把技能当代码维护。
 
@@ -95,6 +95,7 @@ calvingit/skills 里已经有 `humanizer-zh` 处理中文 AI 腔。unslop 是英
 
 - 主 agent 要**驳回** Comment Sicko 越界的修改：改了应用逻辑、超出范围、删了受保护的注释。
 - 发现注释背后其实是一个 workaround 时，修根因，删掉 workaround。
+- 这个 agent 的 id 现在是 `comment-sicko`（[#486](https://github.com/cursor/plugins/pull/486)）。原来的 “Comment Sicko” 带空格，在 Grok 上派不出去。界面上显示的名字没变。
 - “不要删”“改前找某某”这类约束注释，主 agent 要提议用类型、运行时检查、测试或 lint 来替代，并**等人批准**。
 
 最后一条是 Encode Lessons in Structure 的又一次体现：注释里的约束没人执行，换成检查才有人执行。

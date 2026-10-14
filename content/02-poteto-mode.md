@@ -97,6 +97,12 @@ url: https://github.com/cursor/plugins/blob/main/pstack/skills/poteto-mode/SKILL
 
 最后一条是踩坑踩出来的。长对话里多次打断再继续，模型常常会忘掉中间加的要求。
 
+0.15.20 之后，谁来跑 playbook 也写清楚了（[#575](https://github.com/cursor/plugins/pull/575)、[#577](https://github.com/cursor/plugins/pull/577)、[#597](https://github.com/cursor/plugins/pull/597)）：
+
+- **收到 `/poteto-mode` 的那个对话自己跑 playbook**。`poteto-agent` 以前自称是 `/poteto-mode` 的“路由目标”，主对话就派一个 `poteto-agent` 去跑整套流程。可是嵌套的子 agent 没有 Task 工具，派不出 `how`、`why`、Comment Sicko 这些下一级 agent，todo 也传不回对话。现在 `poteto-agent` 只是主对话派活时用的外壳。
+- **主对话要把 poteto-mode 的绝对路径交给每个 `poteto-agent`**。叶子技能都设了 `disable-model-invocation: true`，agent 在技能目录里看不到它们的路径。poteto-mode 现在会说明打包的技能相对它自己放在哪里。
+- 没拿到路径时，`poteto-agent` 第一步就去 `~/.cursor/plugins/` 下找 `skills/poteto-mode/SKILL.md`。技能目录里看不到 poteto-mode，不代表没装 pstack。
+
 ### 5. Writing the reply：回复怎么写
 
 短句；不用长破折号；句中不用冒号连接；不能因为简短而丢内容；先说对使用者和维护者有什么影响；**不编造链接**；**每个结论在同一句里带上证据或标签（测得、推断、猜测）**。

@@ -105,6 +105,25 @@ PR 的口号是 “Every rule stays. Only the text that carries it gets shorter.
 calvingit/skills 的 Phase A/B 瘦身（PR #3、#4）也是“去复述、保规则”：路由改成指向 `workflow-policy`、Profile 一行化、抽出 `closeout-roles`。和 #538 同一个思路。可以借鉴的新点是：reference prompt 也要压，以及压的同时检查有没有对不上的引用。
 ```
 
+## 0.15.17 到 0.15.23
+
+#538 之后几天，她接着往下删、往清楚改：
+
+| 版本 | 改动 |
+|---|---|
+| 0.15.20 | [#571](https://github.com/cursor/plugins/pull/571) 再删七个技能里用不上的段落，11 个 Markdown 文件从 32,508 字节降到 18,711 字节（−42%）【未核实】；[#576](https://github.com/cursor/plugins/pull/576) 在根目录加 `plugin.json`，按 Agent Plugins 1.0.0 格式写，别的客户端也能找到 pstack 的技能 |
+| 0.15.21 | [#577](https://github.com/cursor/plugins/pull/577) 告诉 agent 打包的叶子技能放在哪里（见第 2 章） |
+| 0.15.22 | 新增 `/in-your-own-words`；`/ketchup` 变短（见第 7 章）；Fix Root Causes 加一条（见第 8 章） |
+| 0.15.23 | [#606](https://github.com/cursor/plugins/pull/606) 改写 `/in-your-own-words` |
+
+### /in-your-own-words：先复述，再动手
+
+这是 pstack 最短的技能，正文只有一句：用你自己的话说出你认为用户的目标是什么、想解决什么问题。它只在你手动输入时运行（[#602](https://github.com/cursor/plugins/pull/602)）。
+
+第一版写的是“复述目标和意图，等用户确认再开始”。第二版（#606）改成问目标和问题，删掉了“等确认”。复述本身就能暴露误解，要不要停下来由你决定。
+
+用法很简单：交代完一件复杂的事，先打 `/in-your-own-words`，看它理解得对不对，再让它开工。
+
 ## /automate-me：从你的记录里生成你的 mode
 
 `/automate-me` 读你的对话记录，生成一个 `<你的名字>-mode`。这其实是 pstack 的元目标：poteto-mode 是她的工作方式，你应该有你自己的。指南第 9 页的标题就叫 “Make it yours”。

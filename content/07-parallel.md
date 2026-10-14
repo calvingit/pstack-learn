@@ -116,6 +116,23 @@ Pt.1 里她说 git worktree 太占磁盘和机器资源，大约到 10 个就是
 - **X 上的用户反馈**：让 bot 盯 X 上对产品的反馈，功能请求进工单，bug 报告交给云端 agent 或 Project 分诊修复，“the loop is complete”（[原帖](https://x.com/poteto/status/2107963437154435182)）【已核实】。
 - **16 个 Project 并行时**，她最常用的 prompt 变成了“/bro catch me up on everything since my last message, and if there are any action items for me give me enough context (exec summary) to make a call”（[原帖](https://x.com/poteto/status/2109024196760305861)）【已核实】。这条后来变成了 `/ketchup`。
 
+## /ketchup：回来时先补课
+
+`/ketchup` 只读，告诉你自上一条消息以来发生了什么、哪些事要你拍板。0.15.17 发布后三天里改了三次（[#570](https://github.com/cursor/plugins/pull/570)、[#595](https://github.com/cursor/plugins/pull/595)、[#609](https://github.com/cursor/plugins/pull/609)），方向一直是更短、更像人话：
+
+- **用 `/bro` 的口吻**。说结果对你有什么变化，不说过程。“测试过了”，不说“CI is green”。哈希、路径、命令、测试数量，除非你要用来做决定，否则不写。
+- **整条回复 150 字以内**，表格和图里的字也算。字数不够时，先删经过，再删待办。
+- **开头一句说有几件事要你处理**，或者说没有。接着一张最多四格的图，每格说你要的一件事做成没有。
+- **每个待办两行**：要你做的决定和它的建议，以及你不回会怎样。决定用前后对比的图来呈现，Markdown 表格不算图。
+- 它自己能接着做的活不算你的待办，也不许为了凑数编一个待办出来。
+
+#595 的数据是：旧版在 Opus 5.5 上回复的中位数是 736 个词，15 次里只有 8 次用了真正的图 【未核实】（PR 描述）。
+
+## 两个脚本修复
+
+- `worktree-audit.sh` 以前拿写死的 `origin/main` 判断分支是否已合并，默认分支叫 `master` 的仓库就会误判。现在按 `origin/HEAD`、`origin/main`、`origin/master` 依次找，也可以用 `-b` 指定（[#574](https://github.com/cursor/plugins/pull/574)）。
+- babysit 用的 `watch-pr` 以前只读前 100 个 review thread，更后面没解决的评论挡不住“可以合并”的判断。现在会翻页读完（[#484](https://github.com/cursor/plugins/pull/484)）。
+
 @viticci（MacStories）描述了一个类似的外层/内层结构：外层是 bot 协调每个应用各自的线程，内层是 Cursor Project 在云端 VM 里跑多个 agent，QA bot 进来验证；他说自己“religiously”用 pstack 和验证技能（[原帖](https://x.com/viticci/status/2107629523814498673)）【已核实】。
 
 ```callout warn 成本

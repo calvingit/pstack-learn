@@ -71,6 +71,11 @@ url: https://github.com/cursor/plugins/blob/main/pstack/skills/poteto-mode/SKILL
 
 发现自己第二次写同一条指令时，改成 lint、元数据、运行时检查或脚本。这是 `/correct` 的原则层，也是 pstack 自我改进的根。
 
+## 0.15.17 之后的两处改动
+
+- **Fix Root Causes 多了一条**（[#604](https://github.com/cursor/plugins/pull/604)）：如果关键事实是挖了很久才找到的，就提出一个便宜、一直开着的信号（日志、指标之类），让下次第一眼就能看到它。修完 bug 之后，再问一句“怎样才能更早发现”。
+- **四条原则删了一部分**（[#571](https://github.com/cursor/plugins/pull/571)）：Encode Lessons in Structure、Exhaust the Design Space、Guard the Context Window、Laziness Protocol 删掉了复述的规则、通用步骤和反例清单，核心规则保留。
+
 ## 原则之间的张力
 
 原则多了一定会打架。几组值得注意的：

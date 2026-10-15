@@ -648,5 +648,35 @@
   "type": "第三方帖子与教程",
   "note": "Codex 里用 $ketchup 调用。",
   "verified": true
+ },
+ {
+  "id": "w-neuron",
+  "title": "The Neuron explainer",
+  "author": "The Neuron",
+  "date": "2026-10",
+  "url": "https://www.theneuron.ai/",
+  "type": "第三方文章",
+  "note": "引用一个测试者：同一任务不用 pstack 约 30 分钟，用 pstack 约 1 小时，但抓出三处错误论断。",
+  "verified": false
+ },
+ {
+  "id": "w-mdenyer",
+  "title": "michael-denyer/pstack-claude",
+  "author": "@michael-denyer",
+  "date": "2026-10-14",
+  "url": "https://github.com/michael-denyer/pstack-claude",
+  "type": "移植仓库",
+  "note": "约 2.1k 星，覆盖 Claude Code / Codex / Copilot / Pi / OpenCode / Gemini / Prime Agent。",
+  "verified": true
+ },
+ {
+  "id": "w-backnotprop",
+  "title": "backnotprop/pstack",
+  "author": "@backnotprop",
+  "date": "2026-10-14",
+  "url": "https://github.com/backnotprop/pstack",
+  "type": "移植仓库",
+  "note": "约 1.9k 星，Claude / Codex / Pi，只带技能和原则。",
+  "verified": true
  }
 ]

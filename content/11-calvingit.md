@@ -55,6 +55,14 @@ Theo 的观点和 pstack 的实践都指向同一件事：description 要列出�
 
 加进 `humanizer-zh` 的自查清单。
 
+### 8. 把高频判断变成可运行的脚本
+
+`check-plan.mjs`、`watch-pr`、`log.sh` 那几个例子的共同点（见[第 9 章](/ch/09-self-improve)）：**文字说“跑 X”的地方，X 一定是个确定性工具，而且退出码带类型化含义**。我们已经有 `verify` 这样的判定入口，可以再前进一步：给已有的结构化判定（PASS / FAIL / NOT VERIFIED）配一个可执行的 CLI，让 CI 和 agent 都能直接分支判断，而不是解析一段话。`log.sh` 那个防表格公式注入的细节也值得照抄——凡是要给人用表格软件打开的 TSV，都要做。
+
+### 9. 子 agent 按任务调档，但不换模型家族
+
+0.15.24 的规则：从角色默认出发，只升/降推理档位和快慢，**模型家族保持不变**，理由是“a diverse panel stays diverse”。我们派多个 reviewer 时同理：可以让它们 effort 不同，但不要让它们变成同一个模型——否则“两个 reviewer 一致”就只是同一个偏差说了两遍。
+
 ## 不照搬的地方
 
 ```callout bad 不做一个吞掉所有流程的入口

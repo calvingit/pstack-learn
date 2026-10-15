@@ -2,6 +2,8 @@
 
 这一章是第 1 章“信任先于并行”的兑现。前提只有一个：你已经有能用的验证技能。没有它，下面所有东西都只是“更快地产出没人检查的东西”。
 
+这里的 `/swarm` 是 [Coverage / race](/ch/03-understand)：多个 worker 拿不同的切片，或者拿同一个任务赛跑，最后汇成一张表。而 shipping 每轮都换 verifier，是 [Author ≠ critic](/ch/03-understand) 那条规矩在并行情形下的落地。
+
 ## 上循环之前的四个前提
 
 官方指南第 7 页列了四条，全部满足才让循环自主运行，否则就在旁边看着它跑：
@@ -63,8 +65,8 @@ keep a decision log. don't ask me before committing.
 | playbook | 适合 | 谁合并 |
 |---|---|---|
 | Autonomous run | 一个任务跑到完成条件 | 看合约 |
-| Autopilot-full | 一队**互相独立**的 PR | 每个 PR 一个 owner，但 owner 不能凭自己的判定合并，要等一组新的 verifier 判定 |
-| Autopilot-stack | 一队**有耦合**的改动 | 不上线。早上你拿到一条线性的栈，每一环都有判定，你自己合 |
+| Autopilot-full | 一队**互相独立**的 PR | 每个 PR 一个 owner，但 owner 不能凭自己的判定合并，要等一组新的 verifier 判定。0.15.24 起只留规则；每小时一跳，只要有变化就按 `/ketchup` 的口吻汇报，**没变化就闭嘴** |
+| Autopilot-stack | 一队**有耦合**的改动 | 不上线。早上你拿到一条线性的栈，每一环都有判定，你自己合。0.15.24 起只写它和 full 不同的地方 |
 | Orchestrate | 多天的项目、成百个子 agent | 一个常驻协调者聊天 |
 
 ## Babysit 和 Shipping：把 PR 拆成两半

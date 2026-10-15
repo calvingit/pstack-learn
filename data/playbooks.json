@@ -1,60 +1,70 @@
 [
  {
   "group": "理解",
+  "stance": "你拥有答案",
   "name": "Investigation",
   "zh": "调查",
   "desc": "只读问题：X 怎么工作、Y 为什么这样、Z 确定吗、做 X 还是 Y。交付物是带出处的回答。"
  },
  {
   "group": "修复",
+  "stance": "你拥有这个任务",
   "name": "Bug fix",
   "zh": "修 bug",
   "desc": "自己在同一界面复现，二分排查，按证据修最小改动，先提交失败复现再提交修复。"
  },
  {
   "group": "性能",
+  "stance": "你拥有整个测量故事",
   "name": "Perf issue",
   "zh": "性能问题",
   "desc": "对着基线追踪一次明确的慢，并改进。"
  },
  {
   "group": "性能",
+  "stance": "你拥有指标和实验的完整性",
   "name": "Hillclimb",
   "zh": "爬坡",
   "desc": "对一个指标持续做科学改进：假设、前后测量、决策日志、每个被接受的改进一个提交。"
  },
  {
   "group": "诊断",
+  "stance": "你拥有诊断；去插桩活进程，不要从源码空想",
   "name": "Runtime forensics",
   "zh": "运行时取证",
   "desc": "从现场埋点诊断泄漏、空转、闪烁。交付诊断，不交付修复。"
  },
  {
   "group": "诊断",
+  "stance": "你拥有来自产物的诊断",
   "name": "Trace forensics",
   "zh": "Trace 取证",
   "desc": "分析事后拿到的 cpuprofile、trace、heap snapshot。交付诊断。"
  },
  {
   "group": "构建",
+  "stance": "你拥有设计，实现要委派出去",
   "name": "Feature",
   "zh": "功能",
   "desc": "从一个命名的数据形状出发：how → architect → 吞吐检查点 → 委派 → 验证 → 小提交 → 开 PR。"
  },
  {
   "group": "构建",
+  "stance": "你拥有契约，结构变，行为不变",
   "name": "Refactoring",
   "zh": "重构",
   "desc": "保持行为不变的结构改动：改名、抽取、内联、去重、移动。"
  },
  {
   "group": "设计",
+  "stance": "你拥有设计决策，不是那段代码",
   "name": "Prototype",
   "zh": "原型",
   "desc": "一次性草图，用观察代替提问来解决经验性分歧。"
  },
  {
   "group": "构建",
+  "stance": "你拥有像素级等价，基线就是规格",
   "name": "Visual parity",
   "zh": "视觉一致",
   "desc": "像素级 UI 对齐，或迁移样式系统。"
@@ -63,76 +73,89 @@
   "group": "元",
   "name": "Authoring or modifying a skill",
   "zh": "编写或修改技能",
-  "desc": "写或改 SKILL.md，带校验和评审。"
+  "desc": "写或改 SKILL.md，带校验和评审。",
+  "stance": "你拥有这个技能的语气"
  },
  {
   "group": "元",
   "name": "Eval",
   "zh": "评估",
-  "desc": "在推广之前，测技能、结构或 prompt 改动对 agent 行为的影响，盲测防观察者效应。"
+  "desc": "在推广之前，测技能、结构或 prompt 改动对 agent 行为的影响，盲测防观察者效应。",
+  "stance": "你拥有实验设计"
  },
  {
   "group": "交付",
+  "stance": "把 PR 或一叠 PR 推到可以合并",
   "name": "Babysit",
   "zh": "看护 PR",
   "desc": "把 PR 或一叠 PR 推到可合并：冲突、评审线程、CI。从不自己合并。"
  },
  {
   "group": "交付",
+  "stance": "决定上线",
   "name": "Shipping",
   "zh": "上线",
   "desc": "Babysit 之后的一半：逐个独立验证，只从底部合并连续验证通过的那一段。"
  },
  {
   "group": "自治",
+  "stance": "一个任务跑到完成条件",
   "name": "Autonomous run",
   "zh": "自主运行",
   "desc": "把一个长任务跑到完成条件成立（“run until done”）。"
  },
  {
   "group": "自治",
+  "stance": "多天的项目、成百个子 agent",
   "name": "Orchestrate",
   "zh": "编排",
   "desc": "交给一个协调者聊天的长期项目：多天、大量叠加 PR、成百子 agent。"
  },
  {
   "group": "自治",
+  "stance": "一队互相独立的 PR",
   "name": "Autopilot-full",
   "zh": "全自动驾驶",
   "desc": "一队独立 PR，每个 PR 一个 owner 从构建跑到合并，根节点先 swarm 验证。"
  },
  {
   "group": "自治",
+  "stance": "一队有耦合的改动",
   "name": "Autopilot-stack",
   "zh": "叠加自动驾驶",
   "desc": "一队改动做成一条线性、评审过的栈，由人来合。"
  },
  {
   "group": "会话",
+  "stance": "读已有轨迹，不要重做",
   "name": "Session pickup",
   "zh": "接手会话",
   "desc": "从对话记录、云端 agent 链接或分支接手前一个 agent 的工作。"
  },
  {
   "group": "会话",
+  "stance": "留下一个冷启动 agent 能接的检查点",
   "name": "Pause safely",
   "zh": "安全暂停",
   "desc": "干净地挂起：完成或回退当前步，提交 WIP 检查点，写恢复说明。"
  },
  {
   "group": "设计",
+  "stance": "计划最后才写",
   "name": "Multi-phase or multi-PR plan",
   "zh": "多阶段计划",
   "desc": "跨阶段或叠加 PR 的工作，每项都要求实际运行验证，计划格式有脚本校验。"
  },
  {
   "group": "会话",
+  "stance": "那个会删用户状态的 playbook",
   "name": "Worktree and simulator cleanup",
   "zh": "清理 worktree 与模拟器",
   "desc": "回收磁盘：清理已合并或废弃的 worktree、过期 iOS 模拟器。"
  },
  {
   "group": "交付",
+  "stance": "每个别的 playbook 结束时都调用它",
   "name": "Opening a PR",
   "zh": "开 PR",
   "desc": "每个 playbook 的最后一步。"

@@ -55,6 +55,54 @@ url: https://github.com/cursor/plugins/blob/main/pstack/skills/correct/SKILL.md
 
 和 `/correct` 的区别：`/correct` 改仓库让错误不能发生；`/reflect` 改技能让 agent 下次做得更好。按她的价值排序，能用 `/correct` 解决的优先用 `/correct`。
 
+## 把规则编码成脚本：一个真实样本
+
+这一章讲的“价值排序”不是口号，它真的在 pstack 自己身上执行了：`poteto-mode/scripts/` 下大约 7k 行 Bun/TypeScript，配 ~63 个测试和严格的类型检查。她的原则是：**文字里说“跑 X”的地方，X 必须是一个确定性工具**。四个最值得看的例子。
+
+### check-plan.mjs：把写作规范变成 exit 1
+
+Multi-phase plan 第 6 步会调用它检查计划文件。它查的东西很具体：
+
+- 正文里出现长破折号（`–`、`—`）或弯引号，失败。
+- 句中冒号（`: ` 后面紧跟非空白），失败。
+- 必须有固定的小节骨架，顺序不能错；必须有 `## How to read this` 一节；H1 下面的介绍行数必须在十行以内。
+- 三个验证盒子（Verify, unit / live / perf）都必须**以同一句规则开头**：`Tests alone are not sufficient verification. A PR is verified only when its unit, live, and perf boxes are all checked.`
+- 每个 PR 的 "Verify, live" 盒子必须包含一句 `Ten lanes on ... at the PR head`，省略号处填 swarm workers 的模型名（脚本用正则查这句话，模型名必须填进去）；lane 编号必须正好是 1 到 10，每条 lane 必须带一个截图（脚本查 `Save ...`）和一个 `Pass when` 谓词。
+- "Verify, perf" 盒子的条目开头词必须依次是 Metric、Probe、Baseline、Rule。
+- 代码围栏里的内容不参与这些检查。
+
+最后一条是个容易忽略的细节：它知道**示例代码里出现长破折号不算违规**。写这类检查工具时，能不能区分“内容”和“内容的示例”，往往决定它会不会被关掉。
+
+### watch-pr：带退出码的类型化裁决
+
+Babysit 和 Shipping 轮询 GitHub 靠它。它的价值在于**把“现在什么状态”变成可编程的返回值**：
+
+| 退出码 | 含义 |
+|---|---|
+| 0 | READY / COMPLETE |
+| 2 | BLOCKER：有冲突 |
+| 3 | 有未解决的 review thread |
+| 4 | 检查失败 |
+| 5 | TIMEOUT |
+| 6 | 卡在 merge gate |
+| 7 | 查询本身失败 |
+
+有了这个，脚本和 agent 都能直接对它做分支判断，而不是去解析一段自然语言。它还数 Bugbot 的通过次数，用来支撑“第三遍还没过的评论倾向于驳回”这个判断。
+
+### log.sh：防表格公式注入
+
+`show-me-your-work` 的决策日志是 TSV，作者预期它会被人用表格软件打开。所以 log.sh 做了一件很少有人想到的事：**把以 `=`、`+`、`-`、`@` 开头的单元格加一个单引号前缀**，同时去掉制表符和换行。
+
+注释写得很直白：受攻击者控制的内容（PR 标题、文件名、生成的文本）不能因为评审者打开文件而变成公式执行。这是“外部输入一律标 untrusted”那条规则落到了一个 20 行 bash 脚本里。
+
+### bootstrap.ts：装依赖也做成幂等
+
+它按 package.json + bun.lock 的哈希决定要不要装，重跑时空操作。所以技能里永远不需要写“先 npm install”。这就是 Make Operations Idempotent 原则在自己身上的应用。
+
+```callout tip 这几个脚本的共同点
+没有一个是“帮 agent 少干活”，全都是“替 agent 记住一件事”。工具的职责不是加速，是把容易忘的规则变成一定会被执行的东西。这也解释了为什么第 8 章说 Encode Lessons in Structure 是她自我改进的根。
+```
+
 ## 写技能：Authoring 和 Eval 两个 playbook
 
 **Authoring or modifying a skill** 只有四步：用 Cursor 自带的 create-skill → 校验（frontmatter 有 name 和 description、引用的文件存在、跨技能链接能解析）→ 结构性的改动写测试用例 → 开 PR。
@@ -105,9 +153,11 @@ PR 的口号是 “Every rule stays. Only the text that carries it gets shorter.
 calvingit/skills 的 Phase A/B 瘦身（PR #3、#4）也是“去复述、保规则”：路由改成指向 `workflow-policy`、Profile 一行化、抽出 `closeout-roles`。和 #538 同一个思路。可以借鉴的新点是：reference prompt 也要压，以及压的同时检查有没有对不上的引用。
 ```
 
-## 0.15.17 到 0.15.23
+## 0.15.17 到 0.15.25
 
-#538 之后几天，她接着往下删、往清楚改：[#571](https://github.com/cursor/plugins/pull/571) 再删七个技能里用不上的段落，`/ketchup` 三天改了三版，又加了一个只有一句话的技能。每个版本的改动见[第 12 章 更新记录](/ch/12-changelog)。
+#538 之后几天，她接着往下删、往清楚改：[#571](https://github.com/cursor/plugins/pull/571) 再删七个技能里用不上的段落，`/ketchup` 三天改了三版，又加了一个只有一句话的技能。此后 0.15.24 把 shipping 和两个 autopilot playbook 砍到只剩规则（每条附理由），并把三个草稿技能合并成 `/sharpen`。每个版本的改动见[第 12 章 更新记录](/ch/12-changelog)。
+
+值得注意的方向：**从“写步骤”转向“写理由”**。shipping 从九步砍到六步，但每一步都加了一句“为什么成立”；#633 把四条原则从规则改写成推理（见[第 8 章](/ch/08-principles)）。这不是变粗糙，而是赌模型已经能推断：讲清道理比枚举规则更耐用。
 
 ### /in-your-own-words：先复述，再动手
 
@@ -120,6 +170,11 @@ calvingit/skills 的 Phase A/B 瘦身（PR #3、#4）也是“去复述、保规
 ## /automate-me：从你的记录里生成你的 mode
 
 `/automate-me` 读你的对话记录，生成一个 `<你的名字>-mode`。这其实是 pstack 的元目标：poteto-mode 是她的工作方式，你应该有你自己的。指南第 9 页的标题就叫 “Make it yours”。
+
+和它配对的还有两个入口技能，都是只手动调用：
+
+- `/poteto-help`：先问清你要做什么，给一段能直接发的 prompt 和出处，**自己不开工**。
+- `/sharpen`（0.15.24 新增）：开工前问三件事——顶尖专家会怎么做、你到底要什么、这个任务是过度具体还是不够具体。收紧不服务于目标的约束，**不动本该由你做的选择**，也不把改写后的 prompt 还给你（[#615](https://github.com/cursor/plugins/pull/615)）。它是把“这个任务到底该怎么做”想清楚的工具，不是 prompt 润色器。
 
 ```exercise 练习
 - 翻你最近 20 条对 agent 的纠正，找出出现两次以上的错误类别

@@ -51,9 +51,9 @@ url: https://github.com/cursor/plugins/blob/main/pstack/skills/poteto-mode/SKILL
 
 ### Attack the Premise
 
-两个修复都基于同一个前提，而且都失败了，说明问题出在前提上。下一步不是写第三个修复，而是先“盘点哪些参与方持有这个失衡”，然后质疑前提。
+两个或多个修复共享同一个前提、且都败在同一道关上，说明前提有问题。下一步不是写第三个修复，而是：**把前提写成一句能被检验的话**，然后找一个“如果前提为假就会得出不同结果”的观测，先做这个观测。
 
-这条是 0.15.0 加的。它针对的是 agent 一个很典型的失败模式：在错误的方向上越修越深。
+这条是 0.15.0 加的，针对 agent 一个很典型的失败模式：在错误的方向上越修越深。#633 改写时给它补了一个判断：如果证据显示总有一方吃亏，要去改“是什么让它一直吃亏”的那个机制，而不是每次替它收拾残局。
 
 ### Sequence Work into Verifiable Units
 
@@ -71,10 +71,17 @@ url: https://github.com/cursor/plugins/blob/main/pstack/skills/poteto-mode/SKILL
 
 发现自己第二次写同一条指令时，改成 lint、元数据、运行时检查或脚本。这是 `/correct` 的原则层，也是 pstack 自我改进的根。
 
-## 0.15.17 之后的两处改动
+## 0.15.17 之后的几处改动
 
 - **Fix Root Causes 多了一条**（[#604](https://github.com/cursor/plugins/pull/604)）：如果关键事实是挖了很久才找到的，就提出一个便宜、一直开着的信号（日志、指标之类），让下次第一眼就能看到它。修完 bug 之后，再问一句“怎样才能更早发现”。
 - **四条原则删了一部分**（[#571](https://github.com/cursor/plugins/pull/571)）：Encode Lessons in Structure、Exhaust the Design Space、Guard the Context Window、Laziness Protocol 删掉了复述的规则、通用步骤和反例清单，核心规则保留。
+- **四条原则从规则改写成推理**（[#633](https://github.com/cursor/plugins/pull/633)，10-15 合入，未进版本号）：Attack the Premise、Fix Root Causes、Test Behavior Not Implementation、Make Operations Idempotent 原来给的是硬规则（比如 Test Behavior 那条枚举了一批禁止的断言形状），改写后给的是背后的道理和判断方法，好让 agent 处理原文没写到的情况。
+
+最后一条值得单独说，因为它反映了她对模型的一个判断：#633 的理由是“硬规则会限制 agent 处理我没预料到的情况”，所以换成推理。她自己的说法是这些原则本来是“从今年纠正 agent 的会话里抽出来的”，现在模型变强了，抽出来的规则可以再抽象一层。这也是她 10-14 那条帖子“期望 pstack 的技能随着模型变强继续压缩”的具体动作。
+
+```callout warn 读旧文章时注意
+教程和博客里引用的原则措辞可能是改写前的。Test Behavior 那条变化最大：旧的“所有导入函数返回 undefined 还能通过的测试要重写”已经不在原文里，换成了两个假想编辑。本文以 [cursor/plugins](https://github.com/cursor/plugins/tree/main/pstack/skills) 当前原文为准。
+```
 
 ## 原则之间的张力
 

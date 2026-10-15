@@ -77,6 +77,38 @@ pstack 写的是 Cursor 插件，社区已经移植到不少地方：
 
 我没有验证任何一个移植版的质量 【未核实】。用之前要注意：pstack 很多地方依赖 Cursor 的 Task 工具参数（`subagent_type`、`environment: "cloud"`、`run_in_background`），移植版怎么替代这些，决定了它还剩多少原版的严谨。
 
+### 两个仓库级移植
+
+除了 X 上的帖子，有两个成规模的移植仓库，都在 2026-10-14 还有提交：
+
+| 仓库 | 星数 | 覆盖面 |
+|---|---|---|
+| [michael-denyer/pstack-claude](https://github.com/michael-denyer/pstack-claude) | 约 2.1k | Claude Code、Codex、Copilot、Pi、OpenCode、Gemini、Prime Agent |
+| [backnotprop/pstack](https://github.com/backnotprop/pstack) | 约 1.9k | Claude、Codex、Pi，只带技能和原则 |
+
+我用 GitHub API 看过这两个仓库的基本信息（10-15）【已核实】。**它们的内容质量我没有逐项核对**【未核实】。
+
+### 移植到 Claude Code：哪些能照搬，哪些会掉
+
+分界线很清楚：**技能文件本身原样可搬，编排层要翻译。**
+
+| pstack（Cursor） | Claude Code 里最接近的 | 注意什么 |
+|---|---|---|
+| `skills/<name>/SKILL.md` + `disable-model-invocation` | `~/.claude/skills/` 或 `.claude/skills/`，同样的 frontmatter | 直接复制，改掉指向 Cursor 工具的引用 |
+| `agents/poteto-agent.md`、`comment-sicko.md` | `.claude/agents/*.md`（name、description、tools、model） | 同一个思路：一个薄壳 agent，先加载 router 再干活 |
+| Task 工具按角色指定模型 slug | Agent 工具的 `subagent_type` 和 `model` | 模型选择只剩 Claude 的档位。**跨家族评审要靠调用别家 CLI，或者接受“只换上下文不换模型”** |
+| `environment: "cloud"`、worktree | Agent 隔离：`worktree` 或 `remote` | 规矩一样：一个 worktree 一个写者 |
+| `pstack-models.mdc`（alwaysApply 规则） | CLAUDE.md 里写几行，或 agent frontmatter 的 `model:` | **保留角色名**，让每个技能读角色、找不到就落默认 |
+| Custom Mode（Option+Enter） | 每个任务调用一次 router 技能，或从 CLAUDE.md 指过去 | 没有“一直开着”的等价物 |
+| `/loop` | `/loop` | 同一条规矩：循环一个能过/不过的检查，**永不循环时长** |
+| `agent-transcripts/` | `~/.claude/projects/<slug>/*.jsonl` | reflect、recall、automate-me 和审计 show-me-your-work 都靠它 |
+| `create-skill`（Cursor 内置） | skill-creator 技能 | 含盲测和 description 调优 |
+| `control-ui` / `control-cli`、`/deslop`（cursor-team-kit） | Playwright CLI、tmux；自己写 deslop | 全局的 `playwright-cli` 加每个项目的 `browser-checks` 已经覆盖了 `verify-<app>` 技能做的事 |
+
+**掉得最狠的一项是跨家族评审。** 有测评说移植版的 reviewer 之间“只是上下文不同，而不是模型家族不同”。这条损失直接打在第 3 章讲的 Adversarial panel 上——如果两个 reviewer 是同一个家族，agreement 就从高信号退化成“同一个偏差说两遍”。这一条和第 9 章讲的“用不同模型拿第二意见”是同一个道理。
+
+对我们自己的仓库来说，移植这一节的启示和第 11 章的结论一致：**可搬的是“怎么验、怎么分工、规则怎么变成结构”，不可搬的是“用哪个模型家族组成评审团”**——后者取决于你手上真正有几个可用的模型。
+
 ## 五、质疑和坑
 
 - **验证者成了瓶颈**：[@ohmyclaw1121](https://x.com/ohmyclaw1121/status/2109055137071415320)。
@@ -85,6 +117,18 @@ pstack 写的是 Cursor 插件，社区已经移植到不少地方：
 - **和 Matt 的技能混用会冲突**：[@matheusdmlopes](https://x.com/matheusdmlopes/status/2098468988586254616) 说两套一起用会打架，最后只有 pstack 的验证技能能和 Matt 的并存 【已核实】。
 - **子 agent 不继承模式**：[@the_lezend](https://x.com/the_lezend/status/2099229180928167987)（见第 2 章）。
 - **成本**：她自己在指南里承认，并回复说可以用 `/setup-pstack` 设预算（[回复](https://x.com/poteto/status/2107949669695582437)）。
+
+### 第三方对成本和小任务的质疑
+
+这两条不是来自 X，来自第三方博客和测评，值得单独看，因为它们质疑的正是最容易被当成“最佳实践”的部分。
+
+**仪式对小任务过重。** Flavio Copes 的说法是“有时候比一个任务真正需要的仪式更多”。这条我是转引来的，**没有找到原文链接**【未核实】，所以不当成可点击的来源，只当一条社区里的反对意见。pstack 的回应在机制里：playbook 支持 `skip: <原因>` 留痕，她自己也说“大多数改动不需要这些”。但客观地说，23 个 playbook 的重心确实偏向大任务。
+
+**贵，而且不总是更快。** 有测评（[The Neuron](https://www.theneuron.ai/)，转引）报告：同一个任务，不用 pstack 大约 30 分钟，用 pstack 大约 1 小时——**但 pstack 那一遍抓出了三处错误论断**。这组数字和她的“一天几百个 PR”讲的是两件事：前者衡量单一任务的时间和正确性，后者衡量吞吐。如果你的瓶颈是正确性而不是手速，这笔账是划算的；如果相反，就不一定。
+
+```callout warn 怎么读这组数字
+都是单一样本，且是别人测的。我用它只是想说明“成本”和“收益”要分开算，不能拿“更快”概括。真要判断，得拿你自己的任务量测。
+```
 
 ```callout tip 第四条和我们直接相关
 “混用会冲突”正是我们按领域分工的理由：需求对齐跟 Matt，执行验证跟 pstack，每个技能原子化，不让两套入口同时争夺同一个任务。

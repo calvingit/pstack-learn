@@ -26,11 +26,11 @@ for (const c of chapters) {
 // 速查页
 const REF = {
   principles: ['24 条原则速查', x => `**${esc(x.name)}**（${esc(x.zh)}）：${esc(x.desc)}${x.ch ? `（[相关章节](/ch/${x.ch})）` : ''}`],
-  playbooks: ['23 个 playbook 速查', x => `**${esc(x.name)}**（${esc(x.zh)}）：${esc(x.desc)}`],
+  playbooks: ['23 个 playbook 速查', x => `**${esc(x.name)}**（${esc(x.zh)}）${x.stance ? `，${esc(x.stance)}` : ''}——${esc(x.desc)}`],
   skills: ['技能清单', x => `\`/${esc(x.name)}\`${x.zh ? `（${esc(x.zh)}）` : ''}：${esc(x.desc)}`],
   glossary: ['术语表', x => `**${esc(x.name)}**${x.zh ? `（${esc(x.zh)}）` : ''}：${esc(x.desc)}`]
 }
-const intro = n => `共 ${n} 项。原文以 [cursor/plugins/pstack](https://github.com/cursor/plugins/tree/main/pstack) 0.15.23 为准，中文说明是我的转述。\n\n`
+const intro = n => `共 ${n} 项。原文以 [cursor/plugins/pstack](https://github.com/cursor/plugins/tree/main/pstack) 0.15.25 为准，中文说明是我的转述。\n\n`
 for (const [k, [title, row]] of Object.entries(REF)) {
   const data = j(k)
   const groups = [...new Set(data.map(x => x.group).filter(Boolean))]

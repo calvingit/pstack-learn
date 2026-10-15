@@ -24,7 +24,7 @@
   "group": "core",
   "name": "Attack the Premise",
   "zh": "攻击前提",
-  "desc": "两个修复都基于同一前提且都失败了，就先盘点谁持有这个失衡，再质疑前提。",
+  "desc": "两个或多个修复共享同一个前提、且都败在同一道关上，先写下这个前提，直接检验它，再写下一个修复。",
   "ch": "08-principles"
  },
  {
@@ -94,7 +94,7 @@
   "group": "architecture",
   "name": "Make Operations Idempotent",
   "zh": "操作幂等",
-  "desc": "会遇到崩溃和重试的命令、生命周期、循环，要收敛到同一终态。",
+  "desc": "每一步都从现存的状态推导，而不是从上一轮“本来想做什么”推导。任何一次运行留下的东西，下一轮必须能判断它已经过期。",
   "ch": "08-principles"
  },
  {
@@ -122,7 +122,7 @@
   "group": "verification",
   "name": "Fix Root Causes",
   "zh": "修根因",
-  "desc": "先复现，追到根因，一直问为什么。",
+  "desc": "追到系统第一次出错的地方修。当且仅当那个状态本身是合法的时候，守卫才算修复；否则要找是谁产出了这个状态。",
   "ch": "06-verification"
  },
  {
@@ -136,7 +136,7 @@
   "group": "verification",
   "name": "Test Behavior, Not Implementation",
   "zh": "测行为不测实现",
-  "desc": "像用户那样调用代码，对字面期望值断言。所有导入函数都返回 undefined 时仍能通过的测试，要重写或删除。",
+  "desc": "断言代码的用户能观察到的东西。用两个假想编辑检验：破坏行为，测试必须失败；只改内部实现，测试必须仍然通过。",
   "ch": "06-verification"
  },
  {

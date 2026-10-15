@@ -2,10 +2,26 @@
 
 这一章按 [cursor/plugins](https://github.com/cursor/plugins/commits/main/pstack) 的提交历史整理 pstack 每个版本改了什么，新版本在前。版本号取自 `pstack/.cursor-plugin/plugin.json` 的改动，日期是该版本号提交的北京时间。条目是我对 PR 标题和描述的转述，细节以 PR 原文为准。
 
-课程正文以 0.15.23 为准。
+课程正文以 0.15.25 为准。
 
-## 未发布（2026-10-14 合入 main）
+## 未发布（2026-10-15 合入 main）
 
+- 四条原则从“规则”改写成“推理”（[#633](https://github.com/cursor/plugins/pull/633)，见[第 8 章](/ch/08-principles)）
+
+## 0.15.25（2026-10-14）
+
+- `/ketchup` 开头先贴工作产出的截图、视频，再用一张图讲清每处改动，而不是只报状态（[#628](https://github.com/cursor/plugins/pull/628)，见[第 7 章](/ch/07-parallel)）
+
+## 0.15.24（2026-10-14）
+
+- 新增 `/sharpen`：开工前先问“顶尖专家会怎么做”“你到底要什么”“这个任务是过度 specified 还是欠 specified”，收紧不服务于目标的约束（[#615](https://github.com/cursor/plugins/pull/615)，见[第 9 章](/ch/09-self-improve)）
+- 子 agent 按任务选推理档位和速度：最难的活升一档，判断题降一档，重复活降两档以上；fast 只在 CI 或主干红了、或者有人正被卡住时用。验证仍跑在 swarm 模型上。**模型家族不变**，理由是“a diverse panel stays diverse”（[#613](https://github.com/cursor/plugins/pull/613)，见[第 2 章](/ch/02-poteto-mode)）
+- `arena` 和 `interrogate` 把 `cursor-grok-` 和 `composer-` 开头的模型归进 grok 家族，`composer-*` 被拒时落到 grok 默认而不是 Claude 默认（[#613](https://github.com/cursor/plugins/pull/613)）
+- 一个多阶段 PR 只跑一次完整 swarm，位置在 code-ready 的 head 上；rebase、解冲突、小修只需要一个 verifier（[#613](https://github.com/cursor/plugins/pull/613)）
+- shipping 从九步砍到六步，每条规则都附“为什么成立”；父 PR 合掉后子 PR 重定向到 trunk，搬的是 patch 而不是提交，并用 `--force-with-lease` 推，再由 patch-id 判断原判定是否仍有效（[#613](https://github.com/cursor/plugins/pull/613)，见[第 7 章](/ch/07-parallel)）
+- 两个 autopilot playbook 删掉流程、只留规则；autopilot-stack 现在只写它和 autopilot-full 不同的地方。新增三条：`--force-with-lease` 钉住你最后一次推送或接手的 SHA、trunk 改了调用方或依赖时在合并结果上跑这个 patch 的检查、第三次 rebase 越过 merge prep 就停下来报告（[#613](https://github.com/cursor/plugins/pull/613)）
+- orchestrate 不再需要 Graphite：`orch frontier set` 顺着 PR 的 base 链一路走到 trunk，再往上走开着的子 PR，默认用 `gh`，`--forge origin` 时用 origin；worker 和 babysitter 不再跑 `gt`，改由一个 stacker 统一负责链式 rebase 和重定向（[#613](https://github.com/cursor/plugins/pull/613)）
+- autopilot-full 每小时一跳，只要有变化就以 `/ketchup` 的口吻汇报，没变化就闭嘴；autopilot-stack 的最终回复也是 `/ketchup`（[#616](https://github.com/cursor/plugins/pull/616)）
 - `/ketchup` 改成 `/bro` 的口吻，整条回复压到 150 词内，图里的字也算（[#609](https://github.com/cursor/plugins/pull/609)，见[第 7 章](/ch/07-parallel)）
 
 ## 0.15.23（2026-10-14）

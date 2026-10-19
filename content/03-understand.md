@@ -31,7 +31,7 @@ pstack 里凡是派多个子 agent 的技能，都可以归到五种形状之一
 
 ## /how：先判断复杂度
 
-`how` 的第一步不是读代码，而是判断问题的复杂度：
+`how` 的第一步是判断问题的复杂度，先不读代码：
 
 - **简单**（一个模块、一个小工具、“函数 X 怎么工作”）：不派 explorer，一个 explainer 边读边讲。
 - **复杂**（跨文件或跨服务的子系统、架构总览）：把问题拆成 2~4 个角度，并行派只读 explorer，再由一个 explainer 综合。
@@ -40,7 +40,7 @@ pstack 里凡是派多个子 agent 的技能，都可以归到五种形状之一
 
 **为什么这样设计**：explorer 用快模型、explainer 用强模型，按角色分配成本。并行探索把大量读文件的输出关在子 agent 里，主线程只拿到综合后的说明，这是 Guard the Context Window 原则的落地。
 
-**产出的粒度**：目标是“资深工程师入职一个子系统”的水平，足够建立心智模型，但“不能读起来像带注释的源码”。这个标准很实用。很多 agent 的代码讲解失败，就是因为它逐行复述代码。
+**产出的粒度**：目标是“资深工程师入职一个子系统”的水平，足够建立心智模型，但“不能读起来像带注释的源码”。很多 agent 的代码讲解失败，就是因为它逐行复述代码。
 
 ## /why：把“为什么”当成取证
 
@@ -52,15 +52,15 @@ pstack 里凡是派多个子 agent 的技能，都可以归到五种形状之一
 4. **默认全量并行调查**。原话是 “Document the null, don't skip the search.” 没找到也要记下来，而不是不查。
 5. 综合时遵循 `references/epistemics.md` 的置信度框架。
 
-还有一个细节：`why` 的子 agent 必须用 agent 模式而不是只读模式，因为只读模式会去掉 MCP 访问。这种“工具层面的坑”被写进了技能，正是“把教训编码进结构”的例子。
+还有一个细节：`why` 的子 agent 必须用 agent 模式而不是只读模式，因为只读模式会去掉 MCP 访问。这个工具层面的坑被写进了技能，属于“把教训编码进结构”。
 
 ```callout tip 为什么值得学
-大多数团队的“为什么”藏在 Slack 和 PR 评论里，没人去翻。`why` 把翻找变成了默认动作，并且强制区分“我看到了证据”和“我推断的”。这对我们仓库的 Kernel 里“事实和推断要分开”是一个很好的执行样板。
+大多数团队的“为什么”藏在 Slack 和 PR 评论里，没人去翻。`why` 把翻找变成了默认动作，并且强制区分“我看到了证据”和“我推断的”。
 ```
 
 ## /blast-radius：别信自己写的分析
 
-这个技能的核心是一句话：
+这个技能要求找出“整件事安全与否依赖的一两个事实”，原文是：
 
 ```quote
 en: A blast-radius writeup that sounds right is worthless. It reads as convincing whether or not it's true.
@@ -81,11 +81,11 @@ url: https://github.com/cursor/plugins/blob/main/pstack/skills/blast-radius/SKIL
 
 Theo 在他那期对比视频里特别提到这一条“救过他几次” 【未核实】（我没看视频，转引自 [@chenchengpro 的摘要](https://x.com/chenchengpro/status/2090042073583927318)）。
 
-**我的看法**：这个五级梯子可以直接借用到任何 review 场景，包括我们的 `code-review` 和 `verify`。它比“请仔细检查”具体得多。
+**我的看法**：拿去评审时，写明停在这五级的哪一级，比一句“请仔细检查”具体。
 
 ## /interrogate：对抗信号来自模型多样性
 
-`interrogate` 的设计选择写在第一段：“The adversarial signal comes from model diversity, not assigned personas.” 不是让同一个模型扮演“安全专家”“性能专家”，而是让不同模型家族（默认 Opus 和 Grok）独立审查同一份 diff。
+对抗信号来自模型家族的差别，不来自给同一个模型派不同人格。默认是 Opus 和 Grok 各自审查同一份 diff。原文写在第一段：“The adversarial signal comes from model diversity, not assigned personas.”
 
 流程：确定范围 → 用一段话写清意图（拿不准就问人）→ 并行派评审 → 综合。**不自动应用修改**。
 

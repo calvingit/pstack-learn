@@ -15,7 +15,7 @@ url: https://x.com/poteto/status/2058975157503570132
 
 **这个主张推出了什么**：pstack 的学习顺序是先单 agent，再并行。官方指南第 7 章开头列了上循环之前的四个前提（见第 7 章）。`/swarm` 和 Autopilot 都放在后面，不是入门内容。
 
-**我的看法**：这条对小团队尤其成立。小团队最稀缺的是 review 时间，不是 token。一个能自证的 agent 比三个不能自证的更省人。
+**小团队更是这样**：最稀缺的是 review 时间，token 相对不缺。一个能自证的 agent 比三个不能自证的更省人。
 
 ## 主张二：瓶颈在验证
 
@@ -50,7 +50,7 @@ by: @poteto《The Complete Guide to pstack Pt. 1》
 url: https://x.com/poteto/status/2094457600259842065
 ```
 
-她把 agent 比作“永远处于失忆状态的新员工”：能干，但每次都从零开始。解决办法不是给它更长的聊天记录，而是让仓库本身携带知识：
+她把 agent 比作“永远处于失忆状态的新员工”：能干，但每次都从零开始。解决办法是让仓库本身携带知识，聊天记录再长也补不上每次从零开始：
 
 - 规则写成 lint 和类型，而不是写在文档里（`/correct`）。
 - 功能怎么用写成 Feature Map，放在验证技能里。
@@ -92,7 +92,7 @@ README 写着 “personally, i don't believe in planning. the best spec is code.
 
 所以准确的说法是：**不信任没有代码支撑的计划**。她的替代品是原型（Prototype playbook）和带 `not implemented` 函数体的类型草图（`/architect`）。第 4 章展开。
 
-这一点和 Matt 的 grilling 不冲突。grilling 是在动手之前把需求问清楚，属于“意图”；她反对的是在“实现方式”上空谈。我们的仓库正好按这个分工：需求对齐跟 Matt，执行和验证跟 pstack。
+Matt 的 grilling 在动手前把需求问清楚，问的是意图。她反对的是在实现方式上空谈。两件事不打架。
 
 ```exercise 练习
 - 用自己的话写下四个主张，每个一句话

@@ -105,9 +105,9 @@ pstack 写的是 Cursor 插件，社区已经移植到不少地方：
 | `create-skill`（Cursor 内置） | skill-creator 技能 | 含盲测和 description 调优 |
 | `control-ui` / `control-cli`、`/deslop`（cursor-team-kit） | Playwright CLI、tmux；自己写 deslop | 全局的 `playwright-cli` 加每个项目的 `browser-checks` 已经覆盖了 `verify-<app>` 技能做的事 |
 
-**掉得最狠的一项是跨家族评审。** 有测评说移植版的 reviewer 之间“只是上下文不同，而不是模型家族不同”。这条损失直接打在第 3 章讲的 Adversarial panel 上——如果两个 reviewer 是同一个家族，agreement 就从高信号退化成“同一个偏差说两遍”。这一条和第 9 章讲的“用不同模型拿第二意见”是同一个道理。
+**掉得最狠的一项是跨家族评审。** 有测评说移植版的 reviewer 之间“只是上下文不同，而不是模型家族不同”。这打在第 3 章讲的 Adversarial panel 上：两个 reviewer 若是同一个家族，agreement 就从高信号退化成同一个偏差说两遍。第 9 章“用不同模型拿第二意见”说的是同一件事。
 
-对我们自己的仓库来说，移植这一节的启示和第 11 章的结论一致：**可搬的是“怎么验、怎么分工、规则怎么变成结构”，不可搬的是“用哪个模型家族组成评审团”**——后者取决于你手上真正有几个可用的模型。
+验法、分工、把规则写成结构，可以带到别的工具里。评审团用哪个模型家族带不走：你手头有几个模型，它才有几个模型。
 
 ## 五、质疑和坑
 
@@ -120,7 +120,7 @@ pstack 写的是 Cursor 插件，社区已经移植到不少地方：
 
 ### 第三方对成本和小任务的质疑
 
-这两条不是来自 X，来自第三方博客和测评，值得单独看，因为它们质疑的正是最容易被当成“最佳实践”的部分。
+这两条不是来自 X，来自第三方博客和测评。单独列出来，是因为它们质疑的是最容易被当成“最佳实践”的部分。
 
 **仪式对小任务过重。** Flavio Copes 的说法是“有时候比一个任务真正需要的仪式更多”。这条我是转引来的，**没有找到原文链接**【未核实】，所以不当成可点击的来源，只当一条社区里的反对意见。pstack 的回应在机制里：playbook 支持 `skip: <原因>` 留痕，她自己也说“大多数改动不需要这些”。但客观地说，23 个 playbook 的重心确实偏向大任务。
 
@@ -130,18 +130,12 @@ pstack 写的是 Cursor 插件，社区已经移植到不少地方：
 都是单一样本，且是别人测的。我用它只是想说明“成本”和“收益”要分开算，不能拿“更快”概括。真要判断，得拿你自己的任务量测。
 ```
 
-```callout tip 第四条和我们直接相关
-“混用会冲突”正是我们按领域分工的理由：需求对齐跟 Matt，执行验证跟 pstack，每个技能原子化，不让两套入口同时争夺同一个任务。
-```
-
 ## 六、Matt 和 poteto 的交集
 
 两人 10 月初做了一次直播采访（[Matt 的预告](https://x.com/mattpocockuk/status/2105239236178018636)）。采访视频我没看，不引用内容 【未核实】。采访之后 Matt 发了两条可以核实的帖子：
 
 - 在 AI 时代用**更多**抽象，配合严格 lint，缩小 agent 的设计空间（[原帖](https://x.com/mattpocockuk/status/2106425743479546343)）【已核实】。
-- 考虑在 `/retro` 里推荐把重复任务做成 CLI + skill，“fewer tokens, fewer hallucinations”（[原帖](https://x.com/mattpocockuk/status/2108882450617074039)）【已核实】。
-
-第二条就是 Build the Lever。这对我们是一个信号：Matt 那边很可能会在 retro 类技能里加入“造工具”的建议，值得在跟踪里留意。
+- 考虑在 `/retro` 里推荐把重复任务做成 CLI + skill，“fewer tokens, fewer hallucinations”（[原帖](https://x.com/mattpocockuk/status/2108882450617074039)）【已核实】。这就是 Build the Lever。
 
 ```exercise 练习
 - 按顺序读完她的三篇长文（Cursor、Pt.1、Pt.2），每篇写三条你会用的做法

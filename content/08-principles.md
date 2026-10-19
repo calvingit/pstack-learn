@@ -12,7 +12,7 @@ apply prove it works
 
 它会去读 `principle-prove-it-works` 的叶子，按里面的标准重做。
 
-这个设计的巧妙之处是：**名字本身成了一个可以在聊天里使用的命令**。你不用解释“请在真实环境里验证、不要只看编译通过”，四个词就够了。
+**名字可以直接当命令用**。你不用解释“请在真实环境里验证、不要只看编译通过”，四个词就够了。
 
 ## 原则在入口里是怎么写的
 
@@ -51,7 +51,7 @@ url: https://github.com/cursor/plugins/blob/main/pstack/skills/poteto-mode/SKILL
 
 ### Attack the Premise
 
-两个或多个修复共享同一个前提、且都败在同一道关上，说明前提有问题。下一步不是写第三个修复，而是：**把前提写成一句能被检验的话**，然后找一个“如果前提为假就会得出不同结果”的观测，先做这个观测。
+两个或多个修复共享同一个前提、且都败在同一道关上，说明前提有问题。下一步是把前提写成一句能被检验的话，再找一个“如果前提为假就会得出不同结果”的观测，先做这个观测。先别写第三个修复。
 
 这条是 0.15.0 加的，针对 agent 一个很典型的失败模式：在错误的方向上越修越深。#633 改写时给它补了一个判断：如果证据显示总有一方吃亏，要去改“是什么让它一直吃亏”的那个机制，而不是每次替它收拾残局。
 
@@ -77,7 +77,7 @@ url: https://github.com/cursor/plugins/blob/main/pstack/skills/poteto-mode/SKILL
 - **四条原则删了一部分**（[#571](https://github.com/cursor/plugins/pull/571)）：Encode Lessons in Structure、Exhaust the Design Space、Guard the Context Window、Laziness Protocol 删掉了复述的规则、通用步骤和反例清单，核心规则保留。
 - **四条原则从规则改写成推理**（[#633](https://github.com/cursor/plugins/pull/633)，10-15 合入，未进版本号）：Attack the Premise、Fix Root Causes、Test Behavior Not Implementation、Make Operations Idempotent 原来给的是硬规则（比如 Test Behavior 那条枚举了一批禁止的断言形状），改写后给的是背后的道理和判断方法，好让 agent 处理原文没写到的情况。
 
-最后一条值得单独说，因为它反映了她对模型的一个判断：#633 的理由是“硬规则会限制 agent 处理我没预料到的情况”，所以换成推理。她自己的说法是这些原则本来是“从今年纠正 agent 的会话里抽出来的”，现在模型变强了，抽出来的规则可以再抽象一层。这也是她 10-14 那条帖子“期望 pstack 的技能随着模型变强继续压缩”的具体动作。
+#633 反映了她对模型的一个判断：硬规则会限制 agent 处理她没预料到的情况，所以换成推理。她说这些原则本来是“从今年纠正 agent 的会话里抽出来的”，现在模型变强了，抽出来的规则可以再抽象一层。这也是她 10-14 那条帖子“期望 pstack 的技能随着模型变强继续压缩”的具体动作。
 
 ```callout warn 读旧文章时注意
 教程和博客里引用的原则措辞可能是改写前的。Test Behavior 那条变化最大：旧的“所有导入函数返回 undefined 还能通过的测试要重写”已经不在原文里，换成了两个假想编辑。本文以 [cursor/plugins](https://github.com/cursor/plugins/tree/main/pstack/skills) 当前原文为准。
@@ -90,12 +90,6 @@ url: https://github.com/cursor/plugins/blob/main/pstack/skills/poteto-mode/SKILL
 - **Laziness Protocol vs Exhaust the Design Space**：一个要最小改动，一个要做 2~3 个原型。解决方式是看阶段：原型阶段穷尽，实现阶段最小。Prototype playbook 明确说它是两者“反转”的地方。
 - **Never Block on the Human vs Always pause**：前者管可逆操作，后者管不可逆操作。
 - **Outcome-Oriented Execution vs Sequence Verifiable Units**：前者说不要保留一次性的兼容中间态，后者说每一步都要能验证。两者合起来是：每一步都朝目标架构走，并且每一步都能单独验证，但不为了“中间也能跑”去写最后要删的兼容代码。
-
-## 和我们的共享层不是一回事
-
-之前讨论过：她的原则偏**工程手艺**（怎么写好代码），我们的 Kernel（K01–K17）偏**工作流契约**（范围、事实与推断、授权不扩张、独立验收）。两者有交集，比如 Prove It Works 对应独立 verify，Sequence Verifiable Units 对应 tickets/loop，但不是一一对应。
-
-可以借鉴的是写法：**一行触发条件 + 一句核心要求 + 叶子里放细节**，以及**用名字纠偏**的用法。不建议把她的原则搬进 Kernel。
 
 ```exercise 练习
 - 从 24 条里挑出你团队最常违反的三条，各写一个最近的真实例子

@@ -64,7 +64,7 @@ Show the failing and passing evidence. Leave a PR for review.
 这是一张“遇到 X 就做 Y”的表。挑几条看它的设计意图：
 
 - **Nontrivial change → how**。改之前先理解。
-- **About to AskQuestion → 先分类**。这一条最长，也最有意思。如果问题的答案是一个能通过运行观察到的事实（行为、耗时、布局、输出），就不该问人，应该用 Prototype playbook 做个草图让结果决定。只有产品或偏好上的选择，才留给人。
+- **About to AskQuestion → 先分类**。这一条最长。如果问题的答案是一个能通过运行观察到的事实（行为、耗时、布局、输出），就不该问人，应该用 Prototype playbook 做个草图让结果决定。只有产品或偏好上的选择，才留给人。
 - **Any code → 先命名数据形状**。
 - **Any prose surface → unslop**。包括给你的回复。
 - **Running a benchmark → benchmark-checklist**。
@@ -106,7 +106,7 @@ url: https://github.com/cursor/plugins/blob/main/pstack/skills/poteto-mode/SKILL
 
 ### 模型按角色分配
 
-模型选择不是写死在技能里的，而是走一层间接：技能里只说**角色**（“how explorer”“arena runners”），由 `/setup-pstack` 生成的角色表把角色映射到具体模型 slug。这层间接让你换模型不用改技能，也让你能按角色调预算。
+模型选择写在一层间接上。技能里只说**角色**（“how explorer”“arena runners”），由 `/setup-pstack` 生成的角色表把角色映射到具体模型 slug。换模型不用改技能，也能按角色调预算。
 
 `poteto-mode/SKILL.md` 里写明的默认分工有这些 【已核实】：
 
@@ -138,9 +138,7 @@ url: https://github.com/cursor/plugins/blob/main/pstack/skills/poteto-mode/SKILL
 
 ### 外部输入一律标 untrusted
 
-所有从外面进来的东西——对话记录、Bugbot 评论、评审输出、webhook 内容——都标成 untrusted data。两条约束：**回复文本永远不要拼进 shell 命令**；读对话记录只限当前工作区。
-
-这条直接对应我们 Kernel 里“外部输入须校验”。它的成本很低（就是加个标注），漏掉的代价很高（一段评论里藏指令就能改你的仓库）。
+所有从外面进来的东西——对话记录、Bugbot 评论、评审输出、webhook 内容——都标成 untrusted data。两条约束：**回复文本永远不要拼进 shell 命令**；读对话记录只限当前工作区。加一个标注就够了。漏掉它，评论里藏的指令就能改你的仓库。
 
 ### 5. Writing the reply：回复怎么写
 
@@ -234,13 +232,9 @@ Opening a PR 还有一条和写作直接相关：PR 标题、描述、commit bod
 
 ## 为什么只有一个入口
 
-我的理解是两个原因。第一，用户不需要知道 23 个 playbook 的名字，记一个命令就够了，这降低了上手成本。第二，所有任务共享同一套 Non-negotiables 和回复规则，行为一致。
+两个原因。记一个命令就够，不必先知道 23 个 playbook 的名字。所有任务也共享同一套 Non-negotiables 和回复规则。
 
-代价也明显：入口文件本身很长（原则索引加触发器加 playbook 列表），常驻上下文有成本；而且一个大入口天然倾向于越长越大。#538 那次瘦身就是在处理这个问题（第 9 章）。
-
-```callout warn 我们不照搬这一点
-calvingit/skills 的原则是技能保持独立、原子，不打包成一个大技能。我们借鉴 playbook “步骤照抄 + skip 留痕”的执行纪律，但路由放在 `workflow-policy` 和文档里，不做一个吞掉所有流程的入口。第 11 章详谈。
-```
+代价也明显：入口文件本身很长（原则索引加触发器加 playbook 列表），常驻上下文有成本，而且越长越大。#538 那次瘦身就是在处理这个问题（第 9 章）。
 
 ```exercise 练习
 - 把你记下的返工任务改写成四要素 prompt，检查完成条件能不能判定通过或失败

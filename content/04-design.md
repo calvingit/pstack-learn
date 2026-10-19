@@ -1,6 +1,6 @@
 # 第 4 章 设计：architect / arena / 原型
 
-这一章回答一个问题：她说“不相信规划”，那设计在哪里发生？答案是：在代码草图和原型里。
+她说“不相信规划”，设计发生在代码草图和原型里。
 
 这一章的 `/architect` 和 `/arena` 都属于 [Bakeoff + graft](/ch/03-understand) 那种形状：多个候选拿同一份 brief 并行出方案，评审对它们盲审，最后取一个底座、把别的候选的优点嫁接过来。它和 swarm 的区别见本章末尾。
 
@@ -35,7 +35,7 @@
 
 **E. Scrap**。设计被证明错了就推倒重来。Pt.2 给了两个信号：同一种 workaround 出现在互不相关的地方；类型必须靠 `any` 或强制转换才能编译。
 
-```callout tip 最值得学的一点
+```callout tip 下一个贡献者是 agent
 “假设下一个贡献者是 agent”这个筛查视角，在 `/correct` 和 `architect` 里都出现了。它把“好设计”的标准从“人读着舒服”换成了“一个只看局部的 agent 也不会改坏”。在 agent 写大部分代码的时代，这个标准更贴近现实。
 ```
 
@@ -82,7 +82,7 @@ Pt.2 的标题是 “Measure a hundred times, cut once”。原型就是那一�
 
 Matt 在 10 月 3 日和她聊完后发帖主张“在 AI 时代用更多抽象”，理由是抽象加严格 lint 能缩小 agent 的设计空间，让它只能做出好决定 【已核实】（[原帖](https://x.com/mattpocockuk/status/2106425743479546343)）。这和 `architect` 偏好深接口、`/correct` 优先用架构消除错误是同一个方向。
 
-不同之处在需求侧。Matt 的 grilling 和 wayfinder 关心“要做什么、范围到哪”；pstack 的设计技能默认需求已经清楚，关心“代码长什么形状”。所以在我们的仓库里，to-spec 和 high-level-design 跟 Matt，代码形状的探索可以借鉴 architect 的“两个候选 + 红旗筛查”。
+Matt 的 grilling 和 wayfinder 问的是要做什么、范围到哪。pstack 的设计技能默认需求已经清楚，问的是代码长什么形状。
 
 ```exercise 练习
 - 选一个即将要写的跨模块功能，只写类型和函数签名（函数体 `throw new Error('not implemented')`），做出两个结构不同的版本

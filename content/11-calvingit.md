@@ -57,11 +57,19 @@ Theo 的观点和 pstack 的实践都指向同一件事：description 要列出�
 
 ### 8. 把高频判断变成可运行的脚本
 
-`check-plan.mjs`、`watch-pr`、`log.sh` 那几个例子的共同点（见[第 9 章](/ch/09-self-improve)）：**文字说“跑 X”的地方，X 一定是个确定性工具，而且退出码带类型化含义**。我们已经有 `verify` 这样的判定入口，可以再前进一步：给已有的结构化判定（PASS / FAIL / NOT VERIFIED）配一个可执行的 CLI，让 CI 和 agent 都能直接分支判断，而不是解析一段话。`log.sh` 那个防表格公式注入的细节也值得照抄——凡是要给人用表格软件打开的 TSV，都要做。
+`check-plan.mjs`、`watch-pr`、`log.sh` 的共同点（见[第 9 章](/ch/09-self-improve)）：**文字说“跑 X”的地方，X 是个确定性工具，退出码带类型化含义**。我们已有 `verify` 这个判定入口，下一步是给 PASS / FAIL / NOT VERIFIED 配一个 CLI，让 CI 和 agent 按退出码分支，不用解析一段话。`log.sh` 防表格公式注入的做法也值得照抄：凡是要给人用表格软件打开的 TSV，都要做。
 
-### 9. 子 agent 按任务调档，但不换模型家族
+### 9. 外部输入标 untrusted
 
-0.15.24 的规则：从角色默认出发，只升/降推理档位和快慢，**模型家族保持不变**，理由是“a diverse panel stays diverse”。我们派多个 reviewer 时同理：可以让它们 effort 不同，但不要让它们变成同一个模型——否则“两个 reviewer 一致”就只是同一个偏差说了两遍。
+对话记录、评审评论、webhook 标成 untrusted：回复文本不拼进 shell，读对话记录只限当前工作区。Kernel 的输入校验做的是这件事，差一个标注。漏标以后，评论里的指令就能改仓库。
+
+### 10. 瘦身时压 reference prompt，并核对引用
+
+#538 压步骤时把 reference prompt 也压短了，压完发现 `architect` 要的产出和 `how` 实际给的对不上。Phase A/B（PR #3、#4）去复述、保规则，reference prompt 也要一起压，压完核对引用。
+
+### 11. 子 agent 按任务调档，但不换模型家族
+
+0.15.24 的规则：从角色默认出发，只升/降推理档位和快慢，**模型家族保持不变**，理由是“a diverse panel stays diverse”。我们派多个 reviewer 时同样只调 effort，不把它们换成同一个模型。换成同一个模型，“两个 reviewer 一致”只是同一个偏差说了两遍。
 
 ## 不照搬的地方
 

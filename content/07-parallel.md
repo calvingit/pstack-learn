@@ -93,10 +93,6 @@ keep a decision log. don't ask me before committing.
 
 **为什么拆成两半**：推到绿和决定上线是两种不同的权限。把它们放进同一个循环里，agent 很容易因为“已经绿了”顺手合掉。拆开后，合并永远需要一个独立的判定和一个明确的指令。
 
-```callout ok 和我们仓库的对应
-calvingit/skills 的 close-out 三角（simplify / verify / code-review 分角色）和“独立验收”，与 Shipping 的“no owner merges on its own verdict”是同一个思想：做的人不能自己验收自己。
-```
-
 ## /swarm 的几个细节
 
 - 先写完成谓词和要返回的产物，再选形状：切片、赛跑、或混合。赛跑要事先声明是 `first pass`、`rank all` 还是 `best-of`。

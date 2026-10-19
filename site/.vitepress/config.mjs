@@ -45,8 +45,10 @@ export default defineConfig({
       { text: 'pstack 源码', link: 'https://github.com/cursor/plugins/tree/main/pstack' }
     ],
     // 侧栏只放简短章名，不出现技能 / playbook / 原则名；速查页各一项，默认折叠
+    // 第 11 章是可选的仓库对照，不放进主线分组。上一章/下一章仍按 chapters.json 顺序。
     sidebar: [
-      { text: '课程', items: chapters.map(c => ({ text: `${c.num}. ${SHORT[c.id] || c.title.split('：')[0]}`, link: `/ch/${c.id}` })) },
+      { text: '课程', items: chapters.filter(c => c.id !== '11-calvingit').map(c => ({ text: `${c.num}. ${SHORT[c.id] || c.title.split('：')[0]}`, link: `/ch/${c.id}` })) },
+      { text: '可选', items: chapters.filter(c => c.id === '11-calvingit').map(c => ({ text: `${c.num}. ${SHORT[c.id] || c.title.split('：')[0]}`, link: `/ch/${c.id}` })) },
       { text: '速查', collapsed: true, items: [
         { text: '原则', link: '/ref/principles' },
         { text: 'Playbook', link: '/ref/playbooks' },

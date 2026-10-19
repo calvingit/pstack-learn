@@ -1,6 +1,6 @@
 # 第 9 章 自我改进：/correct、/reflect、写技能、#538 瘦身
 
-前八章讲的是怎么用 pstack。这一章讲 pstack 自己怎么变好，以及你怎么让自己的技能和仓库变好。核心思想只有一句：
+前八章讲的是怎么用 pstack。这一章讲 pstack 自己怎么变好，以及你怎么让自己的技能和仓库变好。她的原话是：
 
 ```quote
 en: every time you intervene and correct your agent, you should think about how to eliminate it entirely.
@@ -43,7 +43,7 @@ url: https://github.com/cursor/plugins/blob/main/pstack/skills/correct/SKILL.md
 很多 lint 规则写出来从没拦住过任何东西，因为它匹配的模式和真实错误不一样。拿一个真实的历史错误去跑新检查，看它失败，这一步把“我觉得有用”变成了“证明有用”。
 ```
 
-**我的看法**：这张“规则 ↔ 执行机制”表是最容易落地的部分。哪怕你不跑 `/correct`，也可以给自己的 AGENTS.md 加一列“谁来执行这条规则”，写着“无”的那几行就是下一批该升级的。
+**我的看法**：哪怕不跑 `/correct`，也可以给自己的 AGENTS.md 加一列“谁来执行这条规则”。写着“无”的那几行就是下一批该升级的。
 
 ## /reflect：会话结束后的复盘
 
@@ -97,10 +97,10 @@ Babysit 和 Shipping 轮询 GitHub 靠它。它的价值在于**把“现在什�
 
 ### bootstrap.ts：装依赖也做成幂等
 
-它按 package.json + bun.lock 的哈希决定要不要装，重跑时空操作。所以技能里永远不需要写“先 npm install”。这就是 Make Operations Idempotent 原则在自己身上的应用。
+它按 package.json + bun.lock 的哈希决定要不要装，重跑时空操作。技能里因此不必写“先 npm install”。这是 Make Operations Idempotent 用在它自己的安装步骤上。
 
 ```callout tip 这几个脚本的共同点
-没有一个是“帮 agent 少干活”，全都是“替 agent 记住一件事”。工具的职责不是加速，是把容易忘的规则变成一定会被执行的东西。这也解释了为什么第 8 章说 Encode Lessons in Structure 是她自我改进的根。
+没有一个是帮 agent 少干活，都是替 agent 记住一件事。工具不负责加速，负责把容易忘的规则变成一定会被执行的东西。第 8 章说 Encode Lessons in Structure 是她自我改进的根，这几个脚本就是例子。
 ```
 
 ## 写技能：Authoring 和 Eval 两个 playbook
@@ -114,7 +114,7 @@ Babysit 和 Shipping 轮询 GitHub 靠它。它的价值在于**把“现在什�
 - Tell it to do the thing and skip the reason. 直接让它做，跳过理由；只有规则不解释就会让人困惑时才解释。
 - 能指向结构性来源（类型、README、配置）就指向，不要复述。
 
-**Eval** 用来在推广之前测一个技能改动对 agent 行为的影响。它最有意思的是“盲测”要求：
+**Eval** 用来在推广之前测一个技能改动对 agent 行为的影响。它要求盲测：
 
 - 候选看到的任何目录、文件、prompt 里都不能出现 eval、test、judge、benchmark、arena 这类词。
 - prompt 要像一个真实用户的请求。
@@ -149,15 +149,11 @@ PR 的口号是 “Every rule stays. Only the text that carries it gets shorter.
 
 **行为不变是怎么保证的？** 我没看到这次压缩的完整评估结果。@LilithBailfhny 也指出了这一点：“行为不变”是作者的声明，她贴出了盲测指南，但没公布这次的对比结果；工具占用少 10% 也不能直接换算成任务便宜 10%（[原帖](https://x.com/LilithBailfhny/status/2109150665679519841)）。这个质疑是成立的。
 
-```callout ok 我们做过同样的事
-calvingit/skills 的 Phase A/B 瘦身（PR #3、#4）也是“去复述、保规则”：路由改成指向 `workflow-policy`、Profile 一行化、抽出 `closeout-roles`。和 #538 同一个思路。可以借鉴的新点是：reference prompt 也要压，以及压的同时检查有没有对不上的引用。
-```
-
 ## 0.15.17 到 0.15.25
 
 #538 之后几天，她接着往下删、往清楚改：[#571](https://github.com/cursor/plugins/pull/571) 再删七个技能里用不上的段落，`/ketchup` 三天改了三版，又加了一个只有一句话的技能。此后 0.15.24 把 shipping 和两个 autopilot playbook 砍到只剩规则（每条附理由），并把三个草稿技能合并成 `/sharpen`。每个版本的改动见[第 12 章 更新记录](/ch/12-changelog)。
 
-值得注意的方向：**从“写步骤”转向“写理由”**。shipping 从九步砍到六步，但每一步都加了一句“为什么成立”；#633 把四条原则从规则改写成推理（见[第 8 章](/ch/08-principles)）。这不是变粗糙，而是赌模型已经能推断：讲清道理比枚举规则更耐用。
+之后的方向是从写步骤转向写理由。shipping 从九步砍到六步，每一步都加了一句“为什么成立”；#633 把四条原则从规则改写成推理（见[第 8 章](/ch/08-principles)）。步骤少了，她赌的是模型已经能从道理推断没写到的情况，讲清道理比枚举规则更耐用。
 
 ### /in-your-own-words：先复述，再动手
 

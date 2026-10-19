@@ -1,6 +1,6 @@
 # 第 5 章 构建与清理：Feature / tdd / unslop / no-comments
 
-前几章都在动手之前。这一章讲写代码本身。pstack 在这一段的态度可以概括成一句话：写得少，删得多，测试要测行为。
+前几章都在动手之前。这一章讲写代码本身：写得少，删得多，测试要测行为。
 
 ## Feature playbook 逐步拆
 
@@ -85,10 +85,6 @@ en: If the sentence could appear unchanged in another project's docs, it says no
 zh: 如果这句话原封不动放进另一个项目的文档也成立，它就没说出这个项目的任何事。删掉。
 by: pstack/skills/unslop/SKILL.md · 规则 27
 url: https://github.com/cursor/plugins/blob/main/pstack/skills/unslop/SKILL.md
-```
-
-```callout tip 和我们的 humanizer-zh 的关系
-calvingit/skills 里已经有 `humanizer-zh` 处理中文 AI 腔。unslop 是英文规则，但“可移植句子检验”和“说机制不说感受”两条与语言无关，值得加进 humanizer-zh 的自查清单。
 ```
 
 ## /no-comments：派一个专门删注释的 agent

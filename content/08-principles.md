@@ -75,7 +75,7 @@ url: https://github.com/cursor/plugins/blob/main/pstack/skills/poteto-mode/SKILL
 
 - **Fix Root Causes 多了一条**（[#604](https://github.com/cursor/plugins/pull/604)）：如果关键事实是挖了很久才找到的，就提出一个便宜、一直开着的信号（日志、指标之类），让下次第一眼就能看到它。修完 bug 之后，再问一句“怎样才能更早发现”。
 - **四条原则删了一部分**（[#571](https://github.com/cursor/plugins/pull/571)）：Encode Lessons in Structure、Exhaust the Design Space、Guard the Context Window、Laziness Protocol 删掉了复述的规则、通用步骤和反例清单，核心规则保留。
-- **四条原则从规则改写成推理**（[#633](https://github.com/cursor/plugins/pull/633)，10-15 合入，未进版本号）：Attack the Premise、Fix Root Causes、Test Behavior Not Implementation、Make Operations Idempotent 原来给的是硬规则（比如 Test Behavior 那条枚举了一批禁止的断言形状），改写后给的是背后的道理和判断方法，好让 agent 处理原文没写到的情况。
+- **四条原则从规则改写成推理**（[#633](https://github.com/cursor/plugins/pull/633)，10-15 合入，收录于 0.15.26）：Attack the Premise、Fix Root Causes、Test Behavior Not Implementation、Make Operations Idempotent 原来给的是硬规则（比如 Test Behavior 那条枚举了一批禁止的断言形状），改写后给的是背后的道理和判断方法，好让 agent 处理原文没写到的情况。
 
 #633 反映了她对模型的一个判断：硬规则会限制 agent 处理她没预料到的情况，所以换成推理。她说这些原则本来是“从今年纠正 agent 的会话里抽出来的”，现在模型变强了，抽出来的规则可以再抽象一层。这也是她 10-14 那条帖子“期望 pstack 的技能随着模型变强继续压缩”的具体动作。
 

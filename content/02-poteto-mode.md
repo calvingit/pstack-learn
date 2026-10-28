@@ -2,6 +2,8 @@
 
 `/poteto-mode` 是 pstack 唯一需要记住的命令。这一章先看你要给它什么，再拆它内部的五个部分。
 
+本章现行规则核对到 **0.15.36**（2026-10-28，上游提交 `c742dd6`）；旧版本和帖子用于说明来历。行为以当前 [poteto-mode/SKILL.md](https://github.com/cursor/plugins/blob/c742dd6/pstack/skills/poteto-mode/SKILL.md) 为准。
+
 ## 你只需要给四样东西
 
 官方指南第 2 页说，好 prompt 最多五样：目标、能判定通过或失败的完成条件、想看到的证据、已知信息、真实约束。@dotta 把它压成四样，那条帖子拿到了一千多个赞：
@@ -40,7 +42,9 @@ Show the failing and passing evidence. Leave a PR for review.
 1. **不要罗列技能**。写 “use /how then /architect then /arena” 会打乱 playbook 已经排好的顺序，或者漏掉步骤。只在想覆盖某个默认选择时才点名。
 2. **不要先说你猜的原因**。agent 会去你指的地方找。先让它复述问题，再说你的猜测。
 
-第二条在 Pt.2 里叫“间接提问”。她的示例是 `/poteto-mode read this slack thread. restate in your own words…`。
+第二条在 Pt.2 里叫“间接提问”。她的示例是 `/poteto-mode read this slack thread. restate in your own words…`。当前入口要求第一条回复先复述目标、要解决的问题，以及交付改动时预计的最小改法，不等确认；如果证据否定了用户要求的改法，就展示证据并停下。目标还要进入每份子 agent brief、PR 的 Why 开头和最终报告，完全明确的一行编辑除外。
+
+只想确认理解，可以用 `/in-your-own-words`。想在执行前磨准 prompt，可以用 `/sharpen`：它指出专业做法、应从什么原始材料出发、用什么方法和外部证据判断结果，再改写 prompt；**它不会顺手执行任务**。读过改写后，再交给 `/poteto-mode`。
 
 ### 一个完整示例
 
@@ -91,7 +95,7 @@ url: https://github.com/cursor/plugins/blob/main/pstack/skills/poteto-mode/SKILL
 
 ### 4. Subagents：怎么派活
 
-- 每个子 agent 默认后台运行、按角色指定模型（代码给快模型，最难的改动和判断给最强模型）。
+- 每次 Task 默认后台运行，给运行中的 agent 追加指令或 resume 也一样，避免前台调用挡住其他报告。默认 agent 模式，`readonly` 会失去 MCP，只有技能明确要求只读评委时才照做；通常传文件路径，不把大段上下文塞进 brief。模型按角色指定，最难的改动给最强判断模型。
 - **你对子 agent 的工作负责**。要自己看 diff、自己写总结，不能转述它说的话。
 - **默认开新的子 agent**。修一轮、补一轮、重试，都给一个新 agent，附上原始任务、后续所有指令和上一个 agent 的报告。只有新工作必须依赖旧 agent 手上的状态（本地 checkout、未提交改动、正在跑的 dev server）时才复用。原因写得很清楚：中断链式恢复会悄悄丢指令。
 - **工作流技能自己指定 `subagent_type`，不要覆盖**。`how`、`why`、`interrogate`、`reflect`、`swarm` 会自己设，为的是让评审来自不同模型。入口还特意说明：playbook 内部派活才用 `poteto-agent`，**绝不要派一个 `poteto-agent` 去跑 playbook 本身**。
@@ -122,7 +126,7 @@ url: https://github.com/cursor/plugins/blob/main/pstack/skills/poteto-mode/SKILL
 角色行有三种特殊写法：没有对应行就用默认；写成 `inherit-parent` 或 `auto` 就用当前对话的模型；某一行可以覆盖被路由技能（`how`、`why`、`arena`、`swarm`、`architect`、`interrogate`、`reflect`）里的模型选择。
 
 ```callout warn 完整角色表在你自己机器上
-`pstack-models.mdc` 是 `/setup-pstack` 按你有哪些模型、选多大预算**写到你本地**的，不在开源仓库里（主仓库没有这个文件，我找过）。所以“哪个角色配哪个模型”没有一份权威答案，只有上面这几条编码在 `poteto-mode/SKILL.md` 里的默认。别人文章里列的详细映射表，是那位作者自己的配置，照抄前先看它合不合你的模型和预算。
+`~/.cursor/rules/pstack-models.mdc` 是 `/setup-pstack` 按可用模型和预算**写到你本地**的实际配置。上游 `setup-pstack/SKILL.md` 第 5 步有完整默认角色表模板，入口和各技能也有默认值；模板不能证明你的账号能用这些 slug，安装时必须先枚举本会话 Task 接受的模型。`arena runners`、`architect runners`、`interrogate reviewers` 每个列表项派一个 agent，别名也计数；`arena cross-judge pool` 则只是一个评委的有序候选池。别人文章里的实际配置，照抄前要核对模型和预算。
 ```
 
 ### 只调档位，不换家族
@@ -132,9 +136,10 @@ url: https://github.com/cursor/plugins/blob/main/pstack/skills/poteto-mode/SKILL
 - 最难或最细微的活升一档（最高到 max）；判断题降一档；重复性活降两档以上。
 - fast 模式只在“急”的时候用，而急的定义很窄：**CI 或主干红了，或者有人正卡在等这个结果**。其余情况用标准速度（同一个 slug 去掉 `-fast`）。
 - 验证是例外，固定留在 `swarm workers` 的模型和速度上。
-- Task 工具拒绝了调整后的 slug 时，**不要再试另一个调整过的 slug**，退回角色那一行，并说出来。
+- Task 工具拒绝了调整后的 slug 时，**不要再试另一个调整过的 slug**，退回角色那一行，并说出来。角色原值也被拒，再按调用技能的 fallback 走。报错明确说模型无效，或有效 slug 列表没有它，都算被拒；本轮不能再传，也不能在 fallback 里重试。
+- 技能没有 fallback 时，从报错列表选该家族最接近的有效 slug；没有就省略 `model`，继承主对话模型。技能的 fallback 耗尽且没交代下一步，也省略 `model`。这两种降级都要说明。
 
-“不改家族”的理由原文写得很直白：so a diverse panel stays diverse。arena 和 interrogate 靠不同家族独立审查同一份 diff 来产生对抗信号，一旦为了省事把两边换到同一个家族，这条信号就没了。同一批 PR 还给 `arena` 和 `interrogate` 补了一条：`cursor-grok-` 和 `composer-` 开头的 slug 现在归到 grok 家族，`composer-*` 被拒时落到 grok 默认，而不是落到“没有家族匹配时用的 Claude 默认”。
+“不改家族”的理由原文写得很直白：so a diverse panel stays diverse。`cursor-grok-*` 和 `composer-*` 都算 Grok 家族，`composer-*` 被拒先退到 Grok 默认。**0.15.36 的 arena 不再把未知家族一律换成 Claude**：同家族没有可用 slug 就报告并撤席，再按规则补足 runner。cross-judge 则必须与主对话不同家族，没有可运行的异家族模型就跳过评委并说明；不能拿主模型补评委。具体规则见[第 4 章](/ch/04-design)。`interrogate` 复用 runner 的派工规则，但现在以实际复现筛选问题，不靠评委评分或模型投票。
 
 ### 外部输入一律标 untrusted
 
@@ -152,7 +157,7 @@ url: https://github.com/cursor/plugins/blob/main/pstack/skills/poteto-mode/SKILL
 
 1. 打开一个 todo 列表，**前几项是 playbook 的步骤原文照抄**，然后才是任务自己的 todo。
 2. 不做的步骤**留在列表里**，写一行 `skip: <原因>`。
-3. 大型或跨切面的任务、你打算离开后再审阅的任务，走 `figure-it-out`，为这次任务现场设计一套 playbook。
+3. 大型或跨切面的任务、你打算离开后再审阅的任务，走 `figure-it-out`，为这次任务现场设计一套 playbook。常驻协调者管理的多天项目改走 Orchestrate。前者设计一次运行，后者管理整个项目；一个 agent 能在本次会话预算内做完的工作不算项目级编排。
 
 “照抄”和“skip 留痕”是这套机制的关键。照抄防止模型自己概括时丢步骤；skip 留痕让你一眼看出它跳过了什么、理由站不站得住。
 
@@ -175,7 +180,7 @@ playbook 不是技能。它们没有斜杠命令，只是 `poteto-mode/playbooks
 | Perf issue | 你拥有整个测量故事 | 每个修复都挂在一次测量上，**不准只读源码代替测量** |
 | Hillclimb | 你拥有指标和实验的完整性 | 持续爬一个指标，不是一次性修复。核心纪律：一次改动、一次测量、留下或全量回滚。**不许叠未验证的改动，不许靠看代码宣称赢** |
 
-Runtime forensics 和 Trace forensics 是同一套方法的两个时机：一个主动抓，一个读现成的。两者共有的规矩是**大产物在子 agent 里解析，主线程只留结论**，这是 Guard the Context Window 的直接落地；另一个共性是都要求“先把产物倒进 sqlite 再读”，和 Hillclimb 先建 harness 同一个思路：把不可查询的变成可查询的，再动手。
+Runtime forensics 和 Trace forensics 是同一套方法的两个时机：一个主动抓，一个读现成的。两者共有的规矩是**大产物在子 agent 里解析，主线程只留结论**，这是 Guard the Context Window 的直接落地。**先倒进 sqlite、变成可查询形态再读，是 Trace forensics 的明确步骤**；Runtime forensics 要求缩减到关键证据并在活进程里证明机制，不强制 sqlite。
 
 Hillclimb 有两处设计特别值得抄。一是**停止谓词要同时有目标和尝试次数下限**（例：“至少比基线快 50% 且至少跑 10 轮”），这样一次运气好的早胜就不能结束整个 run。二是决策日志 `decision.tsv` 一行一次尝试，**每一行都记，包括回滚掉的**。
 
@@ -195,13 +200,13 @@ Refactoring 那句“类型检查和 lint 不算钉子”值得多说一句：�
 
 | playbook | 立场 | 和其他章的关系 |
 |---|---|---|
-| Opening a PR | 每个别的 playbook 结束时都调用它 | 提交和 PR 描述的规矩最细。PR body 是给已经有 diff 的评审者的**一分钟简报**，六节固定顺序：Why / What changed / Scope / Tradeoffs / Blast Radius / Verification |
+| Opening a PR | 每个别的 playbook 结束时都调用它 | PR body 是给已经有 diff 的评审者的**一分钟简报**。按 Why / What changed / Scope / Tradeoffs / Blast Radius / Verification 排列，空节可省，但 Scope 必留；创建 PR 本身不触发 Babysit |
 | Babysit | 把 PR 或一叠 PR 推到可以合并 | 见[第 7 章](/ch/07-parallel) |
 | Shipping | 决定上线 | 见[第 7 章](/ch/07-parallel) |
 | Autonomous run | 一个任务跑到完成条件 | 见[第 7 章](/ch/07-parallel) |
-| Autopilot-full | 一队互相独立的 PR | 0.15.24 起只留规则；每小时一跳，有变化就以 `/ketchup` 口吻汇报，**没变化就闭嘴** |
-| Autopilot-stack | 一队有耦合的改动 | 现在只写它和 full 不同的地方。新增：`--force-with-lease` 钉住你最后推送的 SHA、trunk 改了调用方就在合并结果上重跑、**第三次 rebase 越过 merge prep 就停下来报告** |
-| Orchestrate | 多天的项目、成百个子 agent | 0.15.24 起**不再需要 Graphite**：前端从 PR 的 base 链推出，worker 和 babysitter 不再跑 `gt`，改由一个 stacker 统一负责链式 rebase 和重定向 |
+| Autopilot-full | 一队互相独立的 PR | root 负责独立判定，每个 PR 的 owner 从构建做到合并。完整 swarm 首次在 code-ready head 跑；新行为、重设计或大 diff 才重跑完整 swarm。每小时审计，有变化按 `/ketchup` 汇报，**没变化就闭嘴** |
+| Autopilot-stack | 同样自治，但交给人合并 | 每个 PR 当前 head 验证通过且 CI 绿就交接，之后未经允许不再 push。**只有真实依赖才叠栈**，独立 PR 仍从 trunk 分叉，不强制串成一条线 |
+| Orchestrate | 常驻协调者管理的多天项目 | **0.15.36 已移除 `scripts/orch/`**。协调者直接用 Task 派工、Project tracker 和 store 记状态；不运行编排脚本或轮询循环。每个 PR 由唯一 owner 写入、rebase、改 base 和合并，不再设统一 stacker |
 | Multi-phase plan | 跨阶段、多个 PR | 计划**最后才写**。检查计划文件的 `check-plan.mjs` 见[第 9 章](/ch/09-self-improve) |
 | Session pickup | 你拥有续跑点，**读已有轨迹，不要重做** | 第 3 步区分已完成和待办，明确说“let me verify from scratch”意味着你把权威输入当成不可信。最后一步：**上一轮的自述不算证明**，要对真实产物复核 |
 | Pause safely | 留下一个冷启动 agent 能接的检查点 | 只在明确要求暂停时用；“keep going”“going to bed, keep going”都不算。第 4 步把恢复说明写到上下文外（如 `/tmp/<slug>-resume.md`） |

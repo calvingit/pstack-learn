@@ -2,20 +2,20 @@
 
 ## pstack 到底是什么
 
-pstack 是一位工程师把自己“怎么带 agent 干活”的习惯写成了文件：一组 Markdown，没有运行时，也没有新命令。
+pstack 是一位工程师把自己“怎么带 agent 干活”的习惯写成了文件：核心是一组 Markdown 技能、playbook 和原则，配套脚本把部分验证、绘图和审计步骤变成可重跑的工具。
 
 拆开看有四层：
 
-| 层 | 数量（0.15.25） | 作用 | 你会怎么接触它 |
+| 层 | 数量（0.15.36） | 作用 | 你会怎么接触它 |
 |---|---|---|---|
 | 入口 `/poteto-mode` | 1 | 读你的请求，挑一个 playbook，按步骤调别的技能 | 每个严肃任务都以它开头 |
 | playbook | 23 | 某类任务的步骤清单（修 bug、做功能、上线……） | 通常不直接点名，由入口挑 |
-| 功能技能 | 29 | `/how`、`/architect`、`/swarm`、`/create-verification-skill` 等 | 入口会按步骤调用；偶尔你自己点名 |
+| 功能技能 | 33 | `/how`、`/architect`、`/swarm`、`/create-verification-skill` 等 | 入口会按步骤调用；偶尔你自己点名 |
 | 原则 | 24 | `principle-*`，硬约束和判断标准 | 不用调用，用名字纠偏 |
 
-这些数字是我按 2026-10-15 的源码目录数出来的：一共 54 个技能目录，其中 24 个是 `principle-`，剩下 30 个里有一个是入口本身，所以功能技能是 29 【已核实】。0.15.24 新增了 `/sharpen`。
+这些数字按 2026-10-28 的 0.15.36 源码目录核对：`pstack/skills/` 共 58 个技能，其中 24 个是 `principle-`，其余 34 个含入口本身，所以功能技能是 33 【已核实】。相对 0.15.25，新增了形式化验证创建与维护、`/statechart` 和 `/ketchup-video` 四个技能。
 
-54 这个数不含 2 个子 agent 定义（`poteto-agent`、`comment-sicko`），它们放在 `agents/` 而不是 `skills/` 下。别处引用“54 个技能”时，口径基本就是这个。
+58 这个数不含 2 个子 agent 定义（`poteto-agent`、`comment-sicko`），也不重复计算 Claude Code 生成树。子 agent 定义放在 `agents/` 而不是 `skills/` 下。
 
 ## 为什么值得系统地学
 
@@ -46,7 +46,7 @@ pstack 是一位工程师把自己“怎么带 agent 干活”的习惯写成了
 ```
 
 ```callout warn 依赖 Cursor 的部分
-Custom Mode、云端 agent、Projects 是 Cursor 的功能。`/deslop`、`control-ui`、`control-cli` 在另一个插件 cursor-team-kit 里。社区已经把 pstack 移植到 Claude Code、Codex、opencode、Hermes（见第 10 章），但移植版的效果我没有核实。
+Custom Mode、云端 agent、Projects 是 Cursor 的功能。`/deslop`、`control-ui`、`control-cli` 在另一个插件 cursor-team-kit 里。上游已提供 Claude Code 官方安装与适配，社区还有 Codex、opencode、Hermes 等移植（见第 10 章）；安装和映射规则已核对源码，实际使用效果没有逐项验证。
 ```
 
 ```callout tip 先读源码

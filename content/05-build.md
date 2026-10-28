@@ -2,6 +2,8 @@
 
 前几章都在动手之前。这一章讲写代码本身：写得少，删得多，测试要测行为。
 
+本章已对照 **0.15.36**（2026-10-28，上游提交 `c742dd6`）的 Feature、Opening a PR、清理技能及测试原则核实现行指导。
+
 ## Feature playbook 逐步拆
 
 `playbooks/feature.md` 有 8 步，每一步背后都有一条原则：
@@ -17,7 +19,11 @@
 | 7 | 设计有争议就 `interrogate` | 对抗评审 |
 | 8 | 开 PR | |
 
-开头一句是 “You own the design. Plan, review, verify. Delegate implementation.” 主 agent 不写代码，只负责设计、评审和验证。
+开头一句是 “You own the design. Plan, review, verify. Delegate implementation.” 默认由主 agent 负责设计、评审和验证，委派实现。**受工具限制、禁止再派子 agent 的执行者是明确例外**：它直接负责 diff，同时保持实现与评审分离，不能回复“等嵌套 agent”然后停工。
+
+第 4 步不是随便找个代码模型：从本地 `feature, refactoring` 角色行出发，最难的改动走 `hardest tasks`，再按难度调推理档位和速度。默认代码模型虽带 `-fast`，但只有 CI 或 trunk 红了、或有人正在等结果才用 fast；验证仍固定在 `swarm workers` 的模型和速度。完整降级规则见[第 2 章](/ch/02-poteto-mode)。
+
+实现有多个合理形态时，**必须通过 arena 派工**，让候选摆出替代方案、cross-judge 检查选择。不能写个 skip 原因，也不能拿 Laziness Protocol 绕过。来自上游的文件要重新对照源；改进共享原语时要迁移所有消费者并逐一验证。
 
 ### 吞吐检查点是什么
 
@@ -29,6 +35,16 @@
 - **Smallest safe decomposition**：如果一个 worker 最好，说明为什么。
 
 **我的理解**：这四项强迫 agent 在派活之前想清楚“能不能并行、该不该并行”。没有这一步，常见的失败是几个子 agent 同时改同一个文件，最后谁也合不进去。
+
+Feature 还明确划了派工边界：同一个功能或迁移中互相耦合的代码交给**一个 owner**，由它在阻塞阶段之后内部拆分。父级并行适合产出独立成果的切片，例如审计、跨子系统调查和竞争实验。阶段切换时重写检查点；后续轮次默认换新 owner，带齐累计指令，避免中断链丢要求。
+
+## 清理、审查和开 PR 的顺序
+
+Opening a PR 当前要求提交前跑 `cursor-team-kit` 的 `/deslop`，评审前跑 `/no-comments`；PR 标题、描述和 commit body 先按 `/technical-writing` 写，再过 `/unslop`。`interrogate` 用于有争议的设计，**不再是每个开 PR 的子 agent 都必须执行的检查**。一旦调用，按第 4 章的运行证据规则报告问题，不自动修。
+
+PR 描述按 Why、What changed、Scope、Tradeoffs、Blast Radius、Verification 的顺序写。空节可以省略，Scope 必留。当前规则要求 PR 直接 ready，不开 draft；如果运行环境有内置 PR 工具，创建、编辑、改 base 和标 ready 走内置工具，其他操作用选定 forge。没有内置工具时默认 `gh`，可用且能解析仓库的 Origin 优先，不依赖 Graphite。
+
+**开 PR 不等于开始 babysit**。普通子 agent 清理 diff、贴 URL 就返回，主对话继续构建，等阶段或整栈完成后另行按请求运行 Babysit。Autopilot-full / Autopilot-stack 的 owner 是例外：brief 已经给了 babysit 任务，code-ready 报告之后就可以开始，之后报告 merge-ready；stack 仍然不能合并。
 
 ## 先命名数据形状
 
@@ -92,9 +108,9 @@ url: https://github.com/cursor/plugins/blob/main/pstack/skills/unslop/SKILL.md
 `no-comments` 不自己判断，而是派一个叫 Comment Sicko 的子 agent，然后审它的结果。几个设计点：
 
 - 主 agent 要**驳回** Comment Sicko 越界的修改：改了应用逻辑、超出范围、删了受保护的注释。
-- 发现注释背后其实是一个 workaround 时，修根因，删掉 workaround。
+- 发现注释背后其实是一个 workaround 时，修范围内根因，删掉 workaround；需要改结构就先用 `architect` 出草图，再实现。根因超出范围时只落最小范围内修复，剩余明确报告，不能借原则扩大范围。
 - 这个 agent 的 id 现在是 `comment-sicko`（[#486](https://github.com/cursor/plugins/pull/486)）。原来的 “Comment Sicko” 带空格，在 Grok 上派不出去。界面上显示的名字没变。
-- “不要删”“改前找某某”这类约束注释，主 agent 要提议用类型、运行时检查、测试或 lint 来替代，并**等人批准**。
+- “不要删”“改前找某某”这类约束注释，先证明是否涉及自己改不了的外部约束，该保留的保留。其余提议用范围内最便宜的类型、运行时检查、测试或 CI lint 替代，并**等交互批准**，无人值守和 eval 需要事先批准。获批就编码后删注释；否则按当前规则删注释，并把未执行的约束明确报告为 open，不能声称已有保护。
 
 最后一条是 Encode Lessons in Structure 的又一次体现：注释里的约束没人执行，换成检查才有人执行。
 

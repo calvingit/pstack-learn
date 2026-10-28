@@ -84,7 +84,7 @@
   "group": "验证",
   "file": "06-verification.md",
   "title": "验证体系",
-  "summary": "验证技能、Feature Map、Prove It Works、基准清单。",
+  "summary": "应用与形式化验证技能、Feature Map、statechart、基准清单。",
   "sources": [
    "art-pt1",
    "r-cvs",
@@ -201,7 +201,7 @@
   "group": "实践",
   "file": "12-changelog.md",
   "title": "更新记录",
-  "summary": "pstack 从 0.1.0 到 0.15.25 每个版本改了什么。",
+  "summary": "pstack 从 0.1.0 到 0.15.36 每个版本改了什么。",
   "sources": [
    "r-readme"
   ]

@@ -85,10 +85,10 @@
  },
  {
   "group": "交付",
-  "stance": "把 PR 或一叠 PR 推到可以合并",
+  "stance": "你拥有合并前沿，停在用户决定处",
   "name": "Babysit",
   "zh": "看护 PR",
-  "desc": "把 PR 或一叠 PR 推到可合并：冲突、评审线程、CI。从不自己合并。"
+  "desc": "先声明 drive/background/threads-only/check 并选 forge；只推进最低未合并 PR，按冲突、线程、CI 排序。GitHub 用 watcher，Origin 用原生检查；到 merge-ready 即停，从不自行合并。"
  },
  {
   "group": "交付",
@@ -99,31 +99,31 @@
  },
  {
   "group": "自治",
-  "stance": "一个任务跑到完成条件",
+  "stance": "你拥有可检查的退出条件",
   "name": "Autonomous run",
   "zh": "自主运行",
-  "desc": "把一个长任务跑到完成条件成立（“run until done”）。"
+  "desc": "先定义完成谓词，以事件 watcher 或心跳唤醒；逐单元验证并记日志，自行处理支持目标的可逆旁支修复，不能以停滞或放宽条件结束。"
  },
  {
   "group": "自治",
-  "stance": "多天的项目、成百个子 agent",
+  "stance": "你运行项目，不写产品代码",
   "name": "Orchestrate",
   "zh": "编排",
-  "desc": "交给一个协调者聊天的长期项目：多天、大量叠加 PR、成百子 agent。"
+  "desc": "用 Task、Project tracker 和 store 管多日项目，不调用编排脚本或轮询。每 PR 一个 owner 和异家族独立 verifier；先跑通一个单元，再扩散并按实际产物监督。"
  },
  {
   "group": "自治",
-  "stance": "一队互相独立的 PR",
+  "stance": "你拥有判定，每个 PR 有自己的 owner",
   "name": "Autopilot-full",
   "zh": "全自动驾驶",
-  "desc": "一队独立 PR，每个 PR 一个 owner 从构建跑到合并，根节点先 swarm 验证。"
+  "desc": "独立 PR 并行到合并。code-ready head 完整 swarm 一次，大改才重跑完整 swarm，小修或 rebase 单 verifier，措辞改动免复验；新 head 必须 CI 绿，合并前检查 trunk 影响并遵守用户门禁。"
  },
  {
   "group": "自治",
-  "stance": "一队有耦合的改动",
+  "stance": "在 verified 停下，交给用户合并",
   "name": "Autopilot-stack",
   "zh": "叠加自动驾驶",
-  "desc": "一队改动做成一条线性、评审过的栈，由人来合。"
+  "desc": "执行 Autopilot-full 但不合并，当前 head 验证且 CI 绿后交付，无用户 go 不再 push。只把真正有依赖的 PR 叠起来，child 对齐 parent tip，restack 后按 patch-id 规则保留有效判定。"
  },
  {
   "group": "会话",
@@ -141,10 +141,10 @@
  },
  {
   "group": "设计",
-  "stance": "计划最后才写",
+  "stance": "计划是交付物，明确 go 后才执行",
   "name": "Multi-phase or multi-PR plan",
   "zh": "多阶段计划",
-  "desc": "跨阶段或叠加 PR 的工作，每项都要求实际运行验证，计划格式有脚本校验。"
+  "desc": "先原型消除可实验的问题，再填固定清单并跑 check-plan。每 PR 有 unit/live/perf，十条 live lane 含 trunk 回归；性能同指标双侧测量，新功能另设绝对预算，交互变更要截图与视频审批。"
  },
  {
   "group": "会话",
@@ -155,9 +155,9 @@
  },
  {
   "group": "交付",
-  "stance": "每个别的 playbook 结束时都调用它",
+  "stance": "各 playbook 的交付步骤，开 PR 不自动看护",
   "name": "Opening a PR",
   "zh": "开 PR",
-  "desc": "每个 playbook 的最后一步。"
+  "desc": "小而有序提交，标题用 Conventional Commits，正文为一分钟简报且必有 Scope；优先内置 PR 工具，否则 gh 或可用的 Origin。开 ready PR，真正依赖才叠栈；通常用户另行要求后再 babysit，Autopilot owner 例外。"
  }
 ]

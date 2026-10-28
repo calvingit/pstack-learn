@@ -88,5 +88,30 @@
   "name": "Kernel",
   "zh": "内核（calvingit/skills）",
   "desc": "calvingit/skills 里跨技能共享的 K01–K17 契约，不是 pstack 的概念。"
+ },
+ {
+  "name": "Formal verification skill",
+  "zh": "形式化验证技能",
+  "desc": "项目内可重跑的性质检查，使用模型检查器、证明或代码验证器，记录覆盖代码、边界、假设及 sync commit；通过只覆盖明确范围。"
+ },
+ {
+  "name": "Sync commit",
+  "zh": "同步提交",
+  "desc": "最后确认形式化验证准确描述覆盖代码的提交。维护从这里追踪变化，blocked 的检查不能推进此记录。"
+ },
+ {
+  "name": "Counterexample",
+  "zh": "反例",
+  "desc": "违背性质的具体输入或步骤序列。模型反例必须逐步对照真实代码，区分产品 bug 与模型错误。"
+ },
+ {
+  "name": "Statechart",
+  "zh": "状态图",
+  "desc": "将 TLA+ 检查结果转为 Mermaid 状态图，用读者语言标状态与动作，给违规规则的最短路径；图不扩大模型的证明范围。"
+ },
+ {
+  "name": "Generated harness tree",
+  "zh": "生成的适配树",
+  "desc": "根目录 harness/pstack/claude-code/ 是 Claude Code 安装的生成副本，由根目录生成脚本维护；清单只数 pstack/skills/*/SKILL.md，不重复计算副本。"
  }
 ]

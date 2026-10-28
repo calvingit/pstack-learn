@@ -51,13 +51,15 @@ url: https://github.com/cursor/plugins/blob/main/pstack/skills/correct/SKILL.md
 
 - 只在你说 “reflect” 时运行。琐碎的、跑题的、已有技能覆盖且被正确遵守的对话直接跳过。“One-offs are not learnings.” 一次性的事不算经验。
 - 只读当前会话的记录，**不跨工作区去 glob 别的项目**，因为那会读到别的私人聊天。
-- 三个评审从不同角度并行审视，汇总后**等你批准再改技能**。
+- 三个评审从判断、工具、发散三个角度并行审视，再由一个综合者给出 Accepted / Rejected / Backlog。
+- 先把更适合 lint、脚本、元数据或运行时检查的 Accepted 项移到 Backlog。Accepted 的具体修改**等你明确批准**；Backlog 按上游流程直接登记到团队的 devex 或 backlog tracker。
+- 不编辑 `plugins/cache/`。批准前先展示目标位置 `.cursor/skills/<skill>/` 或 `~/.cursor/skills/<skill>/`，批准后复制过去再改。小修直接做，实质改动、新技能或 description 调优交给内置 create-skill 的对应循环；不主动开 PR 或 push。
 
 和 `/correct` 的区别：`/correct` 改仓库让错误不能发生；`/reflect` 改技能让 agent 下次做得更好。按她的价值排序，能用 `/correct` 解决的优先用 `/correct`。
 
 ## 把规则编码成脚本：一个真实样本
 
-这一章讲的“价值排序”不是口号，它真的在 pstack 自己身上执行了：`poteto-mode/scripts/` 下大约 7k 行 Bun/TypeScript，配 ~63 个测试和严格的类型检查。她的原则是：**文字里说“跑 X”的地方，X 必须是一个确定性工具**。四个最值得看的例子。
+这一章讲的“价值排序”不是口号，它真的在 pstack 自己身上执行了：`poteto-mode/scripts/` 用 Bun/TypeScript 脚本、测试和类型检查落实规则。脚本与测试数量随版本变化，这里不沿用旧版计数。她的原则是：**文字里说“跑 X”的地方，X 必须是一个确定性工具**。四个最值得看的例子。
 
 ### check-plan.mjs：把写作规范变成 exit 1
 
@@ -170,7 +172,24 @@ PR 的口号是 “Every rule stays. Only the text that carries it gets shorter.
 和它配对的还有两个入口技能，都是只手动调用：
 
 - `/poteto-help`：先问清你要做什么，给一段能直接发的 prompt 和出处，**自己不开工**。
-- `/sharpen`（0.15.24 新增）：开工前问三件事——顶尖专家会怎么做、你到底要什么、这个任务是过度具体还是不够具体。收紧不服务于目标的约束，**不动本该由你做的选择**，也不把改写后的 prompt 还给你（[#615](https://github.com/cursor/plugins/pull/615)）。它是把“这个任务到底该怎么做”想清楚的工具，不是 prompt 润色器。
+- `/sharpen`（0.15.24 新增，现行行为已变）：把任务变深，再交回改写后的 prompt，**不执行任务**。当前版本先想四件事：顶尖专家会补上什么、会从什么尚未被消化的原始材料开始、会用哪些具体方法和工具、由什么外部证据判断结果正确。然后据此改写，保留本该由用户决定的选择。早期 #615 的“不交回改写 prompt”已被替换，不能再按旧版使用。
+
+## 0.15.36 的自我改进重点
+
+对照当前源码与基线 `6ce45c59b9301a638c1fe1a7b8dc2a82b650898f` 的差异，除了新增形式化验证和 `/statechart`（见[第 6 章](/ch/06-verification)），还有几处会改变工作方式：
+
+- `/correct` 的测试层明确采用“双向检验”：行为坏了必须失败，只有内部结构变化时仍应通过。复制常量、prompt 字符串或测试自己构造的数据，不能代替真实行为验证。
+- Explain the Number 从测量前就开始：先写能改变决定的结果和噪声底线；限制因素必须来自运行时 profile 或系统计数器并映射到源码，不能只读代码猜。
+- `/interrogate` 改为让对手实际破坏变更，再重跑每个发现的命令。只保留运行证明且违背意图的问题，合并同根因发现；报告发现，不直接修复。
+- Orchestrate 用工具和 Project tracker/store 管项目，旧的 `scripts/orch/` 实现已删除。协调者不写代码；先让一个单元走通 owner、独立 verifier、合并，再扩散。不能继续教人调用旧编排脚本。
+- Autopilot 的完整 swarm 在 code-ready head 跑一次，新增行为、重设计或大 diff 才重跑完整 swarm；rebase、冲突处理和小修由一个 verifier 检查新 head，纯措辞改动不用重跑。每个新 head 仍要有自己的绿色 CI，验证沿用受 Shipping 的 patch-id 规则约束。
+- Multi-phase plan 的十条 live lane 里要有一条对 trunk 和 head 跑同一核心场景的 Regression lane。性能两边都必须产出同一指标；trunk 没有新功能时，记录事实，给新增工作及用户等待的最终状态设绝对预算，不能拿不同场景算提速比。
+
+### /ketchup 和 /ketchup-video
+
+`/ketchup` 当前要求把所有仍等用户决定的事项列全，每项给足链接、收益、证据和风险，让用户仅凭回复就能决定。摘要控制在 100 个英文词以内，整份回复随待决事项增长，**没有旧版“整条 150 字内”的上限**。agent 自己还能做的工作不能变成用户待办。
+
+新增的 `/ketchup-video` 把发生的事做成最多 10 页、带烧录字幕的无声横向短视频，待决事项仍放在视频下方的文字里。素材来自真实截图、录屏、diff 和数据，不能画没抓过的界面。渲染在仓库外进行，这是它对 ketchup 只读规则的唯一例外。交付前逐页检查实际帧、字幕可读性和停留时间；渲染失败要明说，只给待决事项。源码见 [sharpen](https://github.com/cursor/plugins/blob/main/pstack/skills/sharpen/SKILL.md) 和 [ketchup-video](https://github.com/cursor/plugins/blob/main/pstack/skills/ketchup-video/SKILL.md)。
 
 ```exercise 练习
 - 翻你最近 20 条对 agent 的纠正，找出出现两次以上的错误类别

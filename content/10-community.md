@@ -67,7 +67,7 @@
 
 ## 四、移植
 
-pstack 写的是 Cursor 插件，社区已经移植到不少地方：
+pstack 源技能以 Cursor 为基准。到 0.15.36，上游已提供 Claude Code 官方生成树和适配文档；下面的社区移植记录保留为历史参考：
 
 - opencode：[@bukanajay](https://x.com/bukanajay/status/2100922740593287209)
 - Claude Code（pstack-claude）：[@uehaj](https://x.com/uehaj/status/2106154972496973908)，日语帖 280 多赞
@@ -88,22 +88,36 @@ pstack 写的是 Cursor 插件，社区已经移植到不少地方：
 
 我用 GitHub API 看过这两个仓库的基本信息（10-15）【已核实】。**它们的内容质量我没有逐项核对**【未核实】。
 
-### 移植到 Claude Code：哪些能照搬，哪些会掉
+### Claude Code 官方安装与生成树
 
-分界线很清楚：**技能文件本身原样可搬，编排层要翻译。**
+当前[上游 README](https://github.com/cursor/plugins/blob/main/pstack/README.md)给出的安装命令是：
+
+```bash
+/plugin marketplace add cursor/plugins
+/plugin install pstack@cursor-plugins
+```
+
+用户输入的技能命令带插件前缀，例如 `/pstack:poteto-mode`、`/pstack:setup-pstack`。第三方 marketplace 默认不开自动更新：在 `/plugin` 的 marketplaces 页选择 `cursor-plugins` 并启用 auto-update；单次手动更新用 `claude plugin update pstack@cursor-plugins`。
+
+Claude Code 安装的是仓库根目录 `harness/pstack/claude-code/` 的生成副本，包含技能、agents、README 和指南。维护源文件后，在上游仓库根目录运行 `node scripts/generate-pstack-harness-trees.mjs`，CI 会检查生成副本是否过期。**规范清单按 `pstack/skills/*/SKILL.md` 计数，不能再把生成树重复计入。** 当前共 58 个技能，其中 24 个是原则技能，另有 23 个 playbook。
+
+### 官方适配：哪些能映射，哪些会跳过
+
+当前行为以[官方 Claude Code adapter](https://github.com/cursor/plugins/blob/main/pstack/docs/harness/claude-code.md)为准。每个会话先读一次 adapter；技能中未列入映射的 Cursor 字段要丢弃并说明，不能把工具 schema 不接受的字段硬传过去。
 
 | pstack（Cursor） | Claude Code 里最接近的 | 注意什么 |
 |---|---|---|
-| `skills/<name>/SKILL.md` + `disable-model-invocation` | `~/.claude/skills/` 或 `.claude/skills/`，同样的 frontmatter | 直接复制，改掉指向 Cursor 工具的引用 |
-| `agents/poteto-agent.md`、`comment-sicko.md` | `.claude/agents/*.md`（name、description、tools、model） | 同一个思路：一个薄壳 agent，先加载 router 再干活 |
-| Task 工具按角色指定模型 slug | Agent 工具的 `subagent_type` 和 `model` | 模型选择只剩 Claude 的档位。**跨家族评审要靠调用别家 CLI，或者接受“只换上下文不换模型”** |
-| `environment: "cloud"`、worktree | Agent 隔离：`worktree` 或 `remote` | 规矩一样：一个 worktree 一个写者 |
-| `pstack-models.mdc`（alwaysApply 规则） | CLAUDE.md 里写几行，或 agent frontmatter 的 `model:` | **保留角色名**，让每个技能读角色、找不到就落默认 |
-| Custom Mode（Option+Enter） | 每个任务调用一次 router 技能，或从 CLAUDE.md 指过去 | 没有“一直开着”的等价物 |
-| `/loop` | `/loop` | 同一条规矩：循环一个能过/不过的检查，**永不循环时长** |
-| `agent-transcripts/` | `~/.claude/projects/<slug>/*.jsonl` | reflect、recall、automate-me 和审计 show-me-your-work 都靠它 |
-| `create-skill`（Cursor 内置） | skill-creator 技能 | 含盲测和 description 调优 |
-| `control-ui` / `control-cli`、`/deslop`（cursor-team-kit） | Playwright CLI、tmux；自己写 deslop | 全局的 `playwright-cli` 加每个项目的 `browser-checks` 已经覆盖了 `verify-<app>` 技能做的事 |
+| 用户手动输入 `/name` | `/pstack:<name>` | 技能内部调用其他技能时，按 adapter 直接 Read 安装目录的 `skills/<name>/SKILL.md`；Skill 工具会拒绝大多数 pstack 技能 |
+| `poteto-agent`、`comment-sicko` | `pstack:poteto-agent`、`pstack:comment-sicko` | `Task` 映射到 `Agent`；`generalPurpose` 映射到 `general-purpose` |
+| Claude 模型 slug | `model` 与 `effort` 分开传 | 例如 `claude-opus-5-5-xhigh` 映射为 `opus` + `xhigh`，丢弃 `-fast`；非 Claude slug 不传 model，继承会话模型并说明 |
+| `readonly: true` | `Explore` | 仍保留 Bash，brief 另写不得编辑，结束后检查 git status |
+| `environment: "cloud"` | `isolation: "worktree"` | brief 指定检出的分支或提交；local 字段省略，后台字段省略，resume 改为新 agent 加旧结果 |
+| `~/.cursor/rules/pstack-models.mdc` | `~/.claude/rules/pstack-models.md` | `/pstack:setup-pstack` 写无 frontmatter 的角色规则；**不能把角色行放进 CLAUDE.md 或 AGENTS.md** |
+| `.cursor/skills/`、`~/.cursor/skills/` | `.claude/skills/`、`~/.claude/skills/` | 项目技能和用户技能路径按表映射 |
+| `agent-transcripts/` | `~/.claude/projects/<slug>/<session>.jsonl` | slug 将工作区路径的 `/` 和 `.` 换为 `-`，只读本工作区；子 agent 在会话的 `subagents/` 下 |
+| Cursor Automations、云端 agent 专属能力 | 跳过并报告 | 固定写 `Skipped in Claude Code: <step>. <reason>.`，继续后续步骤；云端隔离本身可映射为 worktree |
+| Bugbot | 有现成检查或评论时按普通 PR 线程处理 | 没有 Bugbot 时跳过启动、等待或配置它的步骤 |
+| 内置 PR 工具 | `gh pr create` 等选定 forge 命令 | 这是替代实现，不算跳过 |
 
 **掉得最狠的一项是跨家族评审。** 有测评说移植版的 reviewer 之间“只是上下文不同，而不是模型家族不同”。这打在第 3 章讲的 Adversarial panel 上：两个 reviewer 若是同一个家族，agreement 就从高信号退化成同一个偏差说两遍。第 9 章“用不同模型拿第二意见”说的是同一件事。
 

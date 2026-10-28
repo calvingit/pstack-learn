@@ -15,7 +15,7 @@
   "group": "入口",
   "name": "setup-pstack",
   "zh": "配置模型",
-  "desc": "检测可用模型、问预算，写 ~/.cursor/rules/pstack-models.mdc，最后提议生成验证技能。"
+  "desc": "检测可用模型、选预算并按角色写配置。Cursor 写 ~/.cursor/rules/pstack-models.mdc，Claude Code 写 ~/.claude/rules/pstack-models.md；分别可选生成应用验证与形式化验证技能。"
  },
  {
   "group": "理解",
@@ -57,19 +57,19 @@
   "group": "设计",
   "name": "arena",
   "zh": "擂台",
-  "desc": "同一个设计或代码任务派 N 个并行尝试，评审后选底座、嫁接优点。"
+  "desc": "N 个独立候选完成同一任务，再跨家族交叉评判、选底座、嫁接和验证；没有可用异家族评委时说明跳过，由父 agent 评选。"
  },
  {
   "group": "设计",
   "name": "swarm",
   "zh": "蜂群",
-  "desc": "N 个 worker 分片或赛跑，汇成一份报告。"
+  "desc": "切片或赛跑的并行 worker 汇总 PASS / ISSUES / BLOCKED。验证和测量需记录指定 SHA 与方法，缺失重派一次，再缺即报告覆盖缺口。"
  },
  {
   "group": "设计",
   "name": "interrogate",
   "zh": "审讯",
-  "desc": "不同模型家族做对抗式评审，把发现分成“要处理”和“驳回（附理由）”。"
+  "desc": "对手在独立 worktree 中实际破坏变更或探测设计，逐项重跑命令，只保留运行证明且违背意图的发现；报告而不修复。"
  },
  {
   "group": "设计",
@@ -117,7 +117,7 @@
   "group": "沟通",
   "name": "ketchup",
   "zh": "补课",
-  "desc": "只读，150 字内说清上条消息以来发生了什么、哪些事只有你能拍板，决定用前后对比图呈现。"
+  "desc": "只读补课：变化摘要少于 100 个英文词，列全仍等用户决定的事项，给足上下文、选项、证据和风险；整份回复可随事项增长。"
  },
  {
   "group": "沟通",
@@ -129,7 +129,7 @@
   "group": "沟通",
   "name": "sharpen",
   "zh": "把任务磨清楚",
-  "desc": "0.15.24 新增：开工前问三件事——顶尖专家会怎么做、你到底要什么、任务是过度还是欠具体。收紧不服务于目标的约束，不动本该你做的选择。只手动调用。"
+  "desc": "只手动调用：从专家做法、原始材料、具体方法与工具、外部正确性证据四方面深化任务，交回改写后的 prompt，保留用户选择，不执行任务。"
  },
  {
   "group": "验证",
@@ -159,7 +159,7 @@
   "group": "自我改进",
   "name": "reflect",
   "zh": "反思",
-  "desc": "会话结束后三个评审各提改进，汇总后等你批准再改技能。"
+  "desc": "三路评审加综合者给出 Accepted / Rejected / Backlog；结构化执行项转 Backlog 并登记，技能修改等明确批准后复制到项目或用户目录再改，不编辑插件缓存。"
  },
  {
   "group": "自我改进",
@@ -178,5 +178,173 @@
   "name": "make-bot-ui",
   "zh": "Bot 控制页",
   "desc": "做一个按钮能通过 webhook 唤醒 Grok Bot 的页面。"
+ },
+ {
+  "group": "验证",
+  "name": "create-formal-verification-skill",
+  "zh": "生成形式化验证技能",
+  "desc": "选高风险且测试难覆盖的承诺，用合适工具验证性质，记录边界、覆盖代码和 sync commit；用真实代码故障变体证明可失败，交付项目技能。"
+ },
+ {
+  "group": "验证",
+  "name": "maintain-formal-verification-skill",
+  "zh": "维护形式化验证技能",
+  "desc": "从 sync commit 核对代码，同步模型、harness 或性质并区分漂移与代码 bug；结果为 in sync / updated / bug / blocked，只改验证。"
+ },
+ {
+  "group": "验证",
+  "name": "statechart",
+  "zh": "状态图与反例",
+  "desc": "检查 TLA+ 模型，按读者语言画 Mermaid 状态图，标记违规状态及最短反例路径；说明边界、未检查规则，对真实代码重放 bug。"
+ },
+ {
+  "group": "沟通",
+  "name": "ketchup-video",
+  "zh": "视频补课",
+  "desc": "把 ketchup 摘要做成最多 10 页的带字幕短视频，待决事项仍用文字；仓库外渲染并逐页检查实际帧，失败时说明并只列待决事项。"
+ },
+ {
+  "group": "原则",
+  "name": "principle-laziness-protocol",
+  "zh": "懒惰协议",
+  "desc": "重构、估 diff 大小、想加抽象时用。偏向删除，用最小改动解决问题。"
+ },
+ {
+  "group": "原则",
+  "name": "principle-foundational-thinking",
+  "zh": "地基思维",
+  "desc": "写逻辑前先定核心类型、数据结构、脚手架与功能的先后、并发方共享什么。"
+ },
+ {
+  "group": "原则",
+  "name": "principle-redesign-from-first-principles",
+  "zh": "从第一性原理重设计",
+  "desc": "新需求进来时，按“它从第一天就存在”的样子重设计，而不是打补丁。"
+ },
+ {
+  "group": "原则",
+  "name": "principle-attack-the-premise",
+  "zh": "攻击前提",
+  "desc": "两个以上修复共享同一前提且败在同一道关时，先写下前提并做可重跑的直接检验；按证据找共同原因，消除致错条件，避免逐次补偿。"
+ },
+ {
+  "group": "原则",
+  "name": "principle-subtract-before-you-add",
+  "zh": "先减后加",
+  "desc": "加功能、重构、重写前，先删掉死重量，再在更简单的底座上建。"
+ },
+ {
+  "group": "原则",
+  "name": "principle-minimize-reader-load",
+  "zh": "降低读者负担",
+  "desc": "数一数层级和隐藏状态，合并只有一个调用方的包装，缩小可变范围。"
+ },
+ {
+  "group": "原则",
+  "name": "principle-outcome-oriented-execution",
+  "zh": "面向结果执行",
+  "desc": "有明确阶段的迁移，直接收敛到目标架构，不保留一次性的兼容中间态。"
+ },
+ {
+  "group": "原则",
+  "name": "principle-experience-first",
+  "zh": "体验优先",
+  "desc": "产品和范围取舍时，选用户的愉悦，不选实现上的方便。"
+ },
+ {
+  "group": "原则",
+  "name": "principle-exhaust-the-design-space",
+  "zh": "穷尽设计空间",
+  "desc": "没有先例的交互或架构决定，先做 2~3 个竞争原型再定。"
+ },
+ {
+  "group": "原则",
+  "name": "principle-build-the-lever",
+  "zh": "造杠杆",
+  "desc": "非小事都先造工具（codemod、脚本、生成器）去做或去证明，工具本身就是 reviewer 能重跑的产物。"
+ },
+ {
+  "group": "原则",
+  "name": "principle-model-the-domain",
+  "zh": "给领域建模",
+  "desc": "状态多、分支多、形状假设到处重复时，用状态机、类型模型、表或注册表、reducer 来表达领域。"
+ },
+ {
+  "group": "原则",
+  "name": "principle-boundary-discipline",
+  "zh": "边界纪律",
+  "desc": "校验和错误处理放在系统边界，内部信任类型，业务逻辑保持纯。"
+ },
+ {
+  "group": "原则",
+  "name": "principle-type-system-discipline",
+  "zh": "类型纪律",
+  "desc": "适用于所有静态类型语言：让非法状态、语义原始值混用和遗漏分支被编译器拒绝；边界解析外部数据，类型从权威 schema 推导。"
+ },
+ {
+  "group": "原则",
+  "name": "principle-make-operations-idempotent",
+  "zh": "操作幂等",
+  "desc": "从现存状态与目标的差异推进，重复运行和任意点崩溃后都收敛到同一正确终态；残留锁、临时文件和任务认领都必须能凭可靠证据判断过期。"
+ },
+ {
+  "group": "原则",
+  "name": "principle-migrate-callers-then-delete-legacy-apis",
+  "zh": "迁完调用方就删旧 API",
+  "desc": "无外部兼容依赖且能协调破坏性变更时，同一波迁完内部调用方并删旧 API；测试改为保护新契约，删除只保护重构前实现细节的测试。"
+ },
+ {
+  "group": "原则",
+  "name": "principle-separate-before-serializing-shared-state",
+  "zh": "先拆开再串行化共享状态",
+  "desc": "并发方可能写同一个文件、分支、key，先消除共享，而不是加锁排队。"
+ },
+ {
+  "group": "原则",
+  "name": "principle-prove-it-works",
+  "zh": "证明它能用",
+  "desc": "宣布完成前，对真实产物做验证，不接受代理指标或“能编译”。"
+ },
+ {
+  "group": "原则",
+  "name": "principle-fix-root-causes",
+  "zh": "修根因",
+  "desc": "先复现，追到第一次错误决策；只有合法状态才在暴露处处理，非法状态要追生产者。查同类问题，重启后故障先查持久状态，深挖后提出便宜的常驻诊断信号。"
+ },
+ {
+  "group": "原则",
+  "name": "principle-sequence-verifiable-units",
+  "zh": "切成可验证的单元",
+  "desc": "多步工作切成每步都以检查结束的小单元，验证一个再做下一个，提交顺序本身能证明自己。"
+ },
+ {
+  "group": "原则",
+  "name": "principle-test-behavior-not-implementation",
+  "zh": "测行为不测实现",
+  "desc": "通过用户接口用具体输入断言契约；行为破坏时失败、内部重构时仍通过。预期来自需求，外部副作用是行为，内部 helper 调用通常不是；不保留空洞测试。"
+ },
+ {
+  "group": "原则",
+  "name": "principle-explain-the-number",
+  "zh": "解释数字",
+  "desc": "测量前先写会改变决定的结果和噪声底线；用运行时 profile 或系统计数器找限制因素并映射到源码，排除测错对象，保留次数、分布与证据。"
+ },
+ {
+  "group": "原则",
+  "name": "principle-guard-the-context-window",
+  "zh": "守住上下文窗口",
+  "desc": "大输出、长文件、反复读取交给子 agent，主线程只留摘要。"
+ },
+ {
+  "group": "原则",
+  "name": "principle-never-block-on-the-human",
+  "zh": "不要卡在人身上",
+  "desc": "可逆的事不要问“要不要做”，先做，给结果，让人纠偏。"
+ },
+ {
+  "group": "原则",
+  "name": "principle-encode-lessons-in-structure",
+  "zh": "把教训编码进结构",
+  "desc": "发现自己第二次写同一条指令时，改成 lint、元数据、运行时检查或脚本。"
  }
 ]

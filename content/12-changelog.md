@@ -1,6 +1,6 @@
 # 第 12 章 更新记录
 
-这一章按 [cursor/plugins](https://github.com/cursor/plugins/commits/main/pstack) 的提交历史整理 pstack 每个版本改了什么，新版本在前。版本号取自 `pstack/.cursor-plugin/plugin.json` 的改动，日期是该版本号提交的北京时间。每版按上次升版之后、截至本次升版（含）的 `pstack` 提交归档，条目结合提交说明、PR 描述与源码 diff 转述，细节以链接中的原文和代码为准。
+这一章按 [cursor/plugins](https://github.com/cursor/plugins/commits/main/pstack) 的提交历史整理 pstack 每个版本改了什么，新版本在前。版本号取自 `pstack/.cursor-plugin/plugin.json` 的改动，日期是该版本号对应提交的北京时间。每版按上次升版之后、截至本次升版（含）的 `pstack` 提交归档，条目结合提交说明、PR 描述与源码 diff 转述，细节以链接中的原文和代码为准。
 
 课程正文以 0.15.36 为准。
 
@@ -22,15 +22,15 @@
 
 ## 0.15.33（2026-10-27）
 
-- `/statechart` 换成 TypeScript 编译器，一个 `statechart SPEC.tla` 命令完成 TLC 检查、Mermaid 状态图和最短违规路径报告；启动器选择 Node 22.18+、Bun 1.1.5+ 或 Deno 2.0+，无需构建。被信号终止或运行出错时退出 2，仅成功检查或发现违规的退出 0/1 写出结果。旧版的图转 TLA+ 骨架、代码对照规格审计和修复状态标记随之移除（[#977](https://github.com/cursor/plugins/pull/977)）
+- `/statechart` 换成 TypeScript 编译器，一个 `statechart SPEC.tla` 命令完成 TLC 检查、Mermaid 状态图和最短违规路径报告；启动器选择 Node 22.18+、Bun 1.1.5+ 或 Deno 2.0+，无需构建。被信号终止或运行出错时退出 2；只有检查成功或发现违规时才以退出码 0/1 写出结果。旧版的图转 TLA+ 骨架、代码对照规格审计和修复状态标记随之移除（[#977](https://github.com/cursor/plugins/pull/977)）
 - `/reflect` 不再改插件缓存：先展示 `.cursor/skills/` 或 `~/.cursor/skills/` 的目标位置，获批后复制技能目录并改副本，避免更新插件时丢失修改；不会自动开 PR 或推送（[#800](https://github.com/cursor/plugins/pull/800)）
 - `watch-pr` 识别 fork 的同名分支，避免错误串起 PR 栈；轮询及重试等待不再睡过超时期限。`orch` 查找分支对应 PR 时优先选择唯一仍开启的 PR，避免被已关闭或已合并的历史 PR 干扰（[#801](https://github.com/cursor/plugins/pull/801)、[#802](https://github.com/cursor/plugins/pull/802)、[#804](https://github.com/cursor/plugins/pull/804)）
-- 计划检查支持长度匹配的多反引号行内代码；`worktree-audit` 兼容 GNU `stat` 和 `date`，正确读取会话记录时间；修正 swarm 的阶段编号和失效的表格引用（[#803](https://github.com/cursor/plugins/pull/803)、[#805](https://github.com/cursor/plugins/pull/805)、[#807](https://github.com/cursor/plugins/pull/807)）
+- 计划检查支持按长度匹配的多反引号行内代码；`worktree-audit` 兼容 GNU `stat` 和 `date`，正确读取会话记录时间；修正 swarm 的阶段编号和失效的表格引用（[#803](https://github.com/cursor/plugins/pull/803)、[#805](https://github.com/cursor/plugins/pull/805)、[#807](https://github.com/cursor/plugins/pull/807)）
 - Claude Code 安装说明补充：第三方 marketplace 的插件默认不开自动更新，并给出开启步骤（[#806](https://github.com/cursor/plugins/pull/806)）
 
 ## 0.15.32（2026-10-24）
 
-- 新增 `/ketchup-video`：用一段无声幻灯片视频回顾变化，待用户决定的事项仍在视频下方逐条写出；回顾窗口从 `/ketchup-video` 之前用户的最后一条消息开始（[#797](https://github.com/cursor/plugins/pull/797)）
+- 新增 `/ketchup-video`：用一段无声幻灯片视频回顾变化，待用户决定的事项仍在视频下方逐条写出；回顾窗口从用户调用 `/ketchup-video` 之前的最后一条消息开始（[#797](https://github.com/cursor/plugins/pull/797)）
 - 生成的形式化验证技能每次模型检查后调用 `/statechart` 解读结果，用状态和步骤讲清不变量反例；PROPERTY 失败只链接 TLC 反例文件，不画成状态路径（[#794](https://github.com/cursor/plugins/pull/794)）
 
 ## 0.15.31（2026-10-24）
@@ -56,7 +56,7 @@
 
 ## 0.15.27（2026-10-19）
 
-- `/sharpen` 删除“不返回重写后的提示词”的禁令；完整改为提示词改写工具是在 0.15.29（[#712](https://github.com/cursor/plugins/pull/712)）
+- `/sharpen` 删除“不返回重写后的提示词”的禁令；彻底改成提示词改写工具是在 0.15.29（[#712](https://github.com/cursor/plugins/pull/712)）
 
 ## 0.15.26（2026-10-18）
 
@@ -183,7 +183,7 @@
 
 ## 0.15.1（2026-09-10）
 
-- 每个结论都要带证据，或者标明没核实（[#341](https://github.com/cursor/plugins/pull/341)）
+- 每个结论都要带证据，或者标明未核实（[#341](https://github.com/cursor/plugins/pull/341)）
 
 ## 0.15.0（2026-09-08）
 
@@ -305,7 +305,7 @@
 
 ## 0.10.1（2026-07-09）
 
-- composer 槽位改用 grok-4.5-fast-xhigh（[#142](https://github.com/cursor/plugins/pull/142)）
+- composer 角色改用 grok-4.5-fast-xhigh（[#142](https://github.com/cursor/plugins/pull/142)）
 
 ## 0.10.0（2026-06-24）
 

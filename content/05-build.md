@@ -6,7 +6,7 @@
 
 ## Feature playbook 逐步拆
 
-`playbooks/feature.md` 有 8 步，每一步背后都有一条原则：
+`playbooks/feature.md` 有 8 步，除最后一步开 PR 外，每一步背后都有一条原则：
 
 | 步骤 | 内容 | 背后的原则 |
 |---|---|---|
@@ -36,13 +36,13 @@
 
 **我的理解**：这四项强迫 agent 在派活之前想清楚“能不能并行、该不该并行”。没有这一步，常见的失败是几个子 agent 同时改同一个文件，最后谁也合不进去。
 
-Feature 还明确划了派工边界：同一个功能或迁移中互相耦合的代码交给**一个 owner**，由它在阻塞阶段之后内部拆分。父级并行适合产出独立成果的切片，例如审计、跨子系统调查和竞争实验。阶段切换时重写检查点；后续轮次默认换新 owner，带齐累计指令，避免中断链丢要求。
+Feature 还明确划了派工边界：同一个功能或迁移中互相耦合的代码交给**一个 owner**，由它在阻塞阶段之后内部拆分。父级并行适合产出独立成果的切片，例如审计、跨子系统调查和竞争实验。阶段切换时重写检查点；后续轮次默认换新 owner，带齐累计指令，避免链路中断时丢要求。
 
 ## 清理、审查和开 PR 的顺序
 
 Opening a PR 当前要求提交前跑 `cursor-team-kit` 的 `/deslop`，评审前跑 `/no-comments`；PR 标题、描述和 commit body 先按 `/technical-writing` 写，再过 `/unslop`。`interrogate` 用于有争议的设计，**不再是每个开 PR 的子 agent 都必须执行的检查**。一旦调用，按第 4 章的运行证据规则报告问题，不自动修。
 
-PR 描述按 Why、What changed、Scope、Tradeoffs、Blast Radius、Verification 的顺序写。空节可以省略，Scope 必留。当前规则要求 PR 直接 ready，不开 draft；如果运行环境有内置 PR 工具，创建、编辑、改 base 和标 ready 走内置工具，其他操作用选定 forge。没有内置工具时默认 `gh`，可用且能解析仓库的 Origin 优先，不依赖 Graphite。
+PR 描述按 Why、What changed、Scope、Tradeoffs、Blast Radius、Verification 的顺序写。空节可以省略，Scope 必留。当前规则要求 PR 直接 ready，不开 draft；如果运行环境有内置 PR 工具，创建、编辑、改 base 和标 ready 走内置工具，其他操作用选定 forge。没有内置工具时默认 `gh`：可用且能解析仓库 Origin 时优先用它，不依赖 Graphite。
 
 **开 PR 不等于开始 babysit**。普通子 agent 清理 diff、贴 URL 就返回，主对话继续构建，等阶段或整栈完成后另行按请求运行 Babysit。Autopilot-full / Autopilot-stack 的 owner 是例外：brief 已经给了 babysit 任务，code-ready 报告之后就可以开始，之后报告 merge-ready；stack 仍然不能合并。
 
@@ -84,11 +84,11 @@ url: https://github.com/cursor/plugins/blob/main/pstack/skills/principle-test-be
 
 用两个假想编辑来判定：把代码改坏（返回错值、漏掉一个副作用、把副作用触发两次），测试必须失败；把内部实现换一种写法但每个可观察结果都不变，测试必须仍然通过。只满足一半的，重写或删掉。
 
-这里要注意一个容易搞反的点：**对 mock 的断言不一定是“实现细节”**。如果约定是“空购物车绝不扣款”，那么断言支付客户端没被调用就是行为；mock 收到的请求体也是行为，因为那个外部服务确实观察到了它。真正算实现细节的是对内部私有助手、内部调用顺序的断言。#633 把这条从“列出禁止的断言形状”改成“由契约判定，不由断言形状判定”，就是为了让 agent 能处理原文没枚举到的情况。
+这里要注意一个容易搞反的点：**对 mock 的断言不一定是“实现细节”**。如果约定是“空购物车绝不扣款”，那么断言支付客户端没被调用就是行为；mock 收到的请求体也是行为，因为那个外部服务确实观察到了它。真正算实现细节的是对内部私有辅助函数、内部调用顺序的断言。#633 把这条从“列出禁止的断言形状”改成“由契约判定，不由断言形状判定”，就是为了让 agent 能处理原文没枚举到的情况。
 
 ## /unslop：清理文字
 
-`unslop` 的 description 原来是“Cut AI tells from any writing. Must always apply.”。它设了 `disable-model-invocation: true`，不会自己触发，后半句反而被 agent 当成命令，[#572](https://github.com/cursor/plugins/pull/572) 把它删了。poteto-mode 仍然要求所有文字表面都过它，包括给你的回复。
+`unslop` 的 description 原来是“Cut AI tells from any writing. Must always apply.”。它设了 `disable-model-invocation: true`，不会自己触发，后半句反而被 agent 当成命令，[#572](https://github.com/cursor/plugins/pull/572) 把它删了。poteto-mode 仍然要求所有文字表面都过它，包括写给你的回复。
 
 规则有编号，而且编号是“稳定 id”，删掉的规则留空号，因为别的技能会按编号引用（比如回复规则里引用了 “unslop rule 14”）。这个细节说明她把技能当代码维护。
 
@@ -108,9 +108,9 @@ url: https://github.com/cursor/plugins/blob/main/pstack/skills/unslop/SKILL.md
 `no-comments` 不自己判断，而是派一个叫 Comment Sicko 的子 agent，然后审它的结果。几个设计点：
 
 - 主 agent 要**驳回** Comment Sicko 越界的修改：改了应用逻辑、超出范围、删了受保护的注释。
-- 发现注释背后其实是一个 workaround 时，修范围内根因，删掉 workaround；需要改结构就先用 `architect` 出草图，再实现。根因超出范围时只落最小范围内修复，剩余明确报告，不能借原则扩大范围。
+- 发现注释背后其实是一个 workaround 时，在范围内修根因，删掉 workaround；需要改结构就先用 `architect` 出草图，再实现。根因超出范围时，只做最小范围内的修复，剩余的明确报告，不能借原则扩大范围。
 - 这个 agent 的 id 现在是 `comment-sicko`（[#486](https://github.com/cursor/plugins/pull/486)）。原来的 “Comment Sicko” 带空格，在 Grok 上派不出去。界面上显示的名字没变。
-- “不要删”“改前找某某”这类约束注释，先证明是否涉及自己改不了的外部约束，该保留的保留。其余提议用范围内最便宜的类型、运行时检查、测试或 CI lint 替代，并**等交互批准**，无人值守和 eval 需要事先批准。获批就编码后删注释；否则按当前规则删注释，并把未执行的约束明确报告为 open，不能声称已有保护。
+- “不要删”“改前找某某”这类约束注释，先证明是否涉及自己改不了的外部约束，该保留的保留。其余提议用范围内最便宜的类型标注、运行时检查、测试或 CI lint 替代，并**等交互批准**，无人值守和 eval 需要事先批准。获批就编码后删注释；否则按当前规则删注释，并把未执行的约束明确报告为 open，不能声称已有保护。
 
 最后一条是 Encode Lessons in Structure 的又一次体现：注释里的约束没人执行，换成检查才有人执行。
 

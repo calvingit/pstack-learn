@@ -169,7 +169,7 @@ PR 的口号是 “Every rule stays. Only the text that carries it gets shorter.
 
 `/automate-me` 读你的对话记录，生成一个 `<你的名字>-mode`。这其实是 pstack 的元目标：poteto-mode 是她的工作方式，你应该有你自己的。指南第 9 页的标题就叫 “Make it yours”。
 
-和它配对的还有两个入口技能，都是只手动调用：
+和它配对的还有两个入口技能，都只能手动调用：
 
 - `/poteto-help`：先问清你要做什么，给一段能直接发的 prompt 和出处，**自己不开工**。
 - `/sharpen`（0.15.24 新增，现行行为已变）：把任务变深，再交回改写后的 prompt，**不执行任务**。当前版本先想四件事：顶尖专家会补上什么、会从什么尚未被消化的原始材料开始、会用哪些具体方法和工具、由什么外部证据判断结果正确。然后据此改写，保留本该由用户决定的选择。早期 #615 的“不交回改写 prompt”已被替换，不能再按旧版使用。
@@ -182,14 +182,14 @@ PR 的口号是 “Every rule stays. Only the text that carries it gets shorter.
 - Explain the Number 从测量前就开始：先写能改变决定的结果和噪声底线；限制因素必须来自运行时 profile 或系统计数器并映射到源码，不能只读代码猜。
 - `/interrogate` 改为让对手实际破坏变更，再重跑每个发现的命令。只保留运行证明且违背意图的问题，合并同根因发现；报告发现，不直接修复。
 - Orchestrate 用工具和 Project tracker/store 管项目，旧的 `scripts/orch/` 实现已删除。协调者不写代码；先让一个单元走通 owner、独立 verifier、合并，再扩散。不能继续教人调用旧编排脚本。
-- Autopilot 的完整 swarm 在 code-ready head 跑一次，新增行为、重设计或大 diff 才重跑完整 swarm；rebase、冲突处理和小修由一个 verifier 检查新 head，纯措辞改动不用重跑。每个新 head 仍要有自己的绿色 CI，验证沿用受 Shipping 的 patch-id 规则约束。
+- Autopilot 的完整 swarm 在 code-ready head 跑一次，新增行为、重设计或大 diff 才重跑完整 swarm；rebase、冲突处理和小修由一个 verifier 检查新 head，纯措辞改动不用重跑。每个新 head 仍要有自己的绿色 CI，验证沿用 Shipping 的 patch-id 规则。
 - Multi-phase plan 的十条 live lane 里要有一条对 trunk 和 head 跑同一核心场景的 Regression lane。性能两边都必须产出同一指标；trunk 没有新功能时，记录事实，给新增工作及用户等待的最终状态设绝对预算，不能拿不同场景算提速比。
 
 ### /ketchup 和 /ketchup-video
 
-`/ketchup` 当前要求把所有仍等用户决定的事项列全，每项给足链接、收益、证据和风险，让用户仅凭回复就能决定。摘要控制在 100 个英文词以内，整份回复随待决事项增长，**没有旧版“整条 150 字内”的上限**。agent 自己还能做的工作不能变成用户待办。
+`/ketchup` 当前要求把所有仍等用户决定的事项列全，每项给足链接、收益、证据和风险，让用户仅凭回复就能决定。摘要控制在 100 个英文词以内，整份回复随待决事项增长，**没有旧版“整条 150 词内”的上限**。agent 自己还能做的工作不能变成用户待办。
 
-新增的 `/ketchup-video` 把发生的事做成最多 10 页、带烧录字幕的无声横向短视频，待决事项仍放在视频下方的文字里。素材来自真实截图、录屏、diff 和数据，不能画没抓过的界面。渲染在仓库外进行，这是它对 ketchup 只读规则的唯一例外。交付前逐页检查实际帧、字幕可读性和停留时间；渲染失败要明说，只给待决事项。源码见 [sharpen](https://github.com/cursor/plugins/blob/main/pstack/skills/sharpen/SKILL.md) 和 [ketchup-video](https://github.com/cursor/plugins/blob/main/pstack/skills/ketchup-video/SKILL.md)。
+新增的 `/ketchup-video` 把发生的事做成最多 10 页、带烧录字幕的无声横向短视频，待决事项仍放在视频下方的文字里。素材来自真实截图、录屏、diff 和数据，不能画没抓过的界面。渲染在仓库外进行，这是它对 ketchup 只读规则的唯一例外。交付前逐页检查实际帧、字幕可读性和停留时间；渲染失败要明说，只给待决事项。源码见 [ketchup](https://github.com/cursor/plugins/blob/main/pstack/skills/ketchup/SKILL.md) 和 [ketchup-video](https://github.com/cursor/plugins/blob/main/pstack/skills/ketchup-video/SKILL.md)。
 
 ```exercise 练习
 - 翻你最近 20 条对 agent 的纠正，找出出现两次以上的错误类别

@@ -39,7 +39,7 @@ url: https://github.com/cursor/plugins/blob/main/pstack/skills/poteto-mode/SKILL
 | Delegation | 2 | 怎么派活：守上下文、不卡在人身上 |
 | Meta | 1 | 怎么改进：把教训编码进结构 |
 
-完整列表见 [原则速查](#/ref/principles)。
+完整列表见 [原则速查](/ref/principles)。
 
 ## 先记住这六条
 
@@ -53,7 +53,7 @@ url: https://github.com/cursor/plugins/blob/main/pstack/skills/poteto-mode/SKILL
 
 两个或多个修复共享同一个前提、且都败在同一道关上，说明前提有问题。下一步是把前提写成一句能被检验的话，再找一个“如果前提为假就会得出不同结果”的观测，先做这个观测。先别写第三个修复。
 
-这条是 0.15.0 加的，针对 agent 一个很典型的失败模式：在错误的方向上越修越深。#633 改写时给它补了一个判断：如果证据显示总有一方吃亏，要去改“是什么让它一直吃亏”的那个机制，而不是每次替它收拾残局。
+这条是 0.15.0 加的，针对 agent 很典型的一个失败模式：在错误的方向上越修越深。#633 改写时给它补了一个判断：如果证据显示总有一方吃亏，要去改“是什么让它一直吃亏”的那个机制，而不是每次替它收拾残局。
 
 ### Sequence Work into Verifiable Units
 

@@ -48,7 +48,7 @@
   "num": "3",
   "group": "核心回路",
   "file": "03-understand.md",
-  "title": "理解代码：how / why / interrogate",
+  "title": "理解代码：how / why / blast-radius / interrogate",
   "summary": "动手前先建心智模型，区分已知和推断。",
   "sources": [
    "art-pt2",
@@ -187,11 +187,10 @@
   "num": "11",
   "group": "实践",
   "file": "11-calvingit.md",
-  "title": "对照 calvingit/skills",
+  "title": "对照 calvingit/cstack",
   "summary": "哪些该学，哪些不照搬。",
   "sources": [
    "r-calvin",
-   "r-matt",
    "t-matheus"
   ]
  },

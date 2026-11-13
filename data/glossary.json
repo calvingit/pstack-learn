@@ -42,7 +42,7 @@
  {
   "name": "Overnight contract",
   "zh": "过夜合约",
-  "desc": "目标、完成条件、权限、逃生口四样写清楚，才把任务留给夜里的循环。"
+  "desc": "目标、完成条件、权限、逃生口四样都写清楚，才把任务留给夜里的循环。"
  },
  {
   "name": "Decision log",
@@ -86,8 +86,8 @@
  },
  {
   "name": "Kernel",
-  "zh": "内核（calvingit/skills）",
-  "desc": "calvingit/skills 里跨技能共享的 K01–K17 契约，不是 pstack 的概念。"
+  "zh": "内核（cstack-core）",
+  "desc": "calvingit/cstack 里跨技能共享的四份文档（PRINCIPLES、ARTIFACTS、CRITERIA、ROLES），技能读文件对齐，不靠互相调用；不是 pstack 的概念。"
  },
  {
   "name": "Formal verification skill",
@@ -107,7 +107,7 @@
  {
   "name": "Statechart",
   "zh": "状态图",
-  "desc": "将 TLA+ 检查结果转为 Mermaid 状态图，用读者语言标状态与动作，给违规规则的最短路径；图不扩大模型的证明范围。"
+  "desc": "将 TLA+ 检查结果转为 Mermaid 状态图，用读者语言标状态与动作，并给出违规规则的最短路径；图不扩大模型的证明范围。"
  },
  {
   "name": "Generated harness tree",

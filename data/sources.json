@@ -611,12 +611,12 @@
  },
  {
   "id": "r-calvin",
-  "title": "calvingit/skills",
+  "title": "calvingit/cstack",
   "author": "文哥",
-  "date": "2026-10",
-  "url": "https://github.com/calvingit/skills",
+  "date": "2026-11",
+  "url": "https://github.com/calvingit/cstack",
   "type": "仓库与官方文档",
-  "note": "本课程对照的仓库。",
+  "note": "本课程对照的仓库（工程方法 Skills 包，v0.6.8）。",
   "verified": true
  },
  {

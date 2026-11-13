@@ -15,7 +15,7 @@ by: @dotta，2026-10-10
 url: https://x.com/dotta/status/2108665034226225425
 ```
 
-他引的示例 prompt 只有四行：
+他引的示例 prompt 一共五行：
 
 ```text
 /poteto-mode fix the duplicate notification after retry.
@@ -97,7 +97,7 @@ url: https://github.com/cursor/plugins/blob/main/pstack/skills/poteto-mode/SKILL
 
 - 每次 Task 默认后台运行，给运行中的 agent 追加指令或 resume 也一样，避免前台调用挡住其他报告。默认 agent 模式，`readonly` 会失去 MCP，只有技能明确要求只读评委时才照做；通常传文件路径，不把大段上下文塞进 brief。模型按角色指定，最难的改动给最强判断模型。
 - **你对子 agent 的工作负责**。要自己看 diff、自己写总结，不能转述它说的话。
-- **默认开新的子 agent**。修一轮、补一轮、重试，都给一个新 agent，附上原始任务、后续所有指令和上一个 agent 的报告。只有新工作必须依赖旧 agent 手上的状态（本地 checkout、未提交改动、正在跑的 dev server）时才复用。原因写得很清楚：中断链式恢复会悄悄丢指令。
+- **默认开新的子 agent**。修一轮、补一轮、重试，都给一个新 agent，附上原始任务、后续所有指令和上一个 agent 的报告。只有新工作必须依赖旧 agent 手上的状态（本地 checkout、未提交改动、正在跑的 dev server）时才复用。原因写得很清楚：中断后的链式恢复会悄悄丢指令。
 - **工作流技能自己指定 `subagent_type`，不要覆盖**。`how`、`why`、`interrogate`、`reflect`、`swarm` 会自己设，为的是让评审来自不同模型。入口还特意说明：playbook 内部派活才用 `poteto-agent`，**绝不要派一个 `poteto-agent` 去跑 playbook 本身**。
 
 最后一条是踩坑踩出来的。长对话里多次打断再继续，模型常常会忘掉中间加的要求。
@@ -110,7 +110,7 @@ url: https://github.com/cursor/plugins/blob/main/pstack/skills/poteto-mode/SKILL
 
 ### 模型按角色分配
 
-模型选择写在一层间接上。技能里只说**角色**（“how explorer”“arena runners”），由 `/setup-pstack` 生成的角色表把角色映射到具体模型 slug。换模型不用改技能，也能按角色调预算。
+模型选择隔了一层间接。技能里只说**角色**（“how explorer”“arena runners”），由 `/setup-pstack` 生成的角色表把角色映射到具体模型 slug。换模型不用改技能，也能按角色调预算。
 
 `poteto-mode/SKILL.md` 里写明的默认分工有这些 【已核实】：
 
@@ -192,7 +192,8 @@ Hillclimb 有两处设计特别值得抄。一是**停止谓词要同时有目�
 | Refactoring | 你拥有契约，**结构变，行为不变** | 第 1 步先钉住行为契约：characterization 测试、快照、等价 harness。**类型检查和 lint 不算钉子**。第 7 步的成功标准是 reader load 下降，diff 没降低 reader load 就回滚 |
 | Prototype | 你拥有设计决策，**不是那段代码** | 唯一一个“质量不重要”的 playbook。第 1 步：先说要做的那个决定是什么，**没有决定就不做原型**，直接走 Feature |
 | Visual parity | 你拥有像素级等价，**基线就是规格，不许碰** | 反捷径条款：不改 harness、不篡改基线、不为让 diff 通过去重构组件、基线看着不对就停下来问。**等价靠 image diff 判定，不靠眼睛** |
-| Figure it out | — | 大型或跨切面的任务由它现场设计一套 playbook，不套现成的 |
+
+表里没有 Figure it out：它是 `skills/figure-it-out/` 下的技能，不是 playbook。大型或跨切面的任务由它现场设计一套运行方案，路由规则见上文执行规则第 3 条。
 
 Refactoring 那句“类型检查和 lint 不算钉子”值得多说一句：很多人重构前跑一遍 tsc 就算保护了，而 tsc 只保证编译，不保证行为。配合 Feature 里“多形态实现必须走 arena”这条不可跳过的规则，两处都明确堵死了“图省事”的口子。
 
@@ -200,7 +201,7 @@ Refactoring 那句“类型检查和 lint 不算钉子”值得多说一句：�
 
 | playbook | 立场 | 和其他章的关系 |
 |---|---|---|
-| Opening a PR | 每个别的 playbook 结束时都调用它 | PR body 是给已经有 diff 的评审者的**一分钟简报**。按 Why / What changed / Scope / Tradeoffs / Blast Radius / Verification 排列，空节可省，但 Scope 必留；创建 PR 本身不触发 Babysit |
+| Opening a PR | 其余 playbook 结束时都调用它 | PR body 是给已经有 diff 的评审者的**一分钟简报**。按 Why / What changed / Scope / Tradeoffs / Blast Radius / Verification 排列，空节可省，但 Scope 必留；创建 PR 本身不触发 Babysit |
 | Babysit | 把 PR 或一叠 PR 推到可以合并 | 见[第 7 章](/ch/07-parallel) |
 | Shipping | 决定上线 | 见[第 7 章](/ch/07-parallel) |
 | Autonomous run | 一个任务跑到完成条件 | 见[第 7 章](/ch/07-parallel) |

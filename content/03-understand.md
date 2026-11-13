@@ -12,7 +12,7 @@ pstack 里凡是派多个子 agent 的技能，都可以归到五种形状之一
 | Investigate → synthesize | `/why`、`/recall`、`/reflect` | 每个证据来源派一个 investigator，一个 synthesizer 汇总 | 一个来源一个 agent，没有来源会被略过；查不到也变成一条发现 |
 | Bakeoff + graft | `/arena`、`/architect` | 多个 runner 拿同一份 brief，交叉家族盲审，取一个底座嫁接其他候选的优点 | 评分表对候选保密，评审只看到脱敏标签，比较才公平 |
 | Coverage / race | `/swarm`、shipping | 多个云端 worker 分头跑切片或赛跑，汇成一张表 | 缺证据等于没通过，所以每个结果都自带 SHA |
-| Adversarial panel | `/interrogate` | 每个模型家族一个 reviewer，lead 把发现分桶 | 差异来自不同模型，不是扮演不同人格 |
+| Adversarial panel | `/interrogate` | 对抗者各自尝试弄坏改动，只保留运行证实过的发现 | 差异来自不同模型，不是扮演不同人格 |
 
 五种之外还有一条贯穿始终的规矩：**Author ≠ critic**。写代码的 agent 不验收自己的活（`/no-comments` 是派 Comment Sicko 去删自己的注释，shipping 是换 verifier 判每个 PR）。这一条在[第 7 章](/ch/07-parallel)展开。
 
@@ -25,7 +25,7 @@ pstack 里凡是派多个子 agent 的技能，都可以归到五种形状之一
 | 它现在怎么工作 | `/how` | Explore → explain | 架构说明：Overview、Key Concepts、How It Works、Where Things Live、Gotchas | 代码本身 |
 | 它为什么长这样 | `/why` | Investigate → synthesize | 动机和取舍，区分已知、推断、未知 | git、PR、工单、文档、聊天、监控 |
 | 改了会坏哪里 | `/blast-radius` | —（单 agent） | 一两个关键事实，并用运行证明 | 实际执行的脚本或复现 |
-| 这个改动站得住吗 | `/interrogate` | Adversarial panel | 多模型对抗评审的综合结论 | 不同模型家族的独立审查 |
+| 这个改动站得住吗 | `/interrogate` | Adversarial panel | 只保留运行证实过的发现清单 | 不同模型家族的独立审查加重跑确认 |
 
 `/teach` 是 how + why 的组合，配图讲给你听；`/recall` 从你过去的对话记录里找回上下文（Investigate → synthesize）。
 
@@ -44,7 +44,7 @@ pstack 里凡是派多个子 agent 的技能，都可以归到五种形状之一
 
 ## /why：把“为什么”当成取证
 
-`why` 是我认为 pstack 里最被低估的技能。它的流程：
+`why` 是 pstack 里我认为最被低估的技能。它的流程：
 
 1. 明确**目标**（哪段代码、哪个决定）和**问题**（设计理由、回归、阈值从哪来）。
 2. 建立**代码锚点**：文件路径和行号、关键符号、最近的提交、合并提交里的 PR 号、工单号，跑 `git blame`。
@@ -69,7 +69,7 @@ by: pstack/skills/blast-radius/SKILL.md
 url: https://github.com/cursor/plugins/blob/main/pstack/skills/blast-radius/SKILL.md
 ```
 
-所以它要求找出“整件事安全与否依赖的一两个事实”，然后把每个事实沿着这个梯子尽量往下推：
+找到事实还不够，每个事实要沿着这个梯子尽量往下推：
 
 1. 你说的。单独看毫无价值。
 2. 你指出了那一行（真实的 `file:line`）。
@@ -83,13 +83,13 @@ Theo 在他那期对比视频里特别提到这一条“救过他几次” 【�
 
 **我的看法**：拿去评审时，写明停在这五级的哪一级，比一句“请仔细检查”具体。
 
-## /interrogate：对抗信号来自模型多样性
+## /interrogate：发现要被运行证明
 
-对抗信号来自模型家族的差别，不来自给同一个模型派不同人格。默认是 Opus 和 Grok 各自审查同一份 diff。原文写在第一段：“The adversarial signal comes from model diversity, not assigned personas.”
+对抗者尝试弄坏一个改动或一个设计；一条发现只有被一次运行证明，才能保留。原文写在第一段：“Adversaries try to break a change or a design. A finding survives only when a run proves it. Report the findings. Do not apply fixes.”
 
-流程：确定范围 → 用一段话写清意图（拿不准就问人）→ 并行派评审 → 综合。**不自动应用修改**。
+流程四步：复述意图 → 并行派对抗者（每个发现都附实际运行的命令和输出）→ 主协调者重跑确认 → 只报证实过的发现。**不自动应用修改**。0.15.35 起 `interrogate` 改成这套运行证据规则，复用 arena 的派工但跳过交叉评审，机制详见[第 4 章](/ch/04-design)。
 
-指南第 10 页的坑里有一条：“Accepting every review comment.” 机器人和人提的意见里都混着真问题和噪声，`interrogate` 把发现分成“要处理”和“驳回（附理由）”两桶。
+指南第 10 页的坑里有一条：“Accepting every review comment.” 机器人和人提的意见里都混着真问题和噪声，`interrogate` 只保留重跑证实过的发现，并写明丢了哪些、为什么，两种取舍你都可以推翻。
 
 ```callout warn 什么时候不要用
 Pt.2 里她说过：不要对抽象计划做对抗评审，agent 会凭空想出理论风险。`interrogate` 应该对着已经写出来的代码或原型用。

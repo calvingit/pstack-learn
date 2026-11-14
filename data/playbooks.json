@@ -148,7 +148,7 @@
  },
  {
   "group": "会话",
-  "stance": "那个会删用户状态的 playbook",
+  "stance": "唯一会删用户状态的 playbook",
   "name": "Worktree and simulator cleanup",
   "zh": "清理 worktree 与模拟器",
   "desc": "回收磁盘：清理已合并或废弃的 worktree、过期 iOS 模拟器。"

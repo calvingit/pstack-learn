@@ -13,7 +13,7 @@
 - poteto-mode 首条回复先复述用户目标、问题及预计的最小改动，不等确认；子 agent 简报、PR 的 Why 和最终报告也要带上目标。给运行中的 agent 追加指令或恢复执行同样走后台调用（[#986](https://github.com/cursor/plugins/pull/986)）
 - 模型名被拒后按调用技能的规则继续回退，跳过已经被拒的名字；arena 的候选席位可替换或撤掉再补足。交叉评委必须来自父模型以外的家族，配置池和默认池都找不到可用模型时跳过评委，由协调者选基础方案并说明（[#986](https://github.com/cursor/plugins/pull/986)）
 - `/interrogate` 改成在独立 worktree 中尝试破坏真实代码；每条发现须附实际运行的命令和输出，主 agent 重跑确认后才保留。设计和计划也要用原型或探针举证，移除旧的评审模板与分档裁决（[#986](https://github.com/cursor/plugins/pull/986)）
-- autopilot 只用当前 head 上可展示的失败或本 PR 弄错的文档阻塞 PR；基础分支已有的问题通常不阻塞，其他建议留作后续。每完成一个单元就推送，纯措辞修改不再派 verifier。autopilot-stack 简化为 autopilot-full 不合并：只有依赖关系才堆叠，子 PR rebase 到父 PR 分支，交付后未经用户同意不再推送（[#986](https://github.com/cursor/plugins/pull/986)）
+- autopilot 只用当前 head 上可展示的失败或本 PR 弄错的文档阻塞 PR；基础分支已有的问题通常不阻塞，其他建议留作后续。每完成一个单元就推送，纯措辞修改不再派 verifier。autopilot-stack 简化为 autopilot-full 的不合并版本：只有依赖关系才堆叠，子 PR rebase 到父 PR 分支，交付后未经用户同意不再推送（[#986](https://github.com/cursor/plugins/pull/986)）
 - Explain the Number 提前到测量之前：先写清什么结果会改变决策、噪声底限是多少；轮次波动大于效果时停止。`/ketchup-video` 每页加字幕，并从成片逐帧测量完整停留时间，按新增文字量检查能否读完（[#986](https://github.com/cursor/plugins/pull/986)）
 
 ## 0.15.34（2026-10-27）
@@ -51,7 +51,7 @@
 ## 0.15.28（2026-10-19）
 
 - `/setup-pstack` 在项目尚无形式化验证技能时，询问是否运行 `/create-formal-verification-skill`，帮助和指南同步补齐入口（[#715](https://github.com/cursor/plugins/pull/715)）
-- 形式化验证对事件顺序问题默认选 TLA+，不受实现语言限制；没有适用验证器时明确说明，并用生成输入测试真实代码，避免用手写函数模型替代代码（[#721](https://github.com/cursor/plugins/pull/721)、[#724](https://github.com/cursor/plugins/pull/724)）
+- 形式化验证对事件顺序问题默认选 TLA+，不受实现语言限制；没有适用验证器时明确说明，并用生成的输入测试真实代码，避免用手写函数模型替代代码（[#721](https://github.com/cursor/plugins/pull/721)、[#724](https://github.com/cursor/plugins/pull/724)）
 - 新增 `/maintain-formal-verification-skill`：根据各检查记录的覆盖文件、函数和同步提交追踪代码变化，更新模型、harness 或性质，重跑并证明检查仍能抓住错误；逐项报告同步、已更新、bug 或阻塞，阻塞项保留旧同步提交（[#716](https://github.com/cursor/plugins/pull/716)）
 
 ## 0.15.27（2026-10-19）

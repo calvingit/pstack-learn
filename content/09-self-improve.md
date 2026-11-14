@@ -47,19 +47,19 @@ url: https://github.com/cursor/plugins/blob/main/pstack/skills/correct/SKILL.md
 
 ## /reflect：会话结束后的复盘
 
-`/reflect` 在会话结束后挖掘可以长期保留的经验，再把每条路由到某个**已有技能**的具体修改上。
+`/reflect` 在会话结束后挖掘可以长期保留的经验，再把每条经验对应到某个**已有技能**的具体修改上。
 
 - 只在你说 “reflect” 时运行。琐碎的、跑题的、已有技能覆盖且被正确遵守的对话直接跳过。“One-offs are not learnings.” 一次性的事不算经验。
 - 只读当前会话的记录，**不跨工作区去 glob 别的项目**，因为那会读到别的私人聊天。
 - 三个评审从判断、工具、发散三个角度并行审视，再由一个综合者给出 Accepted / Rejected / Backlog。
 - 先把更适合 lint、脚本、元数据或运行时检查的 Accepted 项移到 Backlog。Accepted 的具体修改**等你明确批准**；Backlog 按上游流程直接登记到团队的 devex 或 backlog tracker。
-- 不编辑 `plugins/cache/`。批准前先展示目标位置 `.cursor/skills/<skill>/` 或 `~/.cursor/skills/<skill>/`，批准后复制过去再改。小修直接做，实质改动、新技能或 description 调优交给内置 create-skill 的对应循环；不主动开 PR 或 push。
+- 不编辑 `plugins/cache/`。批准前先展示目标位置 `.cursor/skills/<skill>/` 或 `~/.cursor/skills/<skill>/`，批准后复制过去再改。小修直接做，实质改动、新技能或 description 调优交给内置 create-skill 的对应循环；不主动开 PR 或推送。
 
 和 `/correct` 的区别：`/correct` 改仓库让错误不能发生；`/reflect` 改技能让 agent 下次做得更好。按她的价值排序，能用 `/correct` 解决的优先用 `/correct`。
 
 ## 把规则编码成脚本：一个真实样本
 
-这一章讲的“价值排序”不是口号，它真的在 pstack 自己身上执行了：`poteto-mode/scripts/` 用 Bun/TypeScript 脚本、测试和类型检查落实规则。脚本与测试数量随版本变化，这里不沿用旧版计数。她的原则是：**文字里说“跑 X”的地方，X 必须是一个确定性工具**。四个最值得看的例子。
+这一章讲的“价值排序”不是口号，它真的在 pstack 自己身上执行了：`poteto-mode/scripts/` 用 Bun/TypeScript 脚本、测试和类型检查落实规则。脚本与测试数量随版本变化，这里不沿用旧版计数。她的原则是：**文字里说“跑 X”的地方，X 必须是一个确定性工具**。下面是四个最值得看的例子。
 
 ### check-plan.mjs：把写作规范变成 exit 1
 
@@ -95,11 +95,11 @@ Babysit 和 Shipping 轮询 GitHub 靠它。它的价值在于**把“现在什�
 
 `show-me-your-work` 的决策日志是 TSV，作者预期它会被人用表格软件打开。所以 log.sh 做了一件很少有人想到的事：**把以 `=`、`+`、`-`、`@` 开头的单元格加一个单引号前缀**，同时去掉制表符和换行。
 
-注释写得很直白：受攻击者控制的内容（PR 标题、文件名、生成的文本）不能因为评审者打开文件而变成公式执行。这是“外部输入一律标 untrusted”那条规则落到了一个 20 行 bash 脚本里。
+注释写得很直白：受攻击者控制的内容（PR 标题、文件名、生成的文本）不能因为评审者打开文件而变成公式执行。“外部输入一律标 untrusted”那条规则，就落实在一个 20 行的 bash 脚本里。
 
 ### bootstrap.ts：装依赖也做成幂等
 
-它按 package.json + bun.lock 的哈希决定要不要装，重跑时空操作。技能里因此不必写“先 npm install”。这是 Make Operations Idempotent 用在它自己的安装步骤上。
+它按 package.json + bun.lock 的哈希决定要不要装，重跑时是空操作。技能里因此不必写“先 npm install”。这是 Make Operations Idempotent 用在它自己的安装步骤上的例子。
 
 ```callout tip 这几个脚本的共同点
 没有一个是帮 agent 少干活，都是替 agent 记住一件事。工具不负责加速，负责把容易忘的规则变成一定会被执行的东西。第 8 章说 Encode Lessons in Structure 是她自我改进的根，这几个脚本就是例子。
@@ -107,7 +107,7 @@ Babysit 和 Shipping 轮询 GitHub 靠它。它的价值在于**把“现在什�
 
 ## 写技能：Authoring 和 Eval 两个 playbook
 
-**Authoring or modifying a skill** 只有四步：用 Cursor 自带的 create-skill → 校验（frontmatter 有 name 和 description、引用的文件存在、跨技能链接能解析）→ 结构性的改动写测试用例 → 开 PR。
+**Authoring or modifying a skill** 只有四步：用 Cursor 自带的 create-skill → 校验（frontmatter 有 name 和 description、引用的文件存在、跨技能链接能解析）→ 结构性的改动要写测试用例 → 开 PR。
 
 后面那段写作建议很短，值得逐句读：
 
@@ -172,24 +172,24 @@ PR 的口号是 “Every rule stays. Only the text that carries it gets shorter.
 和它配对的还有两个入口技能，都只能手动调用：
 
 - `/poteto-help`：先问清你要做什么，给一段能直接发的 prompt 和出处，**自己不开工**。
-- `/sharpen`（0.15.24 新增，现行行为已变）：把任务变深，再交回改写后的 prompt，**不执行任务**。当前版本先想四件事：顶尖专家会补上什么、会从什么尚未被消化的原始材料开始、会用哪些具体方法和工具、由什么外部证据判断结果正确。然后据此改写，保留本该由用户决定的选择。早期 #615 的“不交回改写 prompt”已被替换，不能再按旧版使用。
+- `/sharpen`（0.15.24 新增，现行行为已变）：把任务变深，再交回改写后的 prompt，**不执行任务**。当前版本先想四件事：顶尖专家会补上什么、会从什么尚未被消化的原始材料开始、会用哪些具体方法和工具、由什么外部证据判断结果正确。然后据此改写，保留本该由用户决定的选择。早期 #615 的“不交回改写 prompt”行为已被替换，不能再按旧版使用。
 
 ## 0.15.36 的自我改进重点
 
 对照当前源码与基线 `6ce45c59b9301a638c1fe1a7b8dc2a82b650898f` 的差异，除了新增形式化验证和 `/statechart`（见[第 6 章](/ch/06-verification)），还有几处会改变工作方式：
 
-- `/correct` 的测试层明确采用“双向检验”：行为坏了必须失败，只有内部结构变化时仍应通过。复制常量、prompt 字符串或测试自己构造的数据，不能代替真实行为验证。
-- Explain the Number 从测量前就开始：先写能改变决定的结果和噪声底线；限制因素必须来自运行时 profile 或系统计数器并映射到源码，不能只读代码猜。
-- `/interrogate` 改为让对手实际破坏变更，再重跑每个发现的命令。只保留运行证明且违背意图的问题，合并同根因发现；报告发现，不直接修复。
+- `/correct` 的测试层明确采用“双向检验”：行为坏了必须失败，仅内部结构变化时仍应通过。复制常量、prompt 字符串或测试自己构造的数据，不能代替真实行为验证。
+- Explain the Number 从测量前就开始：先写能改变决定的结果和噪声底限；限制因素必须来自运行时 profile 或系统计数器并映射到源码，不能只读代码猜。
+- `/interrogate` 改为让对手实际破坏变更，再重跑每个发现的命令。只保留经重跑证实且违背意图的问题，合并同根因发现；报告发现，不直接修复。
 - Orchestrate 用工具和 Project tracker/store 管项目，旧的 `scripts/orch/` 实现已删除。协调者不写代码；先让一个单元走通 owner、独立 verifier、合并，再扩散。不能继续教人调用旧编排脚本。
-- Autopilot 的完整 swarm 在 code-ready head 跑一次，新增行为、重设计或大 diff 才重跑完整 swarm；rebase、冲突处理和小修由一个 verifier 检查新 head，纯措辞改动不用重跑。每个新 head 仍要有自己的绿色 CI，验证沿用 Shipping 的 patch-id 规则。
-- Multi-phase plan 的十条 live lane 里要有一条对 trunk 和 head 跑同一核心场景的 Regression lane。性能两边都必须产出同一指标；trunk 没有新功能时，记录事实，给新增工作及用户等待的最终状态设绝对预算，不能拿不同场景算提速比。
+- Autopilot 的完整 swarm 在 code-ready head 跑一次，新增行为、重设计或大 diff 才重跑完整 swarm；rebase、解冲突和小修由一个 verifier 检查新 head，纯措辞改动不用重跑。每个新 head 仍要有自己的绿 CI，验证沿用 Shipping 的 patch-id 规则。
+- Multi-phase plan 的十条 live lane 里要有一条对 trunk 和 head 跑同一核心场景的 Regression lane。两边都必须产出同一性能指标；trunk 没有新功能时，记录事实，给新增工作及用户等待的最终状态设绝对预算，不能拿不同场景算提速比。
 
 ### /ketchup 和 /ketchup-video
 
-`/ketchup` 当前要求把所有仍等用户决定的事项列全，每项给足链接、收益、证据和风险，让用户仅凭回复就能决定。摘要控制在 100 个英文词以内，整份回复随待决事项增长，**没有旧版“整条 150 词内”的上限**。agent 自己还能做的工作不能变成用户待办。
+`/ketchup` 当前要求把所有仍等用户决定的事项列全，每项给足链接、对用户的影响、证据和风险，让用户仅凭回复就能决定。摘要控制在 100 个英文词以内，整份回复随待决事项增长，**没有旧版“整条 150 词内”的上限**。agent 自己还能做的工作不能变成用户待办。
 
-新增的 `/ketchup-video` 把发生的事做成最多 10 页、带烧录字幕的无声横向短视频，待决事项仍放在视频下方的文字里。素材来自真实截图、录屏、diff 和数据，不能画没抓过的界面。渲染在仓库外进行，这是它对 ketchup 只读规则的唯一例外。交付前逐页检查实际帧、字幕可读性和停留时间；渲染失败要明说，只给待决事项。源码见 [ketchup](https://github.com/cursor/plugins/blob/main/pstack/skills/ketchup/SKILL.md) 和 [ketchup-video](https://github.com/cursor/plugins/blob/main/pstack/skills/ketchup-video/SKILL.md)。
+新增的 `/ketchup-video` 把发生的事做成最多 10 页、带烧录字幕的无声横屏短视频，待决事项仍放在视频下方的文字里。素材来自真实截图、录屏、diff 和数据，不能画没抓过的界面。渲染在仓库外进行，这是它对 ketchup 只读规则的唯一例外。交付前逐页检查实际帧、字幕可读性和停留时间；渲染失败要明说，只给待决事项。源码见 [ketchup](https://github.com/cursor/plugins/blob/main/pstack/skills/ketchup/SKILL.md) 和 [ketchup-video](https://github.com/cursor/plugins/blob/main/pstack/skills/ketchup-video/SKILL.md)。
 
 ```exercise 练习
 - 翻你最近 20 条对 agent 的纠正，找出出现两次以上的错误类别

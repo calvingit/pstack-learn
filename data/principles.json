@@ -10,7 +10,7 @@
   "group": "core",
   "name": "Foundational Thinking",
   "zh": "地基思维",
-  "desc": "写逻辑前先定核心类型、数据结构、脚手架与功能的先后、并发方共享什么。",
+  "desc": "写逻辑前先定核心类型、数据结构、脚手架与功能的先后顺序，以及并发方共享什么。",
   "ch": "08-principles"
  },
  {
@@ -87,7 +87,7 @@
   "group": "architecture",
   "name": "Type System Discipline",
   "zh": "类型纪律",
-  "desc": "适用于所有静态类型语言：让非法状态、语义原始值混用和遗漏分支被编译器拒绝；边界解析外部数据，类型从权威 schema 推导。",
+  "desc": "适用于所有静态类型语言：让编译器拒绝非法状态、语义原始值混用和遗漏分支；边界解析外部数据，类型从权威 schema 推导。",
   "ch": "08-principles"
  },
  {
@@ -115,7 +115,7 @@
   "group": "verification",
   "name": "Prove It Works",
   "zh": "证明它能用",
-  "desc": "宣布完成前，对真实产物做验证，不接受代理指标或“能编译”。",
+  "desc": "宣布完成前，验证真实产物，不接受代理指标或“能编译”。",
   "ch": "06-verification"
  },
  {
@@ -143,7 +143,7 @@
   "group": "verification",
   "name": "Explain the Number",
   "zh": "解释数字",
-  "desc": "测量前先写清会改变决策的结果和噪声底线；用运行时 profile 或系统计数器找限制因素并映射到源码，排除测错对象，保留次数、分布与证据。",
+  "desc": "测量前先写清会改变决策的结果和噪声底限；用运行时 profile 或系统计数器找限制因素并映射到源码，排除测错对象，保留次数、分布与证据。",
   "ch": "06-verification"
  },
  {

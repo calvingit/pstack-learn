@@ -11,7 +11,7 @@
   "stance": "你拥有这个任务",
   "name": "Bug fix",
   "zh": "修 bug",
-  "desc": "自己在同一界面复现，二分排查，按证据修最小改动，先提交失败复现再提交修复。"
+  "desc": "自己在同一界面复现，二分排查，按证据做最小改动，先提交失败复现再提交修复。"
  },
  {
   "group": "性能",
@@ -88,7 +88,7 @@
   "stance": "你拥有合并前沿，停在用户决定处",
   "name": "Babysit",
   "zh": "看护 PR",
-  "desc": "先声明 drive/background/threads-only/check 并选 forge；只推进最低未合并 PR，按冲突、线程、CI 排序。GitHub 用 watcher，Origin 用原生检查；到 merge-ready 即停，从不自行合并。"
+  "desc": "先声明 drive/background/threads-only/check 并选 forge；只推进栈中最低的未合并 PR，按冲突、线程、CI 排序。GitHub 用 watcher，Origin 用原生检查；到 merge-ready 即停，从不自行合并。"
  },
  {
   "group": "交付",
@@ -102,7 +102,7 @@
   "stance": "你拥有可检查的退出条件",
   "name": "Autonomous run",
   "zh": "自主运行",
-  "desc": "先定义完成谓词，以事件 watcher 或心跳唤醒；逐单元验证并记日志，自行处理支持目标的可逆旁支修复，不能以停滞或放宽条件结束。"
+  "desc": "先定义完成条件，以事件 watcher 或心跳唤醒；逐单元验证并记日志，自行处理支持目标的可逆旁支修复，不能以停滞或放宽条件结束。"
  },
  {
   "group": "自治",
@@ -116,14 +116,14 @@
   "stance": "你拥有判定，每个 PR 有自己的 owner",
   "name": "Autopilot-full",
   "zh": "全自动驾驶",
-  "desc": "独立 PR 并行到合并。code-ready 的 head 完整 swarm 一次，大改才重跑完整 swarm，小修或 rebase 单 verifier，措辞改动免复验；新 head 必须 CI 绿，合并前检查 trunk 影响并遵守用户门禁。"
+  "desc": "独立 PR 并行到合并。code-ready 的 head 跑一次完整 swarm，大改才重跑完整 swarm，小修或 rebase 用一个 verifier，措辞改动免复验；新 head 必须有绿 CI，合并前检查 trunk 影响并遵守用户门禁。"
  },
  {
   "group": "自治",
   "stance": "在 verified 停下，交给用户合并",
   "name": "Autopilot-stack",
   "zh": "叠加自动驾驶",
-  "desc": "执行 Autopilot-full 但不合并，当前 head 验证且 CI 绿后交付，没有用户 go 就不再 push。只把真正有依赖的 PR 叠起来，child 对齐 parent tip，restack 后按 patch-id 规则保留有效判定。"
+  "desc": "执行 Autopilot-full 但不合并，当前 head 验证通过且有绿 CI 后交付，没有用户 go 就不再推送。只把真正有依赖的 PR 叠起来，child 对齐 parent tip，restack 后按 patch-id 规则保留有效判定。"
  },
  {
   "group": "会话",
@@ -158,6 +158,6 @@
   "stance": "各 playbook 的交付步骤，开 PR 不自动看护",
   "name": "Opening a PR",
   "zh": "开 PR",
-  "desc": "小而有序提交，标题用 Conventional Commits，正文为一分钟简报且必有 Scope；优先内置 PR 工具，否则 gh 或可用的 Origin。开 ready PR，真正依赖才叠栈；通常用户另行要求后再 babysit，Autopilot owner 例外。"
+  "desc": "提交小而有序，标题用 Conventional Commits，正文为一分钟简报且必有 Scope；优先内置 PR 工具，否则用 gh 或可用的 Origin。开 ready PR，真正依赖才叠栈；通常用户另行要求后再 babysit，Autopilot owner 例外。"
  }
 ]

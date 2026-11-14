@@ -25,14 +25,14 @@ calvingit/skills 已废弃，这一章的对照对象换成 calvingit/cstack—�
 - **项目级验证技能**。她的 `create-verification-skill` 和 cstack-create-verification-skill 几乎同构：都从仓库证据出发、复用现有 harness、不改产品代码、记录覆盖范围；产出的 harness 契约都要求 Launch、Doctor、Drive、Observe、Cleanup 这些段，Doctor 都是“这个实例值不值得驱动”的只读检查。她写 `.cursor/skills/verify-<app>/`，cstack 写 `.agents/skills/verify-<surface>/`（见[第 6 章](/ch/06-verification)）。
 - **做的人不验收自己**。Shipping 的“no owner merges on its own verdict”和 cstack-core 的“Implementer 永远不写 EVIDENCE；自检只是候选记录”是同一句话的两种写法。
 - **五级证明梯子**。blast-radius 要求每个事实沿“你说的 → 指出那一行 → 走通失败路径 → 跑了脚本 → 在应用里复现”的梯子尽量往下推，并说明停在哪一级（见[第 3 章](/ch/03-understand)）；cstack-core 的 CRITERIA.md 有一张几乎同构的五级证明层级表，同样要求“停在哪一层要写明”。两边各自长出了同一把梯子。
-- **事实和推断分开**。0.15.1 起 pstack 要求每个结论带证据或标签；cstack-core 第 3 条要求区分观察、推断、未知，EVIDENCE 只允许 PASS / FAIL / NOT VERIFIED 三种结论，证据要绑定候选和环境，条件变了要重判。
+- **事实和推断分开**。0.15.1 起 pstack 要求每个结论带证据或标签；cstack-core 第 3 条要求区分观察、推断、未知，EVIDENCE 只允许 PASS / FAIL / NOT VERIFIED 三种结论，证据要绑定合并候选和环境，条件变了要重判。
 - **复述目标**。她的 `/in-your-own-words` 和 cstack 的 restate-goal、bro 都是复述类技能，都只在手动输入时运行。差别在默认行为：0.15.35 起 pstack 的首条回复自动复述目标，cstack 仍全部手动触发。
 
 ## 值得借鉴的地方（按收益排序）
 
 ### 1. 验证技能加一个周期性的维护入口
 
-cstack-create-verification-skill 要求失效时更新同一份方法，但没有周期性入口，结果格式也没有约定。pstack 的 `maintain-verification-skill` 只允许三种结果：clean（没东西要改，不开分支不开 PR）、changed（一个 PR，装被证明过的修正）、blocked（说清楚卡在哪），并且 Live pass 必须跑，防止“读代码觉得没变”替代实际验证（见[第 6 章](/ch/06-verification)）。可以作为 cstack-create-verification-skill 的一个 refresh 契约，不新建技能。
+cstack-create-verification-skill 要求失效时更新同一份方法，但没有周期性入口，结果格式也没有约定。pstack 的 `maintain-verification-skill` 只允许三种结果：clean（没东西要改，不开分支不开 PR）、changed（一个 PR，里面是被证明过的修正）、blocked（说清楚卡在哪），并且 Live pass 必须跑，防止“读代码觉得没变”替代实际验证（见[第 6 章](/ch/06-verification)）。可以作为 cstack-create-verification-skill 的一个 refresh 契约，不新建技能。
 
 ### 2. 外部输入标 untrusted
 
@@ -44,7 +44,7 @@ cstack 对资料来源有可信度分级（官方承诺 / 自己实测 / 他人�
 
 ### 4. 报告性能数字前的 7 问
 
-cstack-performance 要求可比基线、记录波动、波动范围内不声称提升——这些约束管的是自己的实验。benchmark-checklist 的 7 个问题（为什么不是两倍？突破物理极限了吗？出错了吗？见[第 6 章](/ch/06-verification)）审计的是要报告的那个结论。两者互补，7 问可以作为 cstack-verify 验收性能类验收标准时的证据标准。
+cstack-performance 要求可比基线、记录波动、波动范围内不声称提升——这些约束管的是自己的实验。benchmark-checklist 的 7 个问题（为什么不是两倍？突破物理极限了吗？出错了吗？见[第 6 章](/ch/06-verification)）审计的是要报告的那个结论。两者互补，7 问可以作为 cstack-verify 判定性能类验收标准时的证据标准。
 
 ### 5. 可移植句子检验
 
@@ -56,7 +56,7 @@ cstack-chinese-writing-style 已经查翻译腔和英文名词移植，但没有
 
 ### 7. 给判定结论配一个机器可读的出口
 
-`watch-pr` 用退出码表达 READY / BLOCKER / TIMEOUT，CI 和 agent 按退出码分支，不用解析一段话；`log.sh` 防表格公式注入的做法也值得照抄（见[第 9 章](/ch/09-self-improve)）。cstack 的 EVIDENCE 是 Markdown，三值结论要被机器消费只能靠解析文本。cstack 明确不做脚本状态机，退出码出口不是状态机：给 `PASS / FAIL / NOT VERIFIED` 配一个确定性的报告命令，加的是纯函数式的出口，不是运行时。
+`watch-pr` 用退出码表达 READY / BLOCKER / TIMEOUT，CI 和 agent 按退出码分支，不用解析一段话；`log.sh` 防表格公式注入的做法也值得照抄（见[第 9 章](/ch/09-self-improve)）。cstack 的 EVIDENCE 是 Markdown，三值结论要供机器消费，只能靠解析文本。cstack 明确不做脚本状态机，退出码出口不是状态机：给 `PASS / FAIL / NOT VERIFIED` 配一个确定性的报告命令，加的是纯函数式的出口，不是运行时。
 
 ## 不照搬的地方
 
@@ -69,7 +69,7 @@ pstack 的 24 条原则偏工程手艺：怎么删代码、怎么做原型、怎
 ```
 
 ```callout warn 不照搬“不问人”的默认
-poteto-mode 的 Autonomy 允许可逆的外部动作（发团队消息、更新工单）不问就做。cstack 明确不做“不因用户一句话自动提升权限；不默认提交、推送、合并、部署”，cstack-ship 把就绪、授权和实际执行结果分开表达，授权用 GO / HOLD / NO-GO。保持现状。
+poteto-mode 的 Autonomy 允许可逆的外部动作（发团队消息、更新工单）不问就做。cstack 明确规定“不因用户一句话自动提升权限；不默认提交、推送、合并、部署”，cstack-ship 把就绪、授权和实际执行结果分开表达，授权用 GO / HOLD / NO-GO。保持现状。
 ```
 
 ## 一个完整的对照示例
@@ -81,7 +81,7 @@ poteto-mode 的 Autonomy 允许可逆的外部动作（发团队消息、更新�
 | 意图 | prompt 四要素；首条回复先复述目标 | cstack-clarify 定未决选择，cstack-specify 把验收标准写成 SPEC |
 | 理解 | Bug fix 第 2 步：how + why，二分排查 | cstack-diagnose 先建反馈回路再定位；how / why 手动追问 |
 | 实现 | 委派子 agent，失败复现先提交 | cstack-implement 按 SLICES 切片实现，切片只增不改；test-first 先写失败测试 |
-| 验证 | 项目验证技能在同一界面复现，贴前后输出 | cstack-verify 逐条判定 PASS / FAIL / NOT VERIFIED，证据绑定候选写进 EVIDENCE |
+| 验证 | 项目验证技能在同一界面复现，贴前后输出 | cstack-verify 逐条判定 PASS / FAIL / NOT VERIFIED，证据绑定合并候选写进 EVIDENCE |
 | 收尾 | Opening a PR，Babysit，Shipping | cstack-review 审查，cstack-ship 按就绪、授权、执行三分交付 |
 
 两边的骨架很像。差别在于 pstack 把它写在一个 playbook 里，cstack 把它分给六个阶段的技能，靠产物链 DECISIONS → SPEC → TECH → SLICES → EVIDENCE 串起来——每一步的输出是下一步的输入，收尾的 EVIDENCE 绑定着合并候选本身。

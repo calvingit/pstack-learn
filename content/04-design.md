@@ -1,10 +1,10 @@
 # 第 4 章 设计：architect / arena / 原型
 
-她说“不相信规划”，设计发生在代码草图和原型里。
+她说“不相信规划”，设计是在代码草图和原型里完成的。
 
 本章现行行为核对到 **0.15.36**（2026-10-28，上游提交 `c742dd6`），以当前 `architect`、`arena`、`interrogate` 的技能源为准。
 
-这一章的 `/architect` 和 `/arena` 都属于 [Bakeoff + graft](/ch/03-understand) 那种形状：多个候选拿同一份 brief 并行出方案，主协调者通读、评分；可用的异家族评委独立评分，最后取一个底座、把别的候选的优点嫁接过来。它和 swarm 的区别见下表。
+这一章的 `/architect` 和 `/arena` 都属于 [Bakeoff + graft](/ch/03-understand) 那种形状：多个候选拿同一份 brief 并行出方案，主协调者通读、评分；可用的异家族评委独立评分，最后取一个底座、把别的候选的优点嫁接过来。它们和 swarm 的区别见下表。
 
 ## 设计投入的阶梯
 
@@ -56,7 +56,7 @@
 - 所有候选拿同一个 prompt，“the prompt is the contract”。
 - 六阶段固定为 Frame、Fan out、Cross-judge、Pick、Graft、Verify。评分标准有 3~6 条，只给主协调者和 cross-judge 看，候选者只拿任务，避免迎合评分表。
 - runner 读本地 `pstack-models.mdc` 的 `arena runners` 行；`architect` 改读 `architect runners`。缺行时默认 Claude 和 Grok 各一个。每个候选独占 worktree 或输出目录，后台并行生成；没有产物的候选记为退出。
-- 配置模型被拒，先用该家族默认；没有默认或默认也被拒，从错误消息选同家族有效 slug，仍没有就撤席并说明。撤席后补到至少两名，配置行本来只有一项则补到一名；补席用剩余 runner 模型，没有剩余则继承主模型。`auto`、`inherit-parent` 是继承主模型的配置，不是无效 slug。
+- 配置的模型被拒，先用该家族默认；没有默认或默认也被拒，从错误消息选同家族有效 slug，仍没有就撤席并说明。撤席后补到至少两名，配置行本来只有一项则补到一名；补席用剩余 runner 模型，没有剩余则继承主模型。`auto`、`inherit-parent` 是继承主模型的配置，不是无效 slug。
 - **等所有候选写完才派只读 cross-judge**，评委与主协调者同时逐个通读候选。评委读 `arena cross-judge pool`，必须来自主对话以外的模型家族；`auto`、`inherit-parent` 不能当异家族评委。按池顺序尝试，失败后可试同模型的有效档位，再试默认异家族池；都跑不了就跳过评委并说明。主模型未知时按池中真实 slug 尝试，并说明没做家族检查。
 - 主协调者仍要逐项打分、通读所有候选，不能把选择外包给评委；双方不一致时先读清理由再决定。综合说明要列出底座、嫁接来源、拒绝项、退出候选、验证结果，以及评委结论或跳过原因。
 - 挑底座时选“未来维护者最容易扩展又不破坏不变量”的那个；平手时选边界更干净、API 更小的。
@@ -70,7 +70,7 @@
 
 流程可以拆成四步：
 
-1. **Frame**。范围优先用你点名的范围，否则从分支与 base 的 merge base 一直到当前工作区，包含未提交改动。先用 `in-your-own-words` 复述意图；意图不清楚才问人。
+1. **Frame**。优先用你点名的范围，否则从分支与 base 的 merge base 一直到当前工作区，包含未提交改动。先用 `in-your-own-words` 复述意图；意图不清楚才问人。
 2. **Fan out**。复用 arena 的选 runner、隔离输出和后台派工，模型行改为 `interrogate reviewers`，对抗者类型为 `generalPurpose`。把范围内的未提交改动复制进各自 worktree，让它们能在真实代码上写失败测试或复现脚本；复现留在自己的 worktree。
 3. **Verify**。每个问题必须有标题、确切命令、实际输出和意图要求的输出。主协调者重新跑命令，确认失败且违背意图；同根因合并。只谈风格、命名、结构或未来风险，却没跑出问题的，丢弃。
 4. **Output**。输出 Intent、Findings、Dropped。Findings 附命令、输出、违背意图的说明和发现它的对抗者；Dropped 按对抗者列丢弃数量和原因。没有留下的问题就写 `no verified findings`。

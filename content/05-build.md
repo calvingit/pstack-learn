@@ -1,6 +1,6 @@
 # 第 5 章 构建与清理：Feature / tdd / unslop / no-comments
 
-前几章都在动手之前。这一章讲写代码本身：写得少，删得多，测试要测行为。
+前几章讲的都在动手之前。这一章讲写代码本身：写得少，删得多，测试要测行为。
 
 本章已对照 **0.15.36**（2026-10-28，上游提交 `c742dd6`）的 Feature、Opening a PR、清理技能及测试原则核实现行指导。
 
@@ -32,7 +32,7 @@
 - **Blocking first steps**：并行之前必须先完成的门槛。
 - **Independent workstreams**：文件、服务、层互不相交的部分可以并行；共享写入要串行。
 - **Shared mutable state**：默认先把目标拆开，只有真正的不变量才串行。
-- **Smallest safe decomposition**：如果一个 worker 最好，说明为什么。
+- **Smallest safe decomposition**：如果一个 worker 最好，要说明为什么。
 
 **我的理解**：这四项强迫 agent 在派活之前想清楚“能不能并行、该不该并行”。没有这一步，常见的失败是几个子 agent 同时改同一个文件，最后谁也合不进去。
 
@@ -73,7 +73,7 @@ url: https://github.com/cursor/plugins/blob/main/pstack/skills/tdd/SKILL.md
 
 ### Test Behavior, Not Implementation
 
-原则索引里这条有一个可判定的检验。0.15.24 之后它从“规则”改写成了“推理”，换成了两个假想编辑：
+原则索引里这条有一个可判定的检验。0.15.24 之后它从“规则”改写成了“推理”，检验换成了两个假想编辑：
 
 ```quote
 en: Break the behavior: the test must fail. Restructure the internals: it must still pass.
@@ -88,7 +88,7 @@ url: https://github.com/cursor/plugins/blob/main/pstack/skills/principle-test-be
 
 ## /unslop：清理文字
 
-`unslop` 的 description 原来是“Cut AI tells from any writing. Must always apply.”。它设了 `disable-model-invocation: true`，不会自己触发，后半句反而被 agent 当成命令，[#572](https://github.com/cursor/plugins/pull/572) 把它删了。poteto-mode 仍然要求所有文字表面都过它，包括写给你的回复。
+`unslop` 的 description 原来是“Cut AI tells from any writing. Must always apply.”。它设了 `disable-model-invocation: true`，不会自己触发，后半句反而被 agent 当成命令，[#572](https://github.com/cursor/plugins/pull/572) 把它删了。poteto-mode 仍然要求所有文字产出都过它，包括写给你的回复。
 
 规则有编号，而且编号是“稳定 id”，删掉的规则留空号，因为别的技能会按编号引用（比如回复规则里引用了 “unslop rule 14”）。这个细节说明她把技能当代码维护。
 
@@ -108,9 +108,9 @@ url: https://github.com/cursor/plugins/blob/main/pstack/skills/unslop/SKILL.md
 `no-comments` 不自己判断，而是派一个叫 Comment Sicko 的子 agent，然后审它的结果。几个设计点：
 
 - 主 agent 要**驳回** Comment Sicko 越界的修改：改了应用逻辑、超出范围、删了受保护的注释。
-- 发现注释背后其实是一个 workaround 时，在范围内修根因，删掉 workaround；需要改结构就先用 `architect` 出草图，再实现。根因超出范围时，只做最小范围内的修复，剩余的明确报告，不能借原则扩大范围。
+- 发现注释背后其实是一个 workaround 时，在范围内修根因，删掉 workaround；需要改结构就先用 `architect` 出草图，再实现。根因超出范围时，只做最小范围内的修复，把剩余的明确报告为 open，不能借原则扩大范围。
 - 这个 agent 的 id 现在是 `comment-sicko`（[#486](https://github.com/cursor/plugins/pull/486)）。原来的 “Comment Sicko” 带空格，在 Grok 上派不出去。界面上显示的名字没变。
-- “不要删”“改前找某某”这类约束注释，先证明是否涉及自己改不了的外部约束，该保留的保留。其余提议用范围内最便宜的类型标注、运行时检查、测试或 CI lint 替代，并**等交互批准**，无人值守和 eval 需要事先批准。获批就编码后删注释；否则按当前规则删注释，并把未执行的约束明确报告为 open，不能声称已有保护。
+- “不要删”“改前找某某”这类约束注释，先证实是否涉及自己改不了的外部约束，该保留的保留。其余的提议用范围内最便宜的类型标注、运行时检查、测试或 CI lint 替代，并**等交互批准**，无人值守和 eval 需要事先批准。获批就编码后删注释；否则按当前规则删注释，并把未执行的约束明确报告为 open，不能声称已有保护。
 
 最后一条是 Encode Lessons in Structure 的又一次体现：注释里的约束没人执行，换成检查才有人执行。
 

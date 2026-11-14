@@ -39,7 +39,7 @@ site/.vitepress/
 
 - ```` ```callout tip|warn|ok|bad 标题 ````：提示框
 - ```` ```quote ````：引文卡片，每行 `en:` / `zh:` / `by:` / `url:`
-- ```` ```exercise 标题 ````：练习清单，每行 `- 项目`，勾选状态存在浏览器
+- ```` ```exercise 标题 ````：练习清单，每行 `- 项目`，勾选状态存在浏览器里
 - ```` ```compare 标题 ````：对照表，内容是 Markdown 表格
 
 `【已核实】`、`【未核实】` 会渲染成徽标。新增一章：在 `content/` 加文件，在 `data/chapters.json` 加一项。

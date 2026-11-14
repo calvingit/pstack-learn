@@ -63,7 +63,7 @@ url: https://x.com/poteto/status/2094457600259842065
 她 10 月 8 日的长帖 “volume does matter” 解释了为什么现在开始在意 PR 数量：
 
 - 以前只有极少数“coding machine”能一次拿出一堆 PR，所以数量只在分布两端有意义。
-- 现在每个人都能借 agent 变成 coding machine。如果用了 agent 还和以前一样产出，应该停下来想想为什么。
+- 现在每个人都能借 agent 变成 coding machine。如果用了 agent，产出还和以前一样，应该停下来想想为什么。
 - 前提还是信任。她在帖里直接链回了自己讲信任的文章。
 - token 贵，但她按“每单位智能的成本”算，认为半年到一年会便宜很多。
 
@@ -90,7 +90,7 @@ url: https://x.com/poteto/status/2094457600259842065
 
 README 写着 “personally, i don't believe in planning. the best spec is code.” 很多人据此认为 pstack 反对写计划。Pt.2 里她澄清过：她也规划，只是用代码规划。抽象计划“只会制造进展的假象”，对抽象计划做对抗评审会让 agent 凭空想出风险。
 
-所以准确的说法是：**不信任没有代码支撑的计划**。她的替代品是原型（Prototype playbook）和带 `not implemented` 函数体的类型草图（`/architect`）。第 4 章展开。
+所以准确的说法是：**不信任没有代码支撑的计划**。她的替代方案是原型（Prototype playbook）和带 `not implemented` 函数体的类型草图（`/architect`）。第 4 章展开。
 
 Matt 的 grilling 在动手前把需求问清楚，问的是意图。她反对的是在实现方式上空谈。两件事不打架。
 

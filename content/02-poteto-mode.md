@@ -110,7 +110,7 @@ url: https://github.com/cursor/plugins/blob/main/pstack/skills/poteto-mode/SKILL
 
 ### 模型按角色分配
 
-模型选择隔了一层间接。技能里只说**角色**（“how explorer”“arena runners”），由 `/setup-pstack` 生成的角色表把角色映射到具体模型 slug。换模型不用改技能，也能按角色调预算。
+模型选择隔了一层：技能里只说**角色**（“how explorer”“arena runners”），由 `/setup-pstack` 生成的角色表把角色映射到具体模型 slug。换模型不用改技能，也能按角色调预算。
 
 `poteto-mode/SKILL.md` 里写明的默认分工有这些 【已核实】：
 
@@ -121,9 +121,9 @@ url: https://github.com/cursor/plugins/blob/main/pstack/skills/poteto-mode/SKILL
 | 最难的改动（跨切面设计、难缠的并发、微妙的算法） | `claude-opus-5-5-xhigh` |
 | `swarm workers`（验证固定在这一档） | `grok-4.7-xhigh-fast` |
 
-“最难的改动”这一类值得注意：**不论任务是需要对模糊意图做判断，还是精确到每一步都要照做的执行，都归最强判断模型**。这条把“难度”和“类型”分开了——不是所有写代码的活都给代码模型。角色的具体名字还有 feature/refactoring、bug-fix、perf-issue、hillclimb（这几个是 playbook 各自的代码模型行）、hardest tasks、judgment and prose。
+“最难的改动”这一类值得注意：**不论任务是需要判断模糊意图，还是需要照着每一步执行，都归最强判断模型**。这条把“难度”和“类型”分开了——不是所有写代码的活都给代码模型。角色的具体名字还有 feature/refactoring、bug-fix、perf-issue、hillclimb（这几个是 playbook 各自的代码模型行）、hardest tasks、judgment and prose。
 
-角色行有三种特殊写法：没有对应行就用默认；写成 `inherit-parent` 或 `auto` 就用当前对话的模型；某一行可以覆盖被路由技能（`how`、`why`、`arena`、`swarm`、`architect`、`interrogate`、`reflect`）里的模型选择。
+角色行有三种特殊写法：没有对应行就用默认；写成 `inherit-parent` 或 `auto` 就用当前对话的模型；某一行可以覆盖被路由到的技能（`how`、`why`、`arena`、`swarm`、`architect`、`interrogate`、`reflect`）里的模型选择。
 
 ```callout warn 完整角色表在你自己机器上
 `~/.cursor/rules/pstack-models.mdc` 是 `/setup-pstack` 按可用模型和预算**写到你本地**的实际配置。上游 `setup-pstack/SKILL.md` 第 5 步有完整默认角色表模板，入口和各技能也有默认值；模板不能证明你的账号能用这些 slug，安装时必须先枚举本会话 Task 接受的模型。`arena runners`、`architect runners`、`interrogate reviewers` 每个列表项派一个 agent，别名也计数；`arena cross-judge pool` 则只是一个评委的有序候选池。别人文章里的实际配置，照抄前要核对模型和预算。
@@ -139,7 +139,7 @@ url: https://github.com/cursor/plugins/blob/main/pstack/skills/poteto-mode/SKILL
 - Task 工具拒绝了调整后的 slug 时，**不要再试另一个调整过的 slug**，退回角色那一行，并说出来。角色原值也被拒，再按调用技能的 fallback 走。报错明确说模型无效，或有效 slug 列表没有它，都算被拒；本轮不能再传，也不能在 fallback 里重试。
 - 技能没有 fallback 时，从报错列表选该家族最接近的有效 slug；没有就省略 `model`，继承主对话模型。技能的 fallback 耗尽且没交代下一步，也省略 `model`。这两种降级都要说明。
 
-“不改家族”的理由原文写得很直白：so a diverse panel stays diverse。`cursor-grok-*` 和 `composer-*` 都算 Grok 家族，`composer-*` 被拒先退到 Grok 默认。**0.15.36 的 arena 不再把未知家族一律换成 Claude**：同家族没有可用 slug 就报告并撤席，再按规则补足 runner。cross-judge 则必须与主对话不同家族，没有可运行的异家族模型就跳过评委并说明；不能拿主模型补评委。具体规则见[第 4 章](/ch/04-design)。`interrogate` 复用 runner 的派工规则，但现在以实际复现筛选问题，不靠评委评分或模型投票。
+“不改家族”的理由原文写得很直白：so a diverse panel stays diverse。`cursor-grok-*` 和 `composer-*` 都算 Grok 家族，`composer-*` 被拒时先退到 Grok 默认。**0.15.36 的 arena 不再把未知家族一律换成 Claude**：同家族没有可用 slug 就报告并撤席，再按规则补足 runner。cross-judge 则必须与主对话不同家族，没有可运行的异家族模型就跳过评委并说明；不能拿主模型补评委。具体规则见[第 4 章](/ch/04-design)。`interrogate` 复用 runner 的派工规则，但现在以实际复现筛选问题，不靠评委评分或模型投票。
 
 ### 外部输入一律标 untrusted
 
@@ -155,9 +155,9 @@ url: https://github.com/cursor/plugins/blob/main/pstack/skills/poteto-mode/SKILL
 
 入口最后一段是 23 个 playbook 的一行简介。执行规则只有三条：
 
-1. 打开一个 todo 列表，**前几项是 playbook 的步骤原文照抄**，然后才是任务自己的 todo。
+1. 打开一个 todo 列表，**前几项原文照抄 playbook 的步骤**，然后才是任务自己的 todo。
 2. 不做的步骤**留在列表里**，写一行 `skip: <原因>`。
-3. 大型或跨切面的任务、你打算离开后再审阅的任务，走 `figure-it-out`，为这次任务现场设计一套 playbook。常驻协调者管理的多天项目改走 Orchestrate。前者设计一次运行，后者管理整个项目；一个 agent 能在本次会话预算内做完的工作不算项目级编排。
+3. 大型或跨切面的任务、你打算离开后再审阅的任务，走 `figure-it-out`，为这次任务现场设计一套 playbook。常驻协调者管理的多天项目改走 Orchestrate。`figure-it-out` 设计一次运行，Orchestrate 管理整个项目；一个 agent 能在本次会话预算内做完的工作不算项目级编排。
 
 “照抄”和“skip 留痕”是这套机制的关键。照抄防止模型自己概括时丢步骤；skip 留痕让你一眼看出它跳过了什么、理由站不站得住。
 
@@ -206,7 +206,7 @@ Refactoring 那句“类型检查和 lint 不算钉子”值得多说一句：�
 | Shipping | 决定上线 | 见[第 7 章](/ch/07-parallel) |
 | Autonomous run | 一个任务跑到完成条件 | 见[第 7 章](/ch/07-parallel) |
 | Autopilot-full | 一队互相独立的 PR | root 负责独立判定，每个 PR 的 owner 从构建做到合并。完整 swarm 首次在 code-ready head 跑；新行为、重设计或大 diff 才重跑完整 swarm。每小时审计，有变化按 `/ketchup` 汇报，**没变化就闭嘴** |
-| Autopilot-stack | 同样自治，但交给人合并 | 每个 PR 当前 head 验证通过且 CI 绿就交接，之后未经允许不再 push。**只有真实依赖才叠栈**，独立 PR 仍从 trunk 分叉，不强制串成一条线 |
+| Autopilot-stack | 同样自治，但交给人合并 | 每个 PR 在当前 head 验证通过且 CI 绿后交接，之后未经允许不再推送。**只有真实依赖才叠栈**，独立 PR 仍从 trunk 分叉，不强制串成一条线 |
 | Orchestrate | 常驻协调者管理的多天项目 | **0.15.36 已移除 `scripts/orch/`**。协调者直接用 Task 派工、Project tracker 和 store 记状态；不运行编排脚本或轮询循环。每个 PR 由唯一 owner 写入、rebase、改 base 和合并，不再设统一 stacker |
 | Multi-phase plan | 跨阶段、多个 PR | 计划**最后才写**。检查计划文件的 `check-plan.mjs` 见[第 9 章](/ch/09-self-improve) |
 | Session pickup | 你拥有续跑点，**读已有轨迹，不要重做** | 第 3 步区分已完成和待办，明确说“let me verify from scratch”意味着你把权威输入当成不可信。最后一步：**上一轮的自述不算证明**，要对真实产物复核 |
@@ -240,7 +240,7 @@ Opening a PR 还有一条和写作直接相关：PR 标题、描述、commit bod
 
 两个原因。记一个命令就够，不必先知道 23 个 playbook 的名字。所有任务也共享同一套 Non-negotiables 和回复规则。
 
-代价也明显：入口文件本身很长（原则索引加触发器加 playbook 列表），常驻上下文有成本，而且越长越大。#538 那次瘦身就是在处理这个问题（第 9 章）。
+代价也明显：入口文件本身很长（原则索引加触发器加 playbook 列表），常驻上下文有成本，而且只会越来越长。#538 那次瘦身就是在处理这个问题（第 9 章）。
 
 ```exercise 练习
 - 把你记下的返工任务改写成四要素 prompt，检查完成条件能不能判定通过或失败

@@ -4,12 +4,12 @@
 
 ## 先看一层：多 agent 的几种形状
 
-pstack 里凡是派多个子 agent 的技能，都可以归到五种形状之一。先记住这层，再看单个技能会容易很多——因为同一个形状在不同技能里反复出现，只是装配方式不同。
+pstack 里凡是派多个子 agent 的技能，都可以归为五种形状之一。先记住这层，再看单个技能会容易很多——因为同一个形状在不同技能里反复出现，只是装配方式不同。
 
 | 形状 | 谁在用 | 怎么跑 | 为什么有效 |
 |---|---|---|---|
 | Explore → explain | `/how` | 派 2~4 个只读 explorer 分头看不同角度，再让一个 explainer 综合 | 读文件的活给便宜模型，写说明给强模型 |
-| Investigate → synthesize | `/why`、`/recall`、`/reflect` | 每个证据来源派一个 investigator，一个 synthesizer 汇总 | 一个来源一个 agent，没有来源会被略过；查不到也变成一条发现 |
+| Investigate → synthesize | `/why`、`/recall`、`/reflect` | 每个证据来源派一个 investigator，一个 synthesizer 汇总 | 一个来源一个 agent，没有哪个来源会被略过；查不到也变成一条发现 |
 | Bakeoff + graft | `/arena`、`/architect` | 多个 runner 拿同一份 brief，交叉家族盲审，取一个底座嫁接其他候选的优点 | 评分表对候选保密，评审只看到脱敏标签，比较才公平 |
 | Coverage / race | `/swarm`、shipping | 多个云端 worker 分头跑切片或赛跑，汇成一张表 | 缺证据等于没通过，所以每个结果都自带 SHA |
 | Adversarial panel | `/interrogate` | 对抗者各自尝试弄坏改动，只保留运行证实过的发现 | 差异来自不同模型，不是扮演不同人格 |
@@ -52,7 +52,7 @@ pstack 里凡是派多个子 agent 的技能，都可以归到五种形状之一
 4. **默认全量并行调查**。原话是 “Document the null, don't skip the search.” 没找到也要记下来，而不是不查。
 5. 综合时遵循 `references/epistemics.md` 的置信度框架。
 
-还有一个细节：`why` 的子 agent 必须用 agent 模式而不是只读模式，因为只读模式会去掉 MCP 访问。这个工具层面的坑被写进了技能，属于“把教训编码进结构”。
+还有一个细节：`why` 的子 agent 必须用 agent 模式而不是只读模式，因为只读模式会去掉 MCP 访问。她把这个工具层面的坑写进了技能，属于“把教训编码进结构”。
 
 ```callout tip 为什么值得学
 大多数团队的“为什么”藏在 Slack 和 PR 评论里，没人去翻。`why` 把翻找变成了默认动作，并且强制区分“我看到了证据”和“我推断的”。
@@ -81,15 +81,15 @@ url: https://github.com/cursor/plugins/blob/main/pstack/skills/blast-radius/SKIL
 
 Theo 在他那期对比视频里特别提到这一条“救过他几次” 【未核实】（我没看视频，转引自 [@chenchengpro 的摘要](https://x.com/chenchengpro/status/2090042073583927318)）。
 
-**我的看法**：拿去评审时，写明停在这五级的哪一级，比一句“请仔细检查”具体。
+**我的看法**：拿去评审时，写明停在这五级的哪一级，比一句“请仔细检查”更具体。
 
 ## /interrogate：发现要被运行证明
 
-对抗者尝试弄坏一个改动或一个设计；一条发现只有被一次运行证明，才能保留。原文写在第一段：“Adversaries try to break a change or a design. A finding survives only when a run proves it. Report the findings. Do not apply fixes.”
+对抗者尝试弄坏一个改动或一个设计；一条发现只有经一次运行证明，才能保留。原文写在第一段：“Adversaries try to break a change or a design. A finding survives only when a run proves it. Report the findings. Do not apply fixes.”
 
 流程四步：复述意图 → 并行派对抗者（每个发现都附实际运行的命令和输出）→ 主协调者重跑确认 → 只报证实过的发现。**不自动应用修改**。0.15.35 起 `interrogate` 改成这套运行证据规则，复用 arena 的派工但跳过交叉评审，机制详见[第 4 章](/ch/04-design)。
 
-指南第 10 页的坑里有一条：“Accepting every review comment.” 机器人和人提的意见里都混着真问题和噪声，`interrogate` 只保留重跑证实过的发现，并写明丢了哪些、为什么，两种取舍你都可以推翻。
+指南第 10 页的坑里有一条：“Accepting every review comment.” 机器人和人提的意见里都混着真问题和噪声，`interrogate` 只保留重跑证实过的发现，并写明丢了哪些、为什么，保留还是丢弃，你都可以推翻。
 
 ```callout warn 什么时候不要用
 Pt.2 里她说过：不要对抽象计划做对抗评审，agent 会凭空想出理论风险。`interrogate` 应该对着已经写出来的代码或原型用。
@@ -112,5 +112,5 @@ Matt 的 grilling 是反过来的：agent 问你，把你脑子里的需求问�
 ```exercise 练习
 - 对你项目里一个陌生模块跑一次 `/how`（或手动按它的五段格式写一份说明），检查有没有写成“带注释的源码”
 - 挑一个你不理解的历史设计，按 `/why` 的七个证据类别列出你能查的地方，标出哪些你从来没查过
-- 拿最近一个小改动，按 blast-radius 的五级梯子，写出它安全依赖的关键事实停在哪一级
+- 拿最近一个小改动，按 blast-radius 的五级梯子，写出它安全与否依赖的关键事实停在哪一级
 ```

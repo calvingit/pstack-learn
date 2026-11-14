@@ -136,7 +136,7 @@
   "group": "verification",
   "name": "Test Behavior, Not Implementation",
   "zh": "测行为不测实现",
-  "desc": "在用户接口上用具体输入断言契约；行为破坏时失败、内部重构时仍通过。预期来自需求，外部副作用是行为，内部 helper 调用通常不是；不保留空洞测试。",
+  "desc": "在用户接口上用具体输入断言契约；行为破坏时失败、内部重构时仍通过。预期来自需求，外部副作用是行为，内部 helper 调用不是；不保留空洞测试。",
   "ch": "06-verification"
  },
  {

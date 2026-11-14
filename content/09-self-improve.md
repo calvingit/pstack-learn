@@ -99,7 +99,7 @@ Babysit 和 Shipping 轮询 GitHub 靠它。它的价值在于**把“现在什�
 
 ### bootstrap.ts：装依赖也做成幂等
 
-它按 package.json + bun.lock 的哈希决定要不要装，重跑时是空操作。技能里因此不必写“先 npm install”。这是 Make Operations Idempotent 用在它自己的安装步骤上的例子。
+它按 package.json + bun.lock 的哈希决定要不要装，重跑时是空操作。技能里因此不必写“先 npm install”。这是 Make Operations Idempotent 用在 poteto-mode 脚本自己的安装步骤上的例子。
 
 ```callout tip 这几个脚本的共同点
 没有一个是帮 agent 少干活，都是替 agent 记住一件事。工具不负责加速，负责把容易忘的规则变成一定会被执行的东西。第 8 章说 Encode Lessons in Structure 是她自我改进的根，这几个脚本就是例子。

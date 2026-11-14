@@ -32,7 +32,7 @@ calvingit/skills 已废弃，这一章的对照对象换成 calvingit/cstack—�
 
 ### 1. 验证技能加一个周期性的维护入口
 
-cstack-create-verification-skill 要求失效时更新同一份方法，但没有周期性入口，结果格式也没有约定。pstack 的 `maintain-verification-skill` 只允许三种结果：clean（没东西要改，不开分支不开 PR）、changed（一个 PR，里面是被证明过的修正）、blocked（说清楚卡在哪），并且 Live pass 必须跑，防止“读代码觉得没变”替代实际验证（见[第 6 章](/ch/06-verification)）。可以作为 cstack-create-verification-skill 的一个 refresh 契约，不新建技能。
+cstack-create-verification-skill 要求失效时更新同一份验证方法，但没有周期性入口，结果格式也没有约定。pstack 的 `maintain-verification-skill` 只允许三种结果：clean（没东西要改，不开分支不开 PR）、changed（一个 PR，里面是被证明过的修正）、blocked（说清楚卡在哪），并且 Live pass 必须跑，防止“读代码觉得没变”替代实际验证（见[第 6 章](/ch/06-verification)）。可以作为 cstack-create-verification-skill 的一个 refresh 契约，不新建技能。
 
 ### 2. 外部输入标 untrusted
 

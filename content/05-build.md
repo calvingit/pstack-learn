@@ -73,7 +73,7 @@ url: https://github.com/cursor/plugins/blob/main/pstack/skills/tdd/SKILL.md
 
 ### Test Behavior, Not Implementation
 
-原则索引里这条有一个可判定的检验。0.15.24 之后它从“规则”改写成了“推理”，检验换成了两个假想编辑：
+原则索引里这条有一个可判定的检验。0.15.24 之后它从“规则”改写成了“推理”，检验换成了两个假想的编辑场景：
 
 ```quote
 en: Break the behavior: the test must fail. Restructure the internals: it must still pass.
@@ -82,7 +82,7 @@ by: principle-test-behavior-not-implementation/SKILL.md（#633 改写后）
 url: https://github.com/cursor/plugins/blob/main/pstack/skills/principle-test-behavior-not-implementation/SKILL.md
 ```
 
-用两个假想编辑来判定：把代码改坏（返回错值、漏掉一个副作用、把副作用触发两次），测试必须失败；把内部实现换一种写法但每个可观察结果都不变，测试必须仍然通过。只满足一半的，重写或删掉。
+用两个假想的编辑场景来判定：把代码改坏（返回错值、漏掉一个副作用、把副作用触发两次），测试必须失败；把内部实现换一种写法但每个可观察结果都不变，测试必须仍然通过。只满足一半的，重写或删掉。
 
 这里要注意一个容易搞反的点：**对 mock 的断言不一定是“实现细节”**。如果约定是“空购物车绝不扣款”，那么断言支付客户端没被调用就是行为；mock 收到的请求体也是行为，因为那个外部服务确实观察到了它。真正算实现细节的是对内部私有辅助函数、内部调用顺序的断言。#633 把这条从“列出禁止的断言形状”改成“由契约判定，不由断言形状判定”，就是为了让 agent 能处理原文没枚举到的情况。
 
@@ -121,7 +121,7 @@ pstack 对“加东西”很警惕。Laziness Protocol 要求偏向删除和最�
 这和很多 agent 的默认倾向相反。模型通常喜欢加抽象层、加兼容分支、加“以防万一”的检查。Bug fix playbook 开头那句“Belt-and-suspenders that 'might help' is a hypothesis, not a fix. It does not ship.”（“可能有帮助”的双保险只是一个假设，不是修复，不上线）就是针对这个倾向写的。
 
 ```exercise 练习
-- 找你项目里一个测试，用两个假想编辑各跑一次：把行为改坏它失败了吗？只换内部写法它还通过吗？记录结论
+- 找你项目里一个测试，用两个假想的编辑场景各跑一次：把行为改坏它失败了吗？只换内部写法它还通过吗？记录结论
 - 下次修 bug 时，先单独提交一个失败的测试或复现脚本，再提交修复
 - 拿你最近写的一段文档，用 unslop 规则 27 的检验删掉所有“可移植句子”，对比前后长度
 - 在 Feature 任务里写一次吞吐检查点的四项，哪怕全是 `n/a`

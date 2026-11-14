@@ -18,7 +18,7 @@
   "stance": "你拥有整个测量故事",
   "name": "Perf issue",
   "zh": "性能问题",
-  "desc": "对着基线追踪一次明确的慢，并改进。"
+  "desc": "对着基线追踪一次明确的慢：先抓基线 trace，从 trace 定位慢点并修复，修后对比数字；每个修复都绑定测量。"
  },
  {
   "group": "性能",
@@ -39,7 +39,7 @@
   "stance": "你拥有来自产物的诊断",
   "name": "Trace forensics",
   "zh": "Trace 取证",
-  "desc": "分析事后拿到的 cpuprofile、trace、heap snapshot。交付诊断。"
+  "desc": "分析事后拿到的 cpuprofile、trace、heap snapshot、spindump。交付诊断。"
  },
  {
   "group": "构建",

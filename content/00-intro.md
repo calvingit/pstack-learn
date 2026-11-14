@@ -13,7 +13,7 @@ pstack 是一位工程师把自己“怎么带 agent 干活”的习惯写成了
 | 功能技能 | 33 | `/how`、`/architect`、`/swarm`、`/create-verification-skill` 等 | 入口会按步骤调用；偶尔你自己点名 |
 | 原则 | 24 | `principle-*`，硬约束和判断标准 | 不用调用，用名字纠偏 |
 
-这些数字按 2026-10-28 的 0.15.36 源码目录核对：`pstack/skills/` 共 58 个技能，其中 24 个是 `principle-`，其余 34 个含入口本身，所以功能技能是 33 【已核实】。相对 0.15.25，新增了形式化验证的创建与维护、`/statechart` 和 `/ketchup-video` 四个技能。
+这些数字按 2026-10-28 的 0.15.36 源码目录核对：`pstack/skills/` 共 58 个技能，其中 24 个是 `principle-`，其余 34 个含入口本身，所以功能技能是 33 【已核实】。相对 0.15.25，新增了 `/create-formal-verification-skill`、`/maintain-formal-verification-skill`、`/statechart` 和 `/ketchup-video` 四个技能。
 
 58 这个数不含 2 个子 agent 定义（`poteto-agent`、`comment-sicko`），也不重复计算 Claude Code 生成树。子 agent 定义放在 `agents/` 而不是 `skills/` 下。
 

@@ -73,7 +73,7 @@
 
 ## 0.15.24（2026-10-14）
 
-- 新增 `/sharpen`：开工前先问“顶尖专家会怎么做”“你到底要什么”“这个任务是过度 specified 还是欠 specified”，收紧不服务于目标的约束（[#615](https://github.com/cursor/plugins/pull/615)，见[第 9 章](/ch/09-self-improve)）
+- 新增 `/sharpen`：开工前先问“顶尖专家会怎么做”“你到底要什么”“这个任务是过度 specified 还是欠 specified”，放宽不服务于目标的约束（[#615](https://github.com/cursor/plugins/pull/615)，见[第 9 章](/ch/09-self-improve)）
 - 子 agent 按任务选推理档位和速度：最难的活升一档，判断题降一档，重复活降两档以上；fast 只在 CI 或主干红了、或者有人正被卡住时用。验证仍跑在 swarm 模型上。**模型家族不变**，理由是“a diverse panel stays diverse”（[#613](https://github.com/cursor/plugins/pull/613)，见[第 2 章](/ch/02-poteto-mode)）
 - `arena` 和 `interrogate` 把 `cursor-grok-` 和 `composer-` 开头的模型归进 grok 家族，`composer-*` 被拒时落到 grok 默认而不是 Claude 默认（[#613](https://github.com/cursor/plugins/pull/613)）
 - 一个多阶段 PR 只跑一次完整 swarm，位置在 code-ready 的 head 上；rebase、解冲突、小修只需要一个 verifier（[#613](https://github.com/cursor/plugins/pull/613)）

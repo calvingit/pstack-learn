@@ -80,7 +80,7 @@ url: https://github.com/cursor/plugins/blob/main/pstack/skills/poteto-mode/SKILL
 #633 反映了她对模型的一个判断：硬规则会限制 agent 处理她没预料到的情况，所以换成推理。她说这些原则本来是“从今年纠正 agent 的会话里抽出来的”，现在模型变强了，抽出来的规则可以再抽象一层。这也是她 10-14 那条帖子“期望 pstack 的技能随着模型变强继续压缩”的具体动作。
 
 ```callout warn 读旧文章时注意
-教程和博客里引用的原则措辞可能是改写前的。Test Behavior 那条变化最大：旧的“所有导入函数返回 undefined 还能通过的测试要重写”已经不在原文里，换成了两个假想编辑。本文以 [cursor/plugins](https://github.com/cursor/plugins/tree/main/pstack/skills) 当前原文为准。
+教程和博客里引用的原则措辞可能是改写前的。Test Behavior 那条变化最大：旧的“所有导入函数返回 undefined 还能通过的测试要重写”已经不在原文里，换成了两个假想的编辑场景。本文以 [cursor/plugins](https://github.com/cursor/plugins/tree/main/pstack/skills) 当前原文为准。
 ```
 
 ## 原则之间的张力
